@@ -1,364 +1,1243 @@
 <!DOCTYPE html>
-<!-- saved from url=(0014)about:internet -->
-<html lang="en" data-bs-theme="light"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./Album example · Bootstrap v5.3_files/color-modes.js.download"></script>
+<html lang="en">
 
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.111.3">
-    <title>Album example · Bootstrap v5.3</title>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atem Akuei - Personal Portfolio</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
+  <!--
+    - favicon
+  -->
+  <link rel="shortcut icon" href="./assets/images/my-face.jpg" type="image/x-icon">
 
-    
+  <!--
+    - custom css link
+  -->
+  <link rel="stylesheet" href="./assets/css/style.css">
 
-    
+  <!--
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
 
-<link href="./assets/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<body>
 
-    <!-- Favicons -->
-<link rel="apple-touch-icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="manifest" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/manifest.json">
-<link rel="mask-icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
-<link rel="icon" href="https://getbootstrap.com/docs/5.3/assets/img/favicons/favicon.ico">
-<meta name="theme-color" content="#712cf9">
+  <!--
+    - #MAIN
+  -->
 
+  <main>
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
+    <!--
+      - #SIDEBAR
+    -->
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
+    <aside class="sidebar" data-sidebar>
 
-      .b-example-divider {
-        width: 100%;
-        height: 3rem;
-        background-color: rgba(0, 0, 0, .1);
-        border: solid rgba(0, 0, 0, .15);
-        border-width: 1px 0;
-        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-      }
+      <div class="sidebar-info">
 
-      .b-example-vr {
-        flex-shrink: 0;
-        width: 1.5rem;
-        height: 100vh;
-      }
+        <figure class="avatar-box">
+          <img src="./assets/images/my-face.png" alt="Atem Akuei" width="80">
+        </figure>
 
-      .bi {
-        vertical-align: -.125em;
-        fill: currentColor;
-      }
+        <div class="info-content">
+          <h1 class="name" title="Atem Akuei">Atem Akuei</h1>
 
-      .nav-scroller {
-        position: relative;
-        z-index: 2;
-        height: 2.75rem;
-        overflow-y: hidden;
-      }
-
-      .nav-scroller .nav {
-        display: flex;
-        flex-wrap: nowrap;
-        padding-bottom: 1rem;
-        margin-top: -1px;
-        overflow-x: auto;
-        text-align: center;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      .btn-bd-primary {
-        --bd-violet-bg: #712cf9;
-        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
-        --bs-btn-font-weight: 600;
-        --bs-btn-color: var(--bs-white);
-        --bs-btn-bg: var(--bd-violet-bg);
-        --bs-btn-border-color: var(--bd-violet-bg);
-        --bs-btn-hover-color: var(--bs-white);
-        --bs-btn-hover-bg: #6528e0;
-        --bs-btn-hover-border-color: #6528e0;
-        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-        --bs-btn-active-color: var(--bs-btn-hover-color);
-        --bs-btn-active-bg: #5a23c8;
-        --bs-btn-active-border-color: #5a23c8;
-      }
-      .bd-mode-toggle {
-        z-index: 1500;
-      }
-    </style>
-
-    
-  </head>
-  <body>
-    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-      <symbol id="check2" viewBox="0 0 16 16">
-        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"></path>
-      </symbol>
-      <symbol id="circle-half" viewBox="0 0 16 16">
-        <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"></path>
-      </symbol>
-      <symbol id="moon-stars-fill" viewBox="0 0 16 16">
-        <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"></path>
-        <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"></path>
-      </symbol>
-      <symbol id="sun-fill" viewBox="0 0 16 16">
-        <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"></path>
-      </symbol>
-    </svg>
-
-    <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
-      <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (light)">
-        <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#sun-fill"></use></svg>
-        <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
-      </button>
-      <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
-        <li>
-          <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
-            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#sun-fill"></use></svg>
-            Light
-            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-          </button>
-        </li>
-        <li>
-          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
-            Dark
-            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-          </button>
-        </li>
-        <li>
-          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
-            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#circle-half"></use></svg>
-            Auto
-            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-          </button>
-        </li>
-      </ul>
-    </div>
-
-    
-<header data-bs-theme="dark">
-  <div class="collapse text-bg-dark" id="navbarHeader">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8 col-md-7 py-4">
-          <h4>About</h4>
-          <p class="text-body-secondary">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
+          <p class="title">AV Technician/Programmer</p>
         </div>
-        <div class="col-sm-4 offset-md-1 py-4">
-          <h4>Contact</h4>
-          <ul class="list-unstyled">
-            <li><a href="https://getbootstrap.com/docs/5.3/examples/album/#" class="text-white">Follow on Twitter</a></li>
-            <li><a href="https://getbootstrap.com/docs/5.3/examples/album/#" class="text-white">Like on Facebook</a></li>
-            <li><a href="https://getbootstrap.com/docs/5.3/examples/album/#" class="text-white">Email me</a></li>
+
+        <button class="info_more-btn" data-sidebar-btn>
+          <span>Show Contacts</span>
+
+          <ion-icon name="chevron-down"></ion-icon>
+        </button>
+
+      </div>
+
+      <div class="sidebar-info_more">
+
+        <div class="separator"></div>
+
+        <ul class="contacts-list">
+
+          <li class="contact-item">
+
+            <div class="icon-box">
+              <ion-icon name="mail-outline"></ion-icon>
+            </div>
+
+            <div class="contact-info">
+              <p class="contact-title">Email</p>
+
+              <a href="mailto:atemakuei.work@gmail.com" class="contact-link">atemakuei.work@gmail.com</a>
+            </div>
+
+          </li>
+
+          <li class="contact-item">
+
+            <div class="icon-box">
+              <ion-icon name="phone-portrait-outline"></ion-icon>
+            </div>
+
+            <div class="contact-info">
+              <p class="contact-title">Phone</p>
+
+              <a href="tel:+18167827873" class="contact-link">+1 (816) 782-7873</a>
+            </div>
+
+          </li>
+
+          <li class="contact-item">
+
+            <div class="icon-box">
+              <ion-icon name="calendar-outline"></ion-icon>
+            </div>
+
+            <div class="contact-info">
+              <p class="contact-title">Birthday</p>
+
+              <time datetime="2004-08-25">August 25, 2004</time>
+            </div>
+
+          </li>
+
+          <li class="contact-item">
+
+            <div class="icon-box">
+              <ion-icon name="location-outline"></ion-icon>
+            </div>
+
+            <div class="contact-info">
+              <p class="contact-title">Location</p>
+
+              <address>Shawnee, Kansas, USA</address>
+            </div>
+
+          </li>
+
+        </ul>
+
+        <div class="separator"></div>
+
+        <ul class="social-list">
+
+          <li class="social-item">
+            <a href="https://github.com/meepermad" class="social-link">
+              <ion-icon name="logo-github"></ion-icon>
+            </a>
+          </li>
+
+          <li class="social-item">
+            <a href="https://www.linkedin.com/in/atem-akuei-0082181aa/" class="social-link">
+              <ion-icon name="logo-linkedin"></ion-icon>
+            </a>
+          </li>
+
+          <li class="social-item">
+            <a href="https://www.instagram.com/atemakuei/" class="social-link">
+              <ion-icon name="logo-instagram"></ion-icon>
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+
+    </aside>
+
+
+
+
+
+    <!--
+      - #main-content
+    -->
+
+    <div class="main-content">
+
+      <!--
+        - #NAVBAR
+      -->
+
+      <nav class="navbar">
+
+        <ul class="navbar-list">
+
+          <li class="navbar-item">
+            <button class="navbar-link  active" data-nav-link>About</button>
+          </li>
+
+          <li class="navbar-item">
+            <button class="navbar-link" data-nav-link>Resume</button>
+          </li>
+
+          <li class="navbar-item">
+            <button class="navbar-link" data-nav-link>Portfolio</button>
+          </li>
+
+          <li class="navbar-item">
+            <button class="navbar-link" data-nav-link>Awards/Certifications</button>
+          </li>
+
+          <li class="navbar-item">
+            <button class="navbar-link" data-nav-link>Contact</button>
+          </li>
+
+        </ul>
+
+      </nav>
+
+
+
+
+
+      <!--
+        - #ABOUT
+      -->
+
+      <article class="about  active" data-page="about">
+
+        <header>
+          <h2 class="h2 article-title">About me</h2>
+        </header>
+
+        <section class="about-text">
+          <p>
+            Welcome to my portfolio! I'm thrilled to have the opportunity to showcase my expertise and passion for audio visual technology and computer science.
+          </p>
+
+          <p>
+            With years of hands-on experience in the audio visual industry, I have honed my skills in creating captivating multimedia experiences. 
+            From designing visually stunning presentations to producing seamless soundscapes, I have developed a deep understanding of how to engage audiences through the power of audio and visual elements.
+          </p>
+
+          <p>
+            In addition to my practical experience, I am currently working towards my computer science degree at Kansas State University. 
+            This academic journey has provided me with a strong foundation in programming, problem-solving, and software development. 
+            By combining my technical knowledge with my creative flair, I strive to bring innovation and efficiency to every project I undertake.
+          </p>
+
+          <p>
+            What sets me apart is my insatiable appetite for learning. 
+            I thrive on exploring new concepts and technologies, constantly seeking to expand my skill set and stay at the forefront of industry trends. 
+            Whether it's mastering the latest programming languages, experimenting with cutting-edge audio visual equipment, or discovering innovative techniques, I am always eager to embrace new challenges and push my boundaries.
+          </p>
+
+          <p>
+            Within this portfolio, you will find a curated selection of my work, highlighting my expertise in audio visual technology and computer science. 
+            From impressive multimedia presentations to innovative software projects, each piece reflects my dedication, creativity, and commitment to excellence.
+          </p>
+
+          <p>
+            I invite you to explore my portfolio and experience the depth and breadth of my capabilities. 
+          </p>
+
+          <p>
+            Thank you for visiting, and I look forward to connecting with you soon. Let's embark on this exciting adventure of exploration and creativity together!
+          </p>
+        </section>
+
+
+        <!--
+          - service
+        -->
+
+        <section class="service">
+
+          <h3 class="h3 service-title">What I'm Doing</h3>
+
+          <ul class="service-list">
+
+            <li class="service-item">
+
+              <div class="service-icon-box">
+                <img src="./assets/images/icon-design.svg
+                " alt="design icon" width="40">
+              </div>
+
+              <div class="service-content-box">
+                <h4 class="h4 service-item-title">Audio Visual</h4>
+
+                <p class="service-item-text">
+                  By using the power of audio and visuals, I strive to create unforgettable memories for others
+                </p>
+              </div>
+
+            </li>
+
+            <li class="service-item">
+
+              <div class="service-icon-box">
+                <img src="./assets/images/icon-dev.svg" alt="Web development icon" width="40">
+              </div>
+
+              <div class="service-content-box">
+                <h4 class="h4 service-item-title">Programming</h4>
+
+                <p class="service-item-text">
+                  I'm learning and using programming languages to make fun projects and solve real world issues
+                </p>
+              </div>
+
+            </li>
+
+            <li class="service-item">
+
+              <div class="service-icon-box">
+                <img src="./assets/images/icon-app.svg" alt="mobile app icon" width="40">
+              </div>
+
+              <div class="service-content-box">
+                <h4 class="h4 service-item-title">Machine Learning</h4>
+
+                <p class="service-item-text">
+                  I'm currently learning about machine learning to hopefully create an AI model of my own
+                </p>
+              </div>
+
+            </li>
+
+            <li class="service-item">
+
+              <div class="service-icon-box">
+                <img src="./assets/images/icon-photo.svg" alt="camera icon" width="40">
+              </div>
+
+              <div class="service-content-box">
+                <h4 class="h4 service-item-title">Learning</h4>
+
+                <p class="service-item-text">
+                  I am currently enrolled at Kansas State University to get my computer science degree
+                </p>
+                
+              </div>
+
+            </li>
+
           </ul>
+
+        </section>
+
+
+        <div class="modal-container" data-modal-container>
+
+          <div class="overlay" data-overlay></div>
+
+          <button class="modal-close-btn" data-modal-close-btn></button>
+
         </div>
-      </div>
+
+
+      </article>
+
+
+
+
+      <!--
+        - #RESUME
+      -->
+
+      <article class="resume" data-page="resume">
+
+        <header>
+          <h2 class="h2 article-title">Resume</h2>
+        </header>
+
+        <section class="timeline">
+
+          <div class="title-wrapper">
+            <div class="icon-box">
+              <ion-icon name="book-outline"></ion-icon>
+            </div>
+
+            <h3 class="h3">Education</h3>
+          </div>
+
+          <ol class="timeline-list">
+
+            <li class="timeline-item">
+
+              <h4 class="h4 timeline-item-title">Kansas State University</h4>
+
+              <span>August 2023 — Present</span>
+
+              <p class="timeline-text">
+                Working towards my computer science degree
+              </p>
+
+            </li>
+
+            <li class="timeline-item">
+
+              <h4 class="h4 timeline-item-title">Rockhurst High School</h4>
+
+              <span>August 2019 — May 2023</span>
+
+              <p class="timeline-text">
+                Graduated with 5 awards, won a FRC Robotics regional, and second in state in the gold division for Cyber Patriots XV
+              </p>
+
+            </li>
+
+            
+
+          </ol>
+
+        </section>
+
+        <section class="timeline">
+
+          <div class="title-wrapper">
+            <div class="icon-box">
+              <ion-icon name="book-outline"></ion-icon>
+            </div>
+
+            <h3 class="h3">Experience</h3>
+          </div>
+
+          <ol class="timeline-list">
+
+            <li class="timeline-item">
+
+              <h4 class="h4 timeline-item-title">Audio Visual Technician</h4>
+
+              <span>April 2023 — Present</span>
+
+              <p class="timeline-text">
+                <b>Location: </b>Greater Kansas City Area <br>
+                <b>Company: </b>Lander's Vision <br>
+                <b>Description: </b>Responsible for setup, operation, and teardown of audio visual equipment for diverse events. 
+                Proficient in troubleshooting and ensuring seamless execution. 
+                Strong attention to detail and effective communication skills. 
+                Able to work under pressure and meet tight deadlines.
+              </p>
+
+            </li>
+
+            <li class="timeline-item">
+
+              <h4 class="h4 timeline-item-title">Audio Visual Technician</h4>
+
+              <span>August 2019 — Present</span>
+
+              <p class="timeline-text">
+                <b>Location: </b>Kansas City, MO<br>
+                <b>Company: </b>Rockhurst High School<br>
+                <b>Description: </b>Experienced in the setup, teardown, and operation of audio visual equipment for school events and rentals. 
+                Proficient in creating engaging audio visual experiences, ensuring seamless execution and optimal performance. 
+                Skilled in troubleshooting technical issues and maintaining high standards of quality. 
+                Strong attention to detail, effective communication, and ability to work under pressure.
+              </p>
+
+            </li>
+
+            <li class="timeline-item">
+
+              <h4 class="h4 timeline-item-title">Livestreamer</h4>
+
+              <span>January 2022 — Present</span>
+
+              <p class="timeline-text">
+                <b>Location: </b>Kansas City, MO<br>
+                <b>Company: </b>St. Paul's Episcopal Church<br>
+                <b>Description: </b>Proficient in livestreaming church services to YouTube, ensuring seamless transmission and engaging online experiences. 
+                Skilled in setting up and operating audio, visual, and streaming equipment for optimal video and audio quality. 
+                Experienced in managing livestreaming platforms, troubleshooting technical issues, and engaging with online viewers. 
+                Detail-oriented, adaptable, and adept at multitasking in fast-paced environments. 
+                Strong communication skills and a commitment to delivering a smooth and immersive livestreaming experience for virtual church attendees.
+              </p>
+
+            </li>
+
+            <li class="timeline-item">
+
+              <h4 class="h4 timeline-item-title">IT Specialist</h4>
+
+              <span>August 2019 — May 2023</span>
+
+              <p class="timeline-text">
+                <b>Location: </b>Gladstone, MO<br>
+                <b>Company: </b>Mercy Health Academy<br>
+                <b>Description: </b>Proficient in managing email services, registering new devices, setting up WiFi networks, and resolving electronic issues. 
+                Experienced in providing technical support and troubleshooting for hardware and software problems. 
+                Skilled in diagnosing and resolving network connectivity issues and ensuring efficient system performance. 
+                Strong problem-solving abilities, attention to detail, and effective communication skills. 
+                Committed to delivering exceptional IT support and maintaining a secure and reliable technology infrastructure.
+              </p>
+
+            </li>
+
+            <li class="timeline-item">
+
+              <h4 class="h4 timeline-item-title">Caterer Server </h4>
+
+              <span>August 2021 — December 2021</span>
+
+              <p class="timeline-text">
+                <b>Location: </b>Greater Kansas City Area<br>
+                <b>Company: </b>Lon Lane's Inspired Occassions<br>
+                <b>Description: </b>Experienced in providing exceptional service as a caterer server for diverse events. 
+                Skilled in delivering professional and efficient food and beverage service to guests. 
+                Proficient in setting up event spaces, arranging table settings, and ensuring a seamless dining experience. 
+                Strong attention to detail, multitasking abilities, and a friendly demeanor. 
+                Effective communication and teamwork skills to collaborate with event coordinators and fellow servers. 
+                Committed to exceeding customer expectations and creating memorable experiences through top-notch service.
+              </p>
+
+            </li>
+
+            <li class="timeline-item">
+
+              <h4 class="h4 timeline-item-title">Greens and Grounds</h4>
+
+              <span>May 2021 — August 2021</span>
+
+              <p class="timeline-text">
+                <b>Location: </b>Mission Hills, KS<br>
+                <b>Company: </b>Kansas City Country Club<br>
+                <b>Description: </b>Experienced in maintaining and beautifying outdoor spaces as a greens and grounds worker. 
+                Skilled in performing a range of landscaping and maintenance tasks, including mowing, trimming, and planting. 
+                Proficient in operating landscaping equipment and tools to ensure the upkeep and aesthetics of grounds. 
+                Strong attention to detail, physical stamina, and a keen eye for enhancing outdoor environments. 
+                Ability to work independently or as part of a team to achieve optimal results. 
+                Committed to creating visually appealing and well-maintained green spaces for the enjoyment of all.
+              </p>
+
+            </li>
+
+          </ol>
+
+        </section>
+
+        <section class="skill">
+
+          <h3 class="h3 skills-title">My skills</h3>
+
+          <ul class="skills-list content-card">
+
+            <li class="skills-item">
+
+              <div class="title-wrapper">
+                <h5 class="h5">Operating audio and visual equipment</h5>
+                <data value="90">90%</data>
+              </div>
+
+              <div class="skill-progress-bg">
+                <div class="skill-progress-fill" style="width: 90%;"></div>
+              </div>
+
+            </li>
+
+            <li class="skills-item">
+
+              <div class="title-wrapper">
+                <h5 class="h5">Audio mixing</h5>
+                <data value="95">95%</data>
+              </div>
+
+              <div class="skill-progress-bg">
+                <div class="skill-progress-fill" style="width: 95%;"></div>
+              </div>
+
+            </li>
+
+            <li class="skills-item">
+
+              <div class="title-wrapper">
+                <h5 class="h5">Setting up and dismantling equipment</h5>
+                <data value="90">90%</data>
+              </div>
+
+              <div class="skill-progress-bg">
+                <div class="skill-progress-fill" style="width: 90%;"></div>
+              </div>
+
+            </li>
+
+            <li class="skills-item">
+
+              <div class="title-wrapper">
+                <h5 class="h5">Effective communication and teamwork</h5>
+                <data value="95">95%</data>
+              </div>
+
+              <div class="skill-progress-bg">
+                <div class="skill-progress-fill" style="width: 95%;"></div>
+              </div>
+
+            </li>
+
+            <li class="skills-item">
+
+              <div class="title-wrapper">
+                <h5 class="h5">Profiencies in programming languages</h5>
+                <data value="85">85%</data>
+              </div>
+
+              <div class="skill-progress-bg">
+                <div class="skill-progress-fill" style="width: 85%;"></div>
+              </div>
+
+            </li>
+
+            <li class="skills-item">
+
+              <div class="title-wrapper">
+                <h5 class="h5">Problem-solving and logical thinking</h5>
+                <data value="95">95%</data>
+              </div>
+
+              <div class="skill-progress-bg">
+                <div class="skill-progress-fill" style="width: 95%;"></div>
+              </div>
+
+            </li>
+
+            <li class="skills-item">
+
+              <div class="title-wrapper">
+                <h5 class="h5">Debugging and troubleshooting</h5>
+                <data value="95">95%</data>
+              </div>
+
+              <div class="skill-progress-bg">
+                <div class="skill-progress-fill" style="width: 95%;"></div>
+              </div>
+
+            </li>
+
+          </ul>
+
+        </section>
+
+      </article>
+
+
+
+
+
+      <!--
+        - #PORTFOLIO
+      -->
+
+      <article class="portfolio" data-page="portfolio">
+
+        <header>
+          <h2 class="h2 article-title">Portfolio</h2>
+        </header>
+
+        <section class="projects">
+
+          <ul class="filter-list">
+
+            <li class="filter-item">
+              <button class="active" data-filter-btn>All</button>
+            </li>
+
+            <li class="filter-item">
+              <button data-filter-btn>A/V</button>
+            </li>
+
+            <li class="filter-item">
+              <button data-filter-btn>Theatre</button>
+            </li>
+
+            <li class="filter-item">
+              <button data-filter-btn>Programming</button>
+            </li>
+
+            <li class="filter-item">
+              <button data-filter-btn>Other</button>
+            </li>
+
+          </ul>
+
+          <div class="filter-select-box">
+
+            <button class="filter-select" data-select>
+
+              <div class="select-value" data-selecct-value>Select category</div>
+
+              <div class="select-icon">
+                <ion-icon name="chevron-down"></ion-icon>
+              </div>
+
+            </button>
+
+            <ul class="select-list">
+
+              <li class="select-item">
+                <button data-select-item>All</button>
+              </li>
+
+              <li class="select-item">
+                <button data-select-item>A/V</button>
+              </li>
+
+              <li class="select-item">
+                <button data-select-item>Theatre</button>
+              </li>
+
+              <li class="select-item">
+                <button data-select-item>Programming</button>
+              </li>
+
+              <li class="select-item">
+                <button data-select-item>Other</button>
+              </li>
+
+            </ul>
+
+          </div>
+
+          <ul class="project-list">
+
+            <li class="project-item  active" data-filter-item data-category="programming">
+              <a href="https://github.com/meepermad/RHS_5809_2023">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/robot-cover.jpg" alt="" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">FRC Robotics</h3>
+
+                <p class="project-category">Programming | Role: Lead Programmer</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="programming">
+              <a href="https://github.com/meepermad/VR-GeoGuessr">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/geoguessr-cover.jpg" alt="" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">VR GeoGuessr</h3>
+
+                <p class="project-category">Programming</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="a/v">
+              <a href="">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/auction-cover.jpg" alt="" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">Rockhurst Spectacular Auction</h3>
+
+                <p class="project-category">Audio Visual</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="a/v">
+              <a href="">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/school-mass.jpg" alt="" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">One of Many All School Masses</h3>
+
+                <p class="project-category">Audio Visual</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="a/v">
+              <a href="">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/pep-rally-cover.jpg" alt="" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">One of Many All School Pep Rallies</h3>
+
+                <p class="project-category">Audio Visual</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="theatre">
+              <a href="https://drive.google.com/drive/folders/1myM5ag60ESFOZ13evbhtKoSP2P7oy5yS?usp=drive_link">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/agememnon-cover.jpg" alt="" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">Agememnon - Fall 2020</h3>
+
+                <p class="project-category">Theatre | Role: Sound Design</p>
+                <p class="project-category">Photo Credit: Vivian Nazzaro</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="theatre">
+              <a href="https://drive.google.com/drive/folders/1-b5snSMCNoiXqOYr6l7XlLyHyG6HBhXq?usp=drive_link">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/alice-in-wonderland-cover.jpg" alt="" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">Alice in Wonderland - Fall 2021</h3>
+
+                <p class="project-category">Theatre | Role: Sound Design</p>
+                <p class="project-category">Photo Credit: Kate Jimenez</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="theatre">
+              <a href="https://drive.google.com/drive/folders/1BBOsx5M0ibaxqdZZsUGkVqXvTBSO17_Q?usp=drive_link">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/family-cabaret-cover.jpg" alt="" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">Family Cabaret - Spring 2023</h3>
+
+                <p class="project-category">Theatre | Role: Sound Design</p>
+                <p class="project-category">Photo Credit: Kate Jimenez</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="theatre">
+              <a href="https://drive.google.com/drive/folders/12CXjzcGfy9E6xXXOP93IItq1-h9UUo0g?usp=drive_link">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/madagascar-cover.jpg" alt="" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">Madagascar - Winter 2022</h3>
+
+                <p class="project-category">Theatre | Role: Lead Sound Design</p>
+                <p class="project-category">Photo Credit: Kate Jimenez</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="theatre">
+              <a href="https://drive.google.com/drive/folders/1rP4vl5zJlWtQUCl95sbWWUAf3SzfA2TN?usp=drive_link">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/raise-you-up-cover.jpg" alt="" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">Raise You Up! Cabaret - Spring 2021</h3>
+
+                <p class="project-category">Theatre | Role: Lead Sound Design and Operator</p>
+                <p class="project-category">Photo Credit: Vivian Nazzaro</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="theatre">
+              <a href="https://drive.google.com/drive/folders/1BvpaeZivcytXLs5lI6L0r6O4Ll8xL9cL?usp=drive_link">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/shakespeare-abridged-cover.jpg" alt="" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">Shakespeare Abridged - Fall 2022</h3>
+
+                <p class="project-category">Theatre | Role: Stage Manager and Little A-Timothy</p>
+                <p class="project-category">Photo Credit: Kate Jimenez</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="theatre">
+              <a href="https://drive.google.com/drive/folders/1ZTZHybgMCjUDkJYI6QIm_9UF8smZKLMu?usp=drive_link">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/putnam-cover.jpg" alt="" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">The 25th Annual Putnam County Spelling Bee - Spring 2022</h3>
+
+                <p class="project-category">Theatre | Role: Lead Sound Design and Operator</p>
+                <p class="project-category">Photo Credit: Kate Jimenez</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="theatre">
+              <a href="https://drive.google.com/drive/folders/1zhnExXOPgRSCFSzq1VznX2XBo3ZAd6jk?usp=drive_link">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/urinetown-cover.jpg" alt="" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">Urinetown - Spring 2023</h3>
+
+                <p class="project-category">Theatre | Role: Stage Manager</p>
+                <p class="project-category">Photo Credit: Kate Jimenez</p>
+
+              </a>
+            </li>
+
+          </ul>
+
+        </section>
+
+      </article>
+
+
+
+
+
+      <!--
+        - #AWARDS/CERTS
+      -->
+
+      <article class="blog" data-page="awards/certifications">
+
+        <header>
+          <br>
+          <br>
+          <h2 class="h2 article-title">Awards/Certifications</h2>
+        </header>
+
+        <section class="blog-posts">
+
+          <ul class="blog-posts-list">
+
+            <li class="blog-post-item">
+              <a href="#">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/rockhurst-cover.png" alt="R Award" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">Awards</p>
+
+                    <span class="dot"></span>
+
+                    <p class="blog-category">May 2021</p>
+                  </div>
+
+                  <h3 class="h3 blog-item-title">R Award</h3>
+
+                  <p class="blog-text">
+                    Given to those who display and embody the values of Rockhurst High School
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
+
+            <li class="blog-post-item">
+              <a href="#">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/rockhurst-cover.png" alt="R Award" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">Awards</p>
+
+                    <span class="dot"></span>
+
+                    <p class="blog-category">May 2022</p>
+                  </div>
+
+                  <h3 class="h3 blog-item-title">R Award</h3>
+
+                  <p class="blog-text">
+                    Given to those who display and embody the values of Rockhurst High School
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
+
+            <li class="blog-post-item">
+              <a href="#">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/rockhurst-cover.png" alt="R Award" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">Awards</p>
+
+                    <span class="dot"></span>
+
+                    <p class="blog-category">May 2023</p>
+                  </div>
+
+                  <h3 class="h3 blog-item-title">R Award</h3>
+
+                  <p class="blog-text">
+                    Given to those who display and embody the values of Rockhurst High School
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
+
+
+            <li class="blog-post-item">
+              <a href="#">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/rockhurst-cover.png" alt="R Award" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">Awards</p>
+
+                    <span class="dot"></span>
+
+                    <p class="blog-category">May 2021</p>
+                  </div>
+
+                  <h3 class="h3 blog-item-title">Bernie Kreikemeier and Buddy Worth Award</h3>
+
+                  <p class="blog-text">
+                    Student who displays uses of both computer science and business
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
+
+            <li class="blog-post-item">
+              <a href="#">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/rockhurst-cover.png" alt="R Award" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">Awards</p>
+
+                    <span class="dot"></span>
+
+                    <p class="blog-category">May 2021</p>
+                  </div>
+
+                  <h3 class="h3 blog-item-title">Rockhurst Theatre Award</h3>
+
+                  <p class="blog-text">
+                    Given to those who make an impact to better help everyone doing theatre
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
+
+            <li class="blog-post-item">
+              <a href="#">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/frc-cover.jpg" alt="FRC Award" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">Awards</p>
+
+                    <span class="dot"></span>
+
+                    <p class="blog-category">March 2023</p>
+                  </div>
+
+                  <h3 class="h3 blog-item-title">FRC - Central Missouri Regional Champions</h3>
+
+                  <p class="blog-text">
+                    FRC (FIRST Robotics Competition) is a high school level robotics competition where schools have to build a robot designed for that year's objective. 
+                    This year was the ability to pick up and drop off cones and cubes on shelves as well as balancing on a platform. 
+                    As a result of winning the Central Missouri Regional, my team advanced onto Worlds, the international competition where the top 6% of teams compete to win it all
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
+
+            <li class="blog-post-item">
+              <a href="#">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/cyber-patriot-cover.jpg" alt="Cyber Patriots Award" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">Awards</p>
+
+                    <span class="dot"></span>
+
+                    <p class="blog-category">February 2023</p>
+                  </div>
+
+                  <h3 class="h3 blog-item-title">Cyber Patriots - 2nd in State in the Gold Division</h3>
+
+                  <p class="blog-text">
+                    Cyber Security competition where students receive virtual machines and have to secure the machine within an allotted amount of time
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
+
+          </ul>
+
+        </section>
+
+      </article>
+
+
+
+
+
+      <!--
+        - #CONTACT
+      -->
+
+      <article class="contact" data-page="contact">
+
+        <header>
+          <h2 class="h2 article-title">Contact</h2>
+        </header>
+
+        <section class="mapbox" data-mapbox>
+          <figure>
+            <iframe
+              src="https://www.google.com/maps/embed/v1/view?zoom=9&center=39.0997%2C-94.5786&key=AIzaSyAuZowNZZ_ZCvOvWlb3zj4k2daIES3zksg"
+              width="400" height="300" loading="lazy"></iframe>
+          </figure>
+        </section>
+
+        <section class="contact-form">
+
+          <h3 class="h3 form-title">Contact Form</h3>
+
+          <form action="#" class="form" data-form>
+
+            <div class="input-wrapper">
+              <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
+
+              <input type="email" name="email" class="form-input" placeholder="Email address" required data-form-input>
+            </div>
+
+            <textarea name="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
+
+            <button class="form-btn" type="submit" disabled data-form-btn>
+              <ion-icon name="paper-plane"></ion-icon>
+              <span>Send Message (Work in Progress)</span>
+            </button>
+
+          </form>
+
+        </section>
+
+      </article>
+
     </div>
-  </div>
-  <div class="navbar navbar-dark bg-dark shadow-sm">
-    <div class="container">
-      <a href="https://getbootstrap.com/docs/5.3/examples/album/#" class="navbar-brand d-flex align-items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-        <strong>Album</strong>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    </div>
-  </div>
-</header>
 
-<main>
-
-  <section class="py-5 text-center container">
-    <div class="row py-lg-5">
-      <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">Album example</h1>
-        <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
-        <p>
-          <a href="https://getbootstrap.com/docs/5.3/examples/album/#" class="btn btn-primary my-2">Main call to action</a>
-          <a href="https://getbootstrap.com/docs/5.3/examples/album/#" class="btn btn-secondary my-2">Secondary action</a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <div class="album py-5 bg-body-tertiary">
-    <div class="container">
-
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</main>
-
-<footer class="text-body-secondary py-5">
-  <div class="container">
-    <p class="float-end mb-1">
-      <a href="https://getbootstrap.com/docs/5.3/examples/album/#">Back to top</a>
-    </p>
-    <p class="mb-1">Album example is © Bootstrap, but please download and customize it for yourself!</p>
-    <p class="mb-0">New to Bootstrap? <a href="https://getbootstrap.com/">Visit the homepage</a> or read our <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">getting started guide</a>.</p>
-  </div>
-</footer>
+  </main>
 
 
-    <script src="./Album example · Bootstrap v5.3_files/bootstrap.bundle.min.js.download" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 
-      
-  
 
-</body></html>
+
+
+  <!--
+    - custom js link
+  -->
+  <script src="./assets/js/script.js"></script>
+
+  <!--
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>
