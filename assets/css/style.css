@@ -352,6 +352,7 @@ main {
   width: max-content;
   padding: 3px 12px;
   border-radius: 8px;
+  margin-bottom: 1px;
 }
 
 .info_more-btn {
@@ -1343,7 +1344,7 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .info-content .name { margin-bottom: 15px; }
 
-  .info-content .title { padding: 5px 18px; }
+  .info-content .title { padding: 5px 18px; margin-bottom: 15px;}
 
   .info_more-btn {
     top: -30px;
@@ -1752,7 +1753,7 @@ textarea.form-input::-webkit-resizer { display: none; }
     text-align: center;
   }
 
-  .info-content .title { margin: auto; }
+  .info-content .title { margin: auto;  margin-bottom: 10px;}
 
   .info_more-btn { display: none; }
 
