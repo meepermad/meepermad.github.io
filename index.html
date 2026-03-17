@@ -1,1233 +1,1109 @@
 <!DOCTYPE html>
+<!--
+  D&D Character Builder - Single-page app for creating and managing D&D 5e characters.
+  Structure: Header (role toggle, tools) | Main (list/session/builder/battle map views) | Modals
+-->
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content = "Discover a world where audio visual technology meets computer science expertise. Join Atem, an experienced professional with a passion for creating captivating multimedia experiences. Explore a portfolio showcasing a fusion of cutting-edge audio visual wizardry and innovative programming skills. Unleash the power of immersive storytelling, as Atem crafts unforgettable memories through a seamless blend of audio and visual artistry. Embark on this educational and inspiring journey, where technology and creativity converge to push boundaries and unlock limitless possibilities.">
-  <meta name="keywords" content = "Audio Visual Technology, Multimedia Experiences, Computer Science, Programming Expertise, Immersive Storytelling, Creative Innovation, Cutting-Edge Technology, Visual Design, Sound Engineering, Web Development, Problem-Solving, Lifelong Learning, Audio Visual Portfolio, Event Production, Technical Troubleshooting">
-  <meta name="author" content = "Atem Akuei">
-  <title>Atem Akuei - Personal Portfolio</title>
-
-  <!--
-    - favicon
-  -->
-  <link rel="shortcut icon" href="./assets/images/my-face.jpg" type="image/x-icon">
-
-  <!--
-    - custom css link
-  -->
-  <link rel="stylesheet" href="./assets/css/style.css">
-
-  <!--
-    - google font link
-  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#6b2d3c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>D&D Character Builder</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" rel="preload" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-
-  <!--
-    - #MAIN
-  -->
-
-  <main>
-
-    <!--
-      - #SIDEBAR
-    -->
-
-    <aside class="sidebar" data-sidebar>
-
-      <div class="sidebar-info">
-
-        <figure class="avatar-box">
-          <img src="./assets/images/my-face.webp" alt="Atem Akuei" width="150" height="150">
-        </figure>
-
-        <div class="info-content">
-          <h1 class="name" title="Atem Akuei">Atem Akuei</h1>
-
-          <p class="title">AV Technician/Programmer</p>
-          
-          <p class="title">Freshman at Kansas State University</p>
+  <div class="site">
+    <header class="site-header site-header-compact">
+      <div class="header-inner">
+        <div class="header-row">
+          <div class="header-brand">
+            <h1>D&D Character Builder</h1>
+            <p class="tagline">Forge your legend, step by step</p>
+          </div>
+          <div class="header-actions">
+            <div class="role-toggle" role="group" aria-label="Player or DM">
+              <button type="button" class="role-btn active" id="role-player" data-role="player">Player</button>
+              <button type="button" class="role-btn" id="role-dm" data-role="dm">DM</button>
+            </div>
+            <button type="button" class="ruleset-badge" id="ruleset-badge" title="Rule books">PHB</button>
+            <div class="header-dropdown">
+              <button class="btn btn-ghost btn-header" id="tools-menu-btn" aria-haspopup="true">Tools ▾</button>
+              <div class="tools-dropdown" id="tools-dropdown" hidden>
+                <button type="button" data-tool="rules">Rules & Reference</button>
+                <button type="button" data-tool="quick-rules">Quick Rules</button>
+                <button type="button" data-tool="quick-reference">Quick Reference (Search)</button>
+                <button type="button" data-tool="battle-map">Battle Map</button>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <button class="info_more-btn" data-sidebar-btn>
-          <span>Show Contacts</span>
-
-          <ion-icon name="chevron-down"></ion-icon>
-        </button>
-
       </div>
-
-      <div class="sidebar-info_more">
-
-        <div class="separator"></div>
-
-        <ul class="contacts-list">
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="mail-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Email</p>
-
-              <a href="mailto:atemakuei.work@gmail.com" class="contact-link">atemakuei.work</a>
-              <a href="mailto:atemakuei.work@gmail.com" class="contact-link">@gmail.com</a>
-            </div>
-
-          </li>
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="phone-portrait-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Phone</p>
-
-              <a href="tel:+18167827873" class="contact-link">+1 (816) 782-7873</a>
-            </div>
-
-          </li>
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="location-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Location</p>
-
-              <address>Shawnee, Kansas, USA</address>
-            </div>
-
-          </li>
-
-        </ul>
-
-        <div class="separator"></div>
-
-        <ul class="social-list">
-
-          <li class="social-item">
-            <a href="https://github.com/meepermad" class="social-link">
-              <ion-icon name="logo-github"></ion-icon>
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://www.linkedin.com/in/atem-akuei-0082181aa/" class="social-link">
-              <ion-icon name="logo-linkedin"></ion-icon>
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://www.instagram.com/atemakuei/" class="social-link">
-              <ion-icon name="logo-instagram"></ion-icon>
-            </a>
-          </li>
-
-        </ul>
-
-      </div>
-
-    </aside>
-
-
-
-
-
-    <!--
-      - #main-content
-    -->
-
-    <div class="main-content">
-
-      <!--
-        - #NAVBAR
-      -->
-
-      <nav class="navbar">
-
-        <ul class="navbar-list">
-
-          <li class="navbar-item">
-            <button class="navbar-link  active" data-nav-link>About</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Resume</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Portfolio</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Honors</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Contact</button>
-          </li>
-
-        </ul>
-
-      </nav>
-
-
-
-
-
-      <!--
-        - #ABOUT
-      -->
-
-      <article class="about  active" data-page="about">
-
-        <header>
-          <h2 class="h2 article-title">About me</h2>
-        </header>
-
-        <section class="about-text">
-          <p>
-            Welcome to my portfolio! I'm thrilled to have the opportunity to showcase my expertise and passion for audio visual technology and computer science.
-          </p>
-
-          <p>
-            With years of hands-on experience in the audio visual industry, I have honed my skills in creating captivating multimedia experiences. 
-            From designing visually stunning presentations to producing seamless soundscapes, I have developed a deep understanding of how to engage audiences through the power of audio and visual elements.
-          </p>
-
-          <p>
-            In addition to my practical experience, I am currently working towards my computer science degree at Kansas State University. 
-            This academic journey has provided me with a strong foundation in programming, problem-solving, and software development. 
-            By combining my technical knowledge with my creative flair, I strive to bring innovation and efficiency to every project I undertake.
-          </p>
-
-          <p>
-            What sets me apart is my insatiable appetite for learning. 
-            I thrive on exploring new concepts and technologies, constantly seeking to expand my skill set and stay at the forefront of industry trends. 
-            Whether it's mastering the latest programming languages, experimenting with cutting-edge audio visual equipment, or discovering innovative techniques, I am always eager to embrace new challenges and push my boundaries.
-          </p>
-
-          <p>
-            Within this portfolio, you will find a curated selection of my work, highlighting my expertise in audio visual technology and computer science. 
-            From impressive multimedia presentations to innovative software projects, each piece reflects my dedication, creativity, and commitment to excellence.
-          </p>
-
-          <p>
-            I invite you to explore my portfolio and experience the depth and breadth of my capabilities. 
-          </p>
-
-          <p>
-            Thank you for visiting, and I look forward to connecting with you soon. Let's embark on this exciting adventure of exploration and creativity together!
-          </p>
-        </section>
-
-
-        <!--
-          - service
-        -->
-
-        <section class="service">
-
-          <h3 class="h3 service-title">What I'm Doing</h3>
-
-          <ul class="service-list">
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <img src="./assets/images/icon-microphone.svg
-                " alt="design icon" width="40" height="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Audio Visual</h4>
-
-                <p class="service-item-text">
-                  By using the power of audio and visuals, I strive to create unforgettable memories for others
-                </p>
-              </div>
-
-            </li>
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <img src="./assets/images/icon-computer.svg" alt="Web development icon" width="40" height="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Programming</h4>
-
-                <p class="service-item-text">
-                  I'm learning and using programming languages to make fun projects and solve real world issues
-                </p>
-              </div>
-
-            </li>
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <img src="./assets/images/icon-brain.svg" alt="mobile app icon" width="40" height="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Machine Learning</h4>
-
-                <p class="service-item-text">
-                  I'm currently learning about machine learning to hopefully create an AI model of my own
-                </p>
-              </div>
-
-            </li>
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <img src="./assets/images/icon-grad.svg" alt="camera icon" width="40" height="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Learning</h4>
-
-                <p class="service-item-text">
-                  I am currently enrolled at Kansas State University to get my computer science degree
-                </p>
-                
-              </div>
-
-            </li>
-
-          </ul>
-
-        </section>
-
-
-        <div class="modal-container" data-modal-container>
-
-          <div class="overlay" data-overlay></div>
-
-          <button class="modal-close-btn" data-modal-close-btn></button>
-
+    </header>
+
+    <button type="button" id="rules-btn" hidden aria-hidden="true">Rules</button>
+
+    <!-- ========== MODALS ========== -->
+    <!-- Rules & Reference Modal - House rules, campaign settings, rule books -->
+    <div id="rules-modal" class="modal" hidden>
+      <div class="modal-backdrop" id="rules-modal-backdrop"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="rules-modal-title">Rules & Custom Reference</h2>
+          <button type="button" class="modal-close" id="rules-modal-close" aria-label="Close">×</button>
         </div>
-
-
-      </article>
-
-
-
-
-      <!--
-        - #RESUME
-      -->
-
-      <article class="resume" data-page="resume">
-
-        <header>
-          <h2 class="h2 article-title">Resume</h2>
-        </header>
-
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="book-outline"></ion-icon>
-            </div>
-
-            <h3 class="h3">Education</h3>
+        <div class="modal-body">
+          <div class="rules-tabs">
+            <button class="rules-tab" data-tab="ruleset">Rule Books</button>
+            <button class="rules-tab" data-tab="campaign">Campaign</button>
+            <button class="rules-tab active" data-tab="house-rules">House Rules</button>
+            <button class="rules-tab" data-tab="reference">Reference Notes</button>
+            <button class="rules-tab" data-tab="books">Content Books</button>
+            <button class="rules-tab" data-tab="guides">Guides</button>
+            <button class="rules-tab" data-tab="official-pdfs">Official PDFs</button>
           </div>
-
-          <ol class="timeline-list">
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">Kansas State University</h4>
-
-              <span>August 2023 — Present</span>
-
-              <p class="timeline-text">
-                Working towards my computer science degree
-              </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">Rockhurst High School</h4>
-
-              <span>August 2019 — May 2023</span>
-
-              <p class="timeline-text">
-                Graduated with 5 awards, won a FRC Robotics regional, and second in state in the gold division for Cyber Patriots XV
-              </p>
-
-            </li>
-
-            
-
-          </ol>
-
-        </section>
-
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="book-outline"></ion-icon>
+          <div class="rules-pane" id="pane-campaign" hidden>
+            <p class="rules-desc">Default leveling mode for new characters. XP uses experience points; Milestone levels up when the DM says so.</p>
+            <div class="form-group">
+              <label>Default Leveling Mode</label>
+              <div class="leveling-mode-options">
+                <label class="leveling-option"><input type="radio" name="campaign-leveling" value="xp"> XP</label>
+                <label class="leveling-option"><input type="radio" name="campaign-leveling" value="milestone"> Milestone</label>
+              </div>
             </div>
-
-            <h3 class="h3">Experience</h3>
           </div>
-
-          <ol class="timeline-list">
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">Audio Visual Technician</h4>
-
-              <span>April 2023 — Present</span>
-
-              <p class="timeline-text">
-                <b>Location: </b>Greater Kansas City Area <br>
-                <b>Company: </b>Lander's Vision <br>
-                <b>Description: </b>Responsible for setup, operation, and teardown of audio visual equipment for diverse events. 
-                Proficient in troubleshooting and ensuring seamless execution. 
-                Strong attention to detail and effective communication skills. 
-                Able to work under pressure and meet tight deadlines.
-              </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">Audio Visual Technician</h4>
-
-              <span>August 2019 — Present</span>
-
-              <p class="timeline-text">
-                <b>Location: </b>Kansas City, MO<br>
-                <b>Company: </b>Rockhurst High School<br>
-                <b>Description: </b>Experienced in the setup, teardown, and operation of audio visual equipment for school events and rentals. 
-                Proficient in creating engaging audio visual experiences, ensuring seamless execution and optimal performance. 
-                Skilled in troubleshooting technical issues and maintaining high standards of quality. 
-                Strong attention to detail, effective communication, and ability to work under pressure.
-              </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">Livestreamer</h4>
-
-              <span>January 2022 — Present</span>
-
-              <p class="timeline-text">
-                <b>Location: </b>Kansas City, MO<br>
-                <b>Company: </b>St. Paul's Episcopal Church<br>
-                <b>Description: </b>Proficient in livestreaming church services to YouTube, ensuring seamless transmission and engaging online experiences. 
-                Skilled in setting up and operating audio, visual, and streaming equipment for optimal video and audio quality. 
-                Experienced in managing livestreaming platforms, troubleshooting technical issues, and engaging with online viewers. 
-                Detail-oriented, adaptable, and adept at multitasking in fast-paced environments. 
-                Strong communication skills and a commitment to delivering a smooth and immersive livestreaming experience for virtual church attendees.
-              </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">IT Specialist</h4>
-
-              <span>August 2019 — May 2023</span>
-
-              <p class="timeline-text">
-                <b>Location: </b>Gladstone, MO<br>
-                <b>Company: </b>Mercy Health Academy<br>
-                <b>Description: </b>Proficient in managing email services, registering new devices, setting up WiFi networks, and resolving electronic issues. 
-                Experienced in providing technical support and troubleshooting for hardware and software problems. 
-                Skilled in diagnosing and resolving network connectivity issues and ensuring efficient system performance. 
-                Strong problem-solving abilities, attention to detail, and effective communication skills. 
-                Committed to delivering exceptional IT support and maintaining a secure and reliable technology infrastructure.
-              </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">Caterer Server </h4>
-
-              <span>August 2021 — December 2021</span>
-
-              <p class="timeline-text">
-                <b>Location: </b>Greater Kansas City Area<br>
-                <b>Company: </b>Lon Lane's Inspired Occassions<br>
-                <b>Description: </b>Experienced in providing exceptional service as a caterer server for diverse events. 
-                Skilled in delivering professional and efficient food and beverage service to guests. 
-                Proficient in setting up event spaces, arranging table settings, and ensuring a seamless dining experience. 
-                Strong attention to detail, multitasking abilities, and a friendly demeanor. 
-                Effective communication and teamwork skills to collaborate with event coordinators and fellow servers. 
-                Committed to exceeding customer expectations and creating memorable experiences through top-notch service.
-              </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">Greens and Grounds</h4>
-
-              <span>May 2021 — August 2021</span>
-
-              <p class="timeline-text">
-                <b>Location: </b>Mission Hills, KS<br>
-                <b>Company: </b>Kansas City Country Club<br>
-                <b>Description: </b>Experienced in maintaining and beautifying outdoor spaces as a greens and grounds worker. 
-                Skilled in performing a range of landscaping and maintenance tasks, including mowing, trimming, and planting. 
-                Proficient in operating landscaping equipment and tools to ensure the upkeep and aesthetics of grounds. 
-                Strong attention to detail, physical stamina, and a keen eye for enhancing outdoor environments. 
-                Ability to work independently or as part of a team to achieve optimal results. 
-                Committed to creating visually appealing and well-maintained green spaces for the enjoyment of all.
-              </p>
-
-            </li>
-
-          </ol>
-
-        </section>
-
-        <section class="skill">
-
-          <h3 class="h3 skills-title">My skills</h3>
-
-          <ul class="skills-list content-card">
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Operating audio and visual equipment</h5>
-                <data value="90">90%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 90%;"></div>
-              </div>
-
-            </li>
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Audio mixing</h5>
-                <data value="95">95%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 95%;"></div>
-              </div>
-
-            </li>
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Setting up and dismantling equipment</h5>
-                <data value="90">90%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 90%;"></div>
-              </div>
-
-            </li>
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Effective communication and teamwork</h5>
-                <data value="95">95%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 95%;"></div>
-              </div>
-
-            </li>
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Profiencies in programming languages</h5>
-                <data value="85">85%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 85%;"></div>
-              </div>
-
-            </li>
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Problem-solving and logical thinking</h5>
-                <data value="95">95%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 95%;"></div>
-              </div>
-
-            </li>
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Debugging and troubleshooting</h5>
-                <data value="95">95%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 95%;"></div>
-              </div>
-
-            </li>
-
-          </ul>
-
-        </section>
-
-      </article>
-
-
-
-
-
-      <!--
-        - #PORTFOLIO
-      -->
-
-      <article class="portfolio" data-page="portfolio">
-
-        <header>
-          <h2 class="h2 article-title">Portfolio</h2>
-        </header>
-
-        <section class="projects">
-
-          <ul class="filter-list">
-
-            <li class="filter-item">
-              <button class="active" data-filter-btn>All</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>A/V</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Theatre</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Programming</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Other</button>
-            </li>
-
-          </ul>
-
-          <div class="filter-select-box">
-
-            <button class="filter-select" data-select>
-
-              <div class="select-value" data-selecct-value>Select category</div>
-
-              <div class="select-icon">
-                <ion-icon name="chevron-down"></ion-icon>
-              </div>
-
-            </button>
-
-            <ul class="select-list">
-
-              <li class="select-item">
-                <button data-select-item>All</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>A/V</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Theatre</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Programming</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Other</button>
-              </li>
-
-            </ul>
-
+          <div class="rules-pane" id="pane-ruleset" hidden>
+            <p class="rules-desc">Enable one or more rule books. Content from all enabled books is combined. This affects which races, classes, and backgrounds appear in the character builder.</p>
+            <div class="ruleset-options" id="ruleset-options"></div>
+            <div class="ruleset-info" id="ruleset-info"></div>
           </div>
-
-          <ul class="project-list">
-
-            <li class="project-item  active" data-filter-item data-category="programming">
-              <a href="https://github.com/meepermad/RHS_5809_2023">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/robot-cover.jpg" alt="" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">FRC Robotics</h3>
-
-                <p class="project-category">Programming | Role: Lead Programmer</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="programming">
-              <a href="https://github.com/meepermad/VR-GeoGuessr">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/geoguessr-cover.jpg" alt="" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">VR GeoGuessr</h3>
-
-                <p class="project-category">Programming</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="a/v">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/auction-cover.jpg" alt="" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Rockhurst Spectacular Auction</h3>
-
-                <p class="project-category">Audio Visual</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="a/v">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/school-mass.jpg" alt="" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">One of Many All School Masses</h3>
-
-                <p class="project-category">Audio Visual</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="a/v">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/pep-rally-cover.jpg" alt="" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">One of Many All School Pep Rallies</h3>
-
-                <p class="project-category">Audio Visual</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="theatre">
-              <a href="https://drive.google.com/drive/folders/1myM5ag60ESFOZ13evbhtKoSP2P7oy5yS?usp=drive_link">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/agememnon-cover.jpg" alt="" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Agememnon - Fall 2020</h3>
-
-                <p class="project-category">Theatre | Role: Sound Design</p>
-                <p class="project-category">Photo Credit: Vivian Nazzaro</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="theatre">
-              <a href="https://drive.google.com/drive/folders/1-b5snSMCNoiXqOYr6l7XlLyHyG6HBhXq?usp=drive_link">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/alice-in-wonderland-cover.jpg" alt="" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Alice in Wonderland - Fall 2021</h3>
-
-                <p class="project-category">Theatre | Role: Sound Design</p>
-                <p class="project-category">Photo Credit: Kate Jimenez</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="theatre">
-              <a href="https://drive.google.com/drive/folders/1BBOsx5M0ibaxqdZZsUGkVqXvTBSO17_Q?usp=drive_link">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/family-cabaret-cover.jpg" alt="" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Family Cabaret - Spring 2023</h3>
-
-                <p class="project-category">Theatre | Role: Sound Design</p>
-                <p class="project-category">Photo Credit: Kate Jimenez</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="theatre">
-              <a href="https://drive.google.com/drive/folders/12CXjzcGfy9E6xXXOP93IItq1-h9UUo0g?usp=drive_link">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/madagascar-cover.jpg" alt="" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Madagascar - Winter 2022</h3>
-
-                <p class="project-category">Theatre | Role: Lead Sound Design</p>
-                <p class="project-category">Photo Credit: Kate Jimenez</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="theatre">
-              <a href="https://drive.google.com/drive/folders/1rP4vl5zJlWtQUCl95sbWWUAf3SzfA2TN?usp=drive_link">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/raise-you-up-cover.jpg" alt="" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Raise You Up! Cabaret - Spring 2021</h3>
-
-                <p class="project-category">Theatre | Role: Lead Sound Design and Operator</p>
-                <p class="project-category">Photo Credit: Vivian Nazzaro</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="theatre">
-              <a href="https://drive.google.com/drive/folders/1BvpaeZivcytXLs5lI6L0r6O4Ll8xL9cL?usp=drive_link">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/shakespeare-abridged-cover.jpg" alt="" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Shakespeare Abridged - Fall 2022</h3>
-
-                <p class="project-category">Theatre | Role: Stage Manager and Little A-Timothy</p>
-                <p class="project-category">Photo Credit: Kate Jimenez</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="theatre">
-              <a href="https://drive.google.com/drive/folders/1ZTZHybgMCjUDkJYI6QIm_9UF8smZKLMu?usp=drive_link">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/putnam-cover.jpg" alt="" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">The 25th Annual Putnam County Spelling Bee - Spring 2022</h3>
-
-                <p class="project-category">Theatre | Role: Lead Sound Design and Operator</p>
-                <p class="project-category">Photo Credit: Kate Jimenez</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="theatre">
-              <a href="https://drive.google.com/drive/folders/1zhnExXOPgRSCFSzq1VznX2XBo3ZAd6jk?usp=drive_link">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/urinetown-cover.jpg" alt="" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Urinetown - Spring 2023</h3>
-
-                <p class="project-category">Theatre | Role: Stage Manager</p>
-                <p class="project-category">Photo Credit: Kate Jimenez</p>
-
-              </a>
-            </li>
-
-          </ul>
-
-        </section>
-
-      </article>
-
-
-
-
-
-      <!--
-        - #HONORS
-      -->
-
-      <article class="blog" data-page="honors">
-
-        <header>
-          <h2 class="h2 article-title">Honors</h2>
-        </header>
-
-        <section class="blog-posts">
-
-          <ul class="blog-posts-list">
-
-            <li class="blog-post-item">
-              <a href="#">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/images/rockhurst-cover.png" alt="R Award" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Awards</p>
-
-                    <span class="dot"></span>
-
-                    <p class="blog-category">May 2021</p>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">R Award</h3>
-
-                  <p class="blog-text">
-                    Given to those who display and embody the values of Rockhurst High School
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/images/rockhurst-cover.png" alt="R Award" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Awards</p>
-
-                    <span class="dot"></span>
-
-                    <p class="blog-category">May 2022</p>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">R Award</h3>
-
-                  <p class="blog-text">
-                    Given to those who display and embody the values of Rockhurst High School
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/images/rockhurst-cover.png" alt="R Award" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Awards</p>
-
-                    <span class="dot"></span>
-
-                    <p class="blog-category">May 2023</p>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">R Award</h3>
-
-                  <p class="blog-text">
-                    Given to those who display and embody the values of Rockhurst High School
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-
-            <li class="blog-post-item">
-              <a href="#">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/images/rockhurst-cover.png" alt="R Award" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Awards</p>
-
-                    <span class="dot"></span>
-
-                    <p class="blog-category">May 2021</p>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Bernie Kreikemeier and Buddy Worth Award</h3>
-
-                  <p class="blog-text">
-                    Student who displays uses of both computer science and business
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/images/rockhurst-cover.png" alt="R Award" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Awards</p>
-
-                    <span class="dot"></span>
-
-                    <p class="blog-category">May 2021</p>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Rockhurst Theatre Award</h3>
-
-                  <p class="blog-text">
-                    Given to those who make an impact to better help everyone doing theatre
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/images/frc-cover.jpg" alt="FRC Award" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Awards</p>
-
-                    <span class="dot"></span>
-
-                    <p class="blog-category">March 2023</p>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">FRC - Central Missouri Regional Champions</h3>
-
-                  <p class="blog-text">
-                    FRC (FIRST Robotics Competition) is a high school level robotics competition where schools have to build a robot designed for that year's objective. 
-                    This year was the ability to pick up and drop off cones and cubes on shelves as well as balancing on a platform. 
-                    As a result of winning the Central Missouri Regional, my team advanced onto Worlds, the international competition where the top 6% of teams compete to win it all
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/images/cyber-patriot-cover.jpg" alt="Cyber Patriots Award" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Awards</p>
-
-                    <span class="dot"></span>
-
-                    <p class="blog-category">February 2023</p>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Cyber Patriots - 2nd in State in the Gold Division</h3>
-
-                  <p class="blog-text">
-                    Cyber Security competition where students receive virtual machines and have to secure the machine within an allotted amount of time
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-          </ul>
-
-        </section>
-
-      </article>
-
-
-
-
-
-      <!--
-        - #CONTACT
-      -->
-
-      <article class="contact" data-page="contact">
-
-        <header>
-          <h2 class="h2 article-title">Contact</h2>
-        </header>
-
-        <section class="mapbox" data-mapbox>
-          <figure>
-            <iframe
-              src="https://www.google.com/maps/embed/v1/view?zoom=9&center=39.0997%2C-94.5786&key=AIzaSyAuZowNZZ_ZCvOvWlb3zj4k2daIES3zksg"
-              width="400" height="300" loading="lazy"></iframe>
-          </figure>
-        </section>
-
-        <section class="contact-form">
-
-          <h3 class="h3 form-title">Contact Form</h3>
-
-          <form action="https://formsubmit.co/7618ce80d30255b4b0c8982501f2b94c" class="form" method="POST" data-form>
-
-            <div class="input-wrapper">
-              <input type="text" name="name" class="form-input" placeholder="Full name" required data-form-input>
-
-              <input type="email" name="email" class="form-input" placeholder="Email address" required data-form-input>
+          <div class="rules-pane active" id="pane-house-rules">
+            <p class="rules-desc">Add house rules or campaign-specific rules. These are saved in your browser and shown when building characters.</p>
+            <textarea id="custom-rules" rows="10" placeholder="e.g.&#10;• Critical hits deal max damage + roll&#10;• Short rests are 10 minutes&#10;• Flanking grants +2 to attack"></textarea>
+          </div>
+          <div class="rules-pane" id="pane-reference" hidden>
+            <p class="rules-desc">Add custom reference notes, links, or quick reminders for your table.</p>
+            <textarea id="custom-reference" rows="10" placeholder="e.g.&#10;• Initiative: Dex modifier&#10;• AC = 10 + Dex (unarmored)&#10;• Useful links: ..."></textarea>
+          </div>
+          <div class="rules-pane" id="pane-books" hidden>
+            <p class="rules-desc">Content from additional books you've added. Enable books when creating a new character.</p>
+            <div id="enabled-books-list" class="books-list"></div>
+            <div id="book-rules-display" class="book-rules"></div>
+          </div>
+          <div class="rules-pane" id="pane-guides" hidden>
+            <p class="rules-desc">Step-by-step guides for adding content to this app.</p>
+            <div class="guides-list">
+              <div class="guide-item">
+                <strong>CONTENT_GUIDE.md</strong>
+                <p>Open this file in your project folder for full instructions on adding races, classes, backgrounds, monsters, spells, weapons, and books.</p>
+              </div>
+              <div class="guide-item">
+                <strong>Adding a race</strong>
+                <p>Edit <code>js/data.js</code> → <code>RACES</code> or a book's <code>races</code> array. Use the structure: id, name, description, speed, abilityScore, traits, languages, subraces.</p>
+              </div>
+              <div class="guide-item">
+                <strong>Adding a monster</strong>
+                <p>Edit <code>js/monsters.js</code> → <code>SRD_MONSTERS</code>. Include: name, ac, hp, speed, cr, type, xp, ability scores, senses, traits, actions.</p>
+              </div>
+              <div class="guide-item">
+                <strong>Adding a spell</strong>
+                <p>Edit <code>js/spells.js</code> → <code>SPELLS</code>. Include: name, level (0=cantrip), school, castTime, range, components, duration, description, classes.</p>
+              </div>
+              <div class="guide-item">
+                <strong>Adding a book</strong>
+                <p>Edit <code>js/data.js</code> → <code>ADDITIONAL_BOOKS</code>. Add <code>{ id, name, enabled, races, classes, backgrounds, rules }</code>.</p>
+              </div>
             </div>
-
-            <textarea name="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
-
-            <button class="form-btn" type="submit" enabled data-form-btn>
-              <ion-icon name="paper-plane"></ion-icon>
-              <span>Send Message</span>
-            </button>
-
-          </form>
-
-        </section>
-
-      </article>
-
+          </div>
+          <div class="rules-pane" id="pane-official-pdfs" hidden>
+            <p class="rules-desc">Official D&D PDFs and supplements for quick reference. Open in a new tab to view.</p>
+            <div id="official-pdfs-list" class="reference-links-list"></div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-primary" id="rules-save-btn">Save</button>
+          </div>
+        </div>
+      </div>
     </div>
 
-  </main>
+    <!-- Rule Books Selection - Shown when starting new character to pick content sources -->
+    <div id="rule-books-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="rule-books-modal-title" hidden>
+      <div class="modal-backdrop" id="rule-books-modal-backdrop"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="rule-books-modal-title">Select Rule Books</h2>
+          <button type="button" class="modal-close" id="rule-books-modal-close" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body">
+          <p class="rules-desc">Choose which rule books to use for this character. This determines which races, classes, and backgrounds appear in the builder.</p>
+          <div class="ruleset-options" id="rule-books-modal-options"></div>
+          <div class="ruleset-info" id="rule-books-modal-info"></div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-ghost" id="rule-books-modal-cancel">Cancel</button>
+            <button type="button" class="btn btn-primary" id="rule-books-modal-continue">Continue to Character Creation</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <!-- Quick Reference Search Modal -->
+    <div id="quick-reference-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="quick-reference-title" hidden>
+      <div class="modal-backdrop" id="quick-reference-backdrop"></div>
+      <div class="modal-content quick-reference-content">
+        <div class="modal-header">
+          <h2 id="quick-reference-title">Quick Reference</h2>
+          <button type="button" class="modal-close" id="quick-reference-close" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body">
+          <p class="rules-desc">Search monsters, spells, and items. For more content, see <a href="https://5e.tools/books.html" target="_blank" rel="noopener">5e.tools</a>.</p>
+          <div class="quick-ref-search-row">
+            <input type="text" id="quick-ref-search" placeholder="Search monsters, spells, items..." autocomplete="off">
+            <select id="quick-ref-filter">
+              <option value="">All</option>
+              <option value="monsters">Monsters</option>
+              <option value="spells">Spells</option>
+              <option value="items">Items</option>
+            </select>
+          </div>
+          <div id="quick-ref-results" class="quick-ref-results"></div>
+        </div>
+      </div>
+    </div>
 
+    <!-- Quick Rules - Condensed D&D 5e rules (AC, initiative, rests, etc.) -->
+    <div id="quick-rules-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="quick-rules-title" hidden>
+      <div class="modal-backdrop" id="quick-rules-backdrop"></div>
+      <div class="modal-content quick-rules-content">
+        <div class="modal-header">
+          <h2 id="quick-rules-title">Quick Rules Reference</h2>
+          <button type="button" class="modal-close" id="quick-rules-close" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body quick-rules-body">
+          <div class="quick-rule"><strong>AC</strong> = 10 + Dex (unarmored), or armor base + Dex cap + shield</div>
+          <div class="quick-rule"><strong>Initiative</strong> = Dexterity modifier</div>
+          <div class="quick-rule"><strong>Proficiency</strong> = +2 at 1st–4th level, +3 at 5th–8th, +4 at 9th–12th, +5 at 13th+</div>
+          <div class="quick-rule"><strong>Passive Perception</strong> = 10 + Perception modifier</div>
+          <div class="quick-rule"><strong>Advantage</strong> = roll 2d20, take higher</div>
+          <div class="quick-rule"><strong>Disadvantage</strong> = roll 2d20, take lower</div>
+          <div class="quick-rule"><strong>Critical hit</strong> = double dice, not modifiers</div>
+          <div class="quick-rule"><strong>Short rest</strong> = 1 hour; spend Hit Dice to heal</div>
+          <div class="quick-rule"><strong>Long rest</strong> = 8 hours; restore HP, half Hit Dice</div>
+          <div class="quick-rule"><strong>Death saves</strong> = d20, 10+ success, 9− fail; 3 successes stabilize, 3 failures die</div>
+        </div>
+      </div>
+    </div>
 
+    <!-- ========== MAIN CONTENT ========== -->
+    <main class="site-main">
+      <!-- DM Panel - Monsters, NPCs, saved maps (visible when DM role selected) -->
+      <div id="dm-panel" class="dm-panel" hidden>
+        <div class="dm-panel-tabs">
+          <button class="dm-panel-tab active" data-dm-tab="monsters">Monsters</button>
+          <button class="dm-panel-tab" data-dm-tab="npcs">NPCs</button>
+          <button class="dm-panel-tab" data-dm-tab="maps">Saved Maps</button>
+        </div>
+        <div class="dm-panel-content">
+          <div class="dm-pane active" id="dm-pane-monsters">
+            <div class="dm-search-row">
+              <input type="text" id="monster-search" class="dm-search" placeholder="Search monsters by name, CR, or type...">
+              <select id="monster-cr-filter">
+                <option value="">All difficulties</option>
+                <option value="trivial">Trivial (CR 0–½)</option>
+                <option value="easy">Easy (CR 1–4)</option>
+                <option value="medium">Medium (CR 5–10)</option>
+                <option value="hard">Hard (CR 11–16)</option>
+                <option value="deadly">Deadly (CR 17+)</option>
+              </select>
+              <select id="monster-type-filter">
+                <option value="">All types</option>
+              </select>
+              <select id="monster-sort">
+                <option value="name">Sort by name</option>
+                <option value="cr">Sort by CR</option>
+                <option value="type">Sort by type</option>
+              </select>
+            </div>
+            <div id="dm-monsters-list" class="dm-monsters-grid"></div>
+          </div>
+          <div class="dm-pane" id="dm-pane-npcs">
+            <p class="rules-desc">Create NPCs for your campaign. Add notes, stats, and personality. Add to battle map when needed.</p>
+            <button type="button" class="btn btn-primary btn-sm" id="dm-add-npc-btn">+ Add NPC</button>
+            <div id="dm-npcs-list" class="dm-list"></div>
+          </div>
+          <div id="monster-stat-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="monster-stat-title" hidden>
+            <div class="modal-backdrop" id="monster-stat-backdrop"></div>
+            <div class="modal-content monster-stat-content">
+              <div class="modal-header">
+                <h2 id="monster-stat-title">Monster</h2>
+                <button type="button" class="modal-close" id="monster-stat-close" aria-label="Close">×</button>
+              </div>
+              <div class="modal-body" id="monster-stat-body"></div>
+              <div class="modal-actions" id="monster-stat-actions">
+                <div id="monster-hp-controls" class="monster-hp-controls" hidden>
+                  <label>HP: <span id="monster-hp-display">—/—</span></label>
+                  <div class="hp-buttons">
+                    <button type="button" class="btn btn-sm btn-ghost" id="monster-hp-minus" title="Subtract damage">−</button>
+                    <input type="number" id="monster-hp-input" min="0" placeholder="Set" style="width:50px;text-align:center">
+                    <button type="button" class="btn btn-sm btn-ghost" id="monster-hp-plus" title="Add healing">+</button>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-primary" id="monster-add-to-map-btn">Add to Battle Map</button>
+              </div>
+            </div>
+          </div>
+          <div class="dm-pane" id="dm-pane-maps">
+            <div id="dm-maps-list" class="dm-list"></div>
+            <button class="btn btn-secondary btn-sm" id="dm-save-current-map">Save Current Map</button>
+          </div>
+        </div>
+      </div>
+      <div id="main-player-content">
+      <!-- List View - Character cards, export/import, new character -->
+      <div id="list-view" class="character-list">
+        <div class="character-list-header">
+          <h2>Your Characters</h2>
+          <div class="character-list-actions">
+            <div class="dropdown">
+              <button class="btn btn-secondary" id="export-btn">Export</button>
+              <div class="dropdown-menu" id="export-menu">
+                <button data-export="csv">Export as CSV</button>
+                <button data-export="json">Export as JSON</button>
+              </div>
+            </div>
+            <label class="btn btn-secondary">
+              Import JSON
+              <input type="file" id="import-input" accept=".json" hidden>
+            </label>
+            <button class="btn btn-primary" id="new-character-btn">New Character</button>
+          </div>
+        </div>
+        <div id="character-grid" class="character-grid"></div>
+        <div id="empty-state" class="empty-state">
+          <div class="empty-icon">⚔</div>
+          <p>No characters yet. Create your first character to begin your adventure!</p>
+          <button class="btn btn-primary btn-large" id="empty-new-btn">Create Character</button>
+        </div>
+      </div>
 
+      <!-- Session View - Character sheet, combat, spells, inventory, leveling -->
+      <div id="session-view" class="session-view" hidden>
+        <div class="session-header">
+          <button class="btn btn-ghost" id="session-back-btn">← Back to Characters</button>
+          <h2 id="session-char-name">Character Name</h2>
+          <div class="session-header-actions">
+            <button class="btn btn-primary" id="session-battle-map-btn" title="Switch to Battle Map">🗺 Battle Map</button>
+            <button class="btn btn-secondary" id="session-edit-btn">Edit Character</button>
+          </div>
+        </div>
+        <div class="session-tabs">
+          <button class="session-tab active" data-tab="character">Character</button>
+          <button class="session-tab" data-tab="actions">Actions & Spells</button>
+          <button class="session-tab" data-tab="inventory">Inventory</button>
+          <button class="session-tab" data-tab="leveling">Leveling</button>
+        </div>
+        <div id="dice-roll-overlay" class="dice-roll-overlay" hidden>
+          <div class="dice-roll-modal">
+            <div class="dice-result-label" id="dice-result-label">Strength Check</div>
+            <div class="dice-visual" id="dice-visual">
+              <span class="dice-face" id="dice-face">?</span>
+            </div>
+            <div class="dice-result-text" id="dice-result-text">Rolling...</div>
+          </div>
+        </div>
+        <div class="session-panes">
+          <div class="session-pane active" id="pane-character">
+            <div class="character-sheet-header">
+              <div class="sheet-header-main">
+                <h3>Character Sheet</h3>
+                <p class="sheet-subtitle">Drag sections to reorder. Use ⚙ Sections to customize layout. Fully customizable.</p>
+              </div>
+              <div class="sheet-layout-controls">
+                <label>Layout: <select id="sheet-layout-overall">
+                  <option value="single">Single column</option>
+                  <option value="columns">Two columns</option>
+                </select></label>
+                <button type="button" class="btn btn-ghost btn-sm" id="sheet-layout-customize" title="Customize section display">⚙ Sections</button>
+              </div>
+            </div>
+            <div id="sheet-section-display-modal" class="sheet-display-modal" hidden>
+              <div class="sheet-display-modal-content">
+                <h4>Section Display</h4>
+                <p class="sheet-display-hint">Full width spans both columns. Compact uses less padding. Half stays in one column when using two-column layout.</p>
+                <div id="sheet-section-display-options"></div>
+                <button type="button" class="btn btn-primary btn-sm" id="sheet-display-close">Done</button>
+              </div>
+            </div>
+            <div class="character-identity-block">
+              <div class="identity-row">
+                <span class="identity-name" id="qs-name">—</span>
+                <span class="identity-details" id="qs-identity">—</span>
+              </div>
+            </div>
+            <div class="quick-stats-grid">
+              <div class="quick-stat"><span class="qs-label">AC</span><span class="qs-value" id="qs-ac">—</span></div>
+              <div class="quick-stat"><span class="qs-label">HP</span><span class="qs-value" id="qs-hp">—</span></div>
+              <div class="quick-stat"><span class="qs-label">Speed</span><span class="qs-value" id="qs-speed">—</span></div>
+              <div class="quick-stat"><span class="qs-label">Init</span><span class="qs-value" id="qs-init">—</span></div>
+              <div class="quick-stat"><span class="qs-label">Prof</span><span class="qs-value" id="qs-prof">+2</span></div>
+            </div>
+            <div id="overview-sections" class="overview-sections">
+              <div class="collapsible-section" data-section="saves">
+                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Saving Throws</button>
+                <div class="section-content">
+                  <div id="session-saves-display" class="stats-display stats-with-roll"></div>
+                </div>
+              </div>
+              <div class="collapsible-section" data-section="ability-checks">
+                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Ability Checks <span class="section-hint">(d20 + modifier)</span></button>
+                <div class="section-content">
+                  <div id="session-stats-display" class="stats-display stats-with-roll"></div>
+                </div>
+              </div>
+              <div class="collapsible-section" data-section="about">
+                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> About (Appearance & Personality)</button>
+                <div class="section-content">
+                  <div id="session-about-display" class="about-content"></div>
+                </div>
+              </div>
+              <div class="collapsible-section" data-section="senses">
+                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Senses (Passive)</button>
+                <div class="section-content">
+                  <div class="senses-grid">
+                    <div class="sense-item"><span class="sense-label">Perception</span><span class="sense-value" id="passive-perception">10</span></div>
+                    <div class="sense-item"><span class="sense-label">Investigation</span><span class="sense-value" id="passive-investigation">10</span></div>
+                    <div class="sense-item"><span class="sense-label">Insight</span><span class="sense-value" id="passive-insight">10</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="collapsible-section" data-section="skills">
+                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Skills & Proficiencies</button>
+                <div class="section-content">
+                  <div id="session-skills-roll" class="skills-roll-grid"></div>
+                  <div id="session-skills-display" class="list-items skills-bonuses"></div>
+                </div>
+              </div>
+              <div class="collapsible-section" data-section="defenses">
+                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Defenses & Resistances</button>
+                <div class="section-content">
+                  <div id="session-defenses-display" class="list-items"></div>
+                </div>
+              </div>
+              <div class="collapsible-section" data-section="conditions">
+                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Conditions</button>
+                <div class="section-content">
+                  <div id="session-conditions-display" class="list-items"></div>
+                </div>
+              </div>
+              <div class="collapsible-section" data-section="features">
+                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Features & Traits</button>
+                <div class="section-content">
+                  <div id="session-features-display" class="features-list"></div>
+                </div>
+              </div>
+            </div>
+          <div class="combat-inline-section" id="combat-inline">
+            <div class="combat-top-row">
+              <label class="inspiration-toggle">
+                <input type="checkbox" id="inspiration-check">
+                Inspiration
+              </label>
+              <div class="proficiency-bonus">Prof: <span id="prof-bonus">+2</span></div>
+              <div class="combat-init-row">
+                <label>Initiative</label>
+                <span id="combat-init-value">+0</span>
+                <button type="button" class="btn btn-sm btn-secondary" id="roll-initiative-btn">Roll</button>
+              </div>
+            </div>
+            <div class="combat-hp-section">
+              <div class="hp-row">
+                <label>Current HP</label>
+                <div class="hp-controls">
+                  <button class="btn btn-secondary btn-sm" id="hp-minus">−</button>
+                  <input type="number" id="hp-current" min="0" placeholder="Current">
+                  <button class="btn btn-secondary btn-sm" id="hp-plus">+</button>
+                </div>
+              </div>
+              <div class="hp-quick-row">
+                <button type="button" class="btn btn-secondary btn-sm" id="hp-damage-1">−1</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="hp-damage-5">−5</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="hp-heal-1">+1</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="hp-heal-5">+5</button>
+              </div>
+              <div class="hp-row">
+                <label>Max HP</label>
+                <input type="number" id="hp-max" min="1" placeholder="Max">
+              </div>
+              <div class="hp-row">
+                <label>Temp HP</label>
+                <input type="number" id="hp-temp" min="0" placeholder="0">
+              </div>
+            </div>
+            <div class="combat-hd-section">
+              <label>Hit Dice</label>
+              <div class="hd-row">
+                <span id="hd-total">—</span>
+                <span class="hd-used">Used: <input type="number" id="hd-used" min="0" placeholder="0"></span>
+              </div>
+            </div>
+            <div class="rest-section">
+              <label>Rest</label>
+              <div class="rest-buttons">
+                <button type="button" class="btn btn-secondary" id="short-rest-btn">Short Rest</button>
+                <button type="button" class="btn btn-primary" id="long-rest-btn">Long Rest</button>
+              </div>
+              <p class="rest-hint">Short: spend Hit Dice. Long: restore HP, hit dice, spell slots.</p>
+            </div>
+            <div class="exhaustion-section">
+              <label>Exhaustion</label>
+              <select id="exhaustion-level">
+                <option value="0">0 — None</option>
+                <option value="1">1 — Disadvantage on ability checks</option>
+                <option value="2">2 — Speed halved</option>
+                <option value="3">3 — Disadvantage on attacks & saves</option>
+                <option value="4">4 — HP max halved</option>
+                <option value="5">5 — Speed 0</option>
+                <option value="6">6 — Death</option>
+              </select>
+            </div>
+            <div class="death-saves-section">
+              <label>Death Saves</label>
+              <div class="death-saves-row">
+                <span>Success: <button type="button" class="btn btn-sm btn-death" id="ds-success">○ ○ ○</button></span>
+                <span>Fail: <button type="button" class="btn btn-sm btn-death" id="ds-fail">○ ○ ○</button></span>
+                <button type="button" class="btn btn-ghost btn-sm" id="ds-reset">Reset</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Conditions</label>
+              <div class="array-input">
+                <input type="text" id="condition-input" placeholder="Add condition (e.g. Poisoned, Restrained)">
+                <div class="array-items" id="conditions-list"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+          <div class="session-pane" id="pane-actions">
+            <div class="attacks-section">
+              <h4>Weapons & Attacks</h4>
+              <p class="section-hint">Add weapons with damage, range, and DC. Click to roll attack.</p>
+              <div class="dropdown-add-row">
+                <select id="attack-weapon-select"><option value="">— Add weapon —</option></select>
+                <button type="button" class="btn btn-secondary btn-sm" id="add-attack-btn">Add</button>
+              </div>
+              <div id="attacks-list" class="attacks-list"></div>
+            </div>
+            <div class="actions-section">
+              <h4>Class Actions</h4>
+              <div id="class-actions-display" class="class-actions-grid"></div>
+            </div>
+            <hr class="section-divider">
+            <div class="spell-slots-section">
+              <h4>Spell Slots</h4>
+              <div id="spell-slots-grid" class="spell-slots-grid"></div>
+              <button class="btn btn-secondary btn-sm" id="reset-spell-slots">Reset Slots (Short Rest)</button>
+            </div>
+            <div class="form-group">
+              <label>Known Spells</label>
+              <p id="prepare-spells-hint" class="spell-prepare-hint" hidden></p>
+              <label class="spell-cast-toggle">
+                <input type="checkbox" id="show-spell-on-cast" checked>
+                Show spell description when casting
+              </label>
+              <label class="spell-cast-toggle">
+                <input type="checkbox" id="roll-damage-on-cast" checked>
+                Roll damage/healing when casting
+              </label>
+              <div class="dropdown-add-row">
+                <select id="known-spell-select"><option value="">— Add spell —</option></select>
+                <button type="button" class="btn btn-secondary btn-sm" id="known-spell-add-btn">Add</button>
+                <input type="text" id="known-spell-input" placeholder="Or type spell name">
+                <datalist id="spells-datalist"></datalist>
+              </div>
+              <div id="spell-session-preview" class="spell-preview-panel" aria-live="polite" hidden></div>
+              <div id="spell-last-roll" class="spell-last-roll" hidden></div>
+              <div class="array-items" id="known-spells-list"></div>
+            </div>
+            <div class="spell-lookup">
+              <h4>Spell Lookup</h4>
+              <input type="text" id="spell-search" placeholder="Search spells...">
+              <div id="spell-lookup-results" class="spell-lookup-results"></div>
+            </div>
+          </div>
+          <div class="session-pane" id="pane-inventory">
+            <div class="inventory-currency">
+              <h4>Currency</h4>
+              <div class="currency-row">
+                <label>PP <input type="number" id="curr-pp" min="0" value="0"></label>
+                <label>GP <input type="number" id="curr-gp" min="0" value="0"></label>
+                <label>EP <input type="number" id="curr-ep" min="0" value="0"></label>
+                <label>SP <input type="number" id="curr-sp" min="0" value="0"></label>
+                <label>CP <input type="number" id="curr-cp" min="0" value="0"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Backpack & Equipment</label>
+              <div class="dropdown-add-row">
+                <select id="inventory-select"><option value="">— Choose item —</option></select>
+                <button type="button" class="btn btn-secondary btn-sm" id="inventory-add-btn">Add</button>
+                <input type="text" id="inventory-input" placeholder="Or type custom item">
+                <div class="array-items" id="inventory-list"></div>
+              </div>
+            </div>
+          </div>
+          <div class="session-pane" id="pane-leveling">
+            <div class="leveling-mode-section">
+              <label>Leveling Mode</label>
+              <div class="leveling-mode-options">
+                <label class="leveling-option">
+                  <input type="radio" name="leveling-mode" value="xp"> XP
+                </label>
+                <label class="leveling-option">
+                  <input type="radio" name="leveling-mode" value="milestone"> Milestone
+                </label>
+              </div>
+            </div>
+            <div class="xp-section" id="xp-section">
+              <label>Experience Points</label>
+              <div class="xp-controls">
+                <input type="number" id="xp-current" min="0" placeholder="Current XP">
+                <span class="xp-to-next" id="xp-to-next"></span>
+                <button class="btn btn-secondary btn-sm" id="xp-add-btn">Add XP</button>
+              </div>
+            </div>
+            <div class="milestone-section" id="milestone-section" hidden>
+              <p class="rules-desc">Level up when the DM says so. Use the button below when you've reached a milestone.</p>
+              <button class="btn btn-primary" id="level-up-btn">Level Up</button>
+            </div>
+            <div class="level-up-spells-section" id="level-up-spells-section" hidden>
+              <h4>Change Spells (on level up)</h4>
+              <p class="rules-desc">Some classes let you swap one known spell for another when you level up.</p>
+              <div class="spell-swap-row">
+                <select id="spell-swap-out"><option value="">— Remove spell —</option></select>
+                <span>→</span>
+                <select id="spell-swap-in"><option value="">— Add spell —</option></select>
+                <button type="button" class="btn btn-secondary btn-sm" id="spell-swap-btn">Swap</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <!-- Battle Map View - Grid, tokens, terrain, monster stats -->
+      <div id="battle-map-view" class="battle-map-view" hidden>
+        <div class="battle-map-header">
+          <button class="btn btn-ghost" id="battle-map-back-btn">← Back</button>
+          <button class="btn btn-primary" id="battle-map-character-btn" title="Switch to Character Sheet" hidden>📋 Character</button>
+          <h2>Battle Map</h2>
+          <div class="battle-map-toolbar">
+            <label>Grid: <input type="number" id="grid-cols" value="10" min="5" max="30"> × <input type="number" id="grid-rows" value="10" min="5" max="30"></label>
+            <label class="battle-map-check"><input type="checkbox" id="grid-lines-toggle" checked> Grid lines</label>
+            <label>Zoom: <select id="battle-map-zoom"><option value="0.5">50%</option><option value="0.75">75%</option><option value="1" selected>100%</option><option value="1.25">125%</option><option value="1.5">150%</option></select></label>
+            <div class="terrain-paint-row">
+              <label>Paint:</label>
+              <select id="terrain-paint-tool" title="Click cells to paint terrain">
+                <option value="">— Select —</option>
+                <option value="normal">Normal</option>
+                <option value="difficult">Difficult terrain</option>
+                <option value="wall">Wall / Obstacle</option>
+                <option value="elevation">Elevation +1</option>
+                <option value="elevation2">Elevation +2</option>
+                <option value="elevation-1">Elevation -1</option>
+              </select>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="add-token-btn">Add Token</button>
+            <button class="btn btn-ghost btn-sm" id="clear-tokens-btn" title="Remove all tokens">Clear All</button>
+          </div>
+        </div>
+        <div class="battle-map-layout">
+          <div class="battle-map-container" id="battle-map-container">
+            <div id="battle-map-grid" class="battle-map-grid"></div>
+          </div>
+          <div class="battle-map-sidebar">
+            <h4>Tokens</h4>
+            <div id="battle-map-token-list" class="token-list"></div>
+            <div id="battle-map-monster-stats" class="monster-stats-panel">
+              <button type="button" class="monster-stats-toggle" id="monster-stats-toggle" aria-expanded="false">
+                <span class="toggle-icon">▶</span> Monster Stats <span class="monster-count" id="monster-count">(0)</span>
+              </button>
+              <div id="monster-stats-list" class="monster-stats-list" hidden></div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <!--
-    - custom js link
-  -->
-  <script src="./assets/js/script.js" defer></script>
+      <!-- Wizard Builder View - 10-step character creation flow -->
+      <div id="builder-view" class="character-builder" hidden>
+        <div class="builder-top-bar">
+          <div class="wizard-progress">
+            <div class="progress-bar" id="progress-bar"></div>
+            <div class="step-indicators" id="step-indicators"></div>
+          </div>
+          <button class="btn-link" id="builder-rules-link">View rules & reference</button>
+        </div>
 
-  <!--
-    - ionicon link
-  -->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" defer></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js" defer></script>
+        <div class="builder-content">
+          <div class="wizard-panes">
+            <!-- Step 1: Name -->
+            <div class="wizard-pane active" data-step="1">
+              <div class="step-header">
+                <span class="step-number">1</span>
+                <h2>What is your character's name?</h2>
+                <p class="step-desc">Choose a name that fits your character's background and personality.</p>
+              </div>
+              <div class="step-body">
+                <div class="form-group">
+                  <input type="text" id="char-name" placeholder="Enter character name" class="input-large">
+                </div>
+              </div>
+            </div>
 
+            <!-- Step 2: Race -->
+            <div class="wizard-pane" data-step="2">
+              <div class="step-header">
+                <span class="step-number">2</span>
+                <h2>Choose your race</h2>
+                <p class="step-desc">Your race determines your ancestry and grants special traits.</p>
+              </div>
+              <div class="step-body">
+                <div class="choice-grid" id="race-choices"></div>
+                <button type="button" class="btn btn-ghost btn-sm" id="add-custom-race-btn">+ Create custom race</button>
+                <div class="info-panel" id="race-info"></div>
+              </div>
+            </div>
+
+            <!-- Step 3: Subrace -->
+            <div class="wizard-pane" data-step="3">
+              <div class="step-header">
+                <span class="step-number">3</span>
+                <h2>Choose your subrace</h2>
+                <p class="step-desc">Subraces offer additional traits and ability score increases.</p>
+              </div>
+              <div class="step-body">
+                <div class="choice-grid" id="subrace-choices"></div>
+                <div class="info-panel" id="subrace-info"></div>
+              </div>
+            </div>
+
+            <!-- Step 4: Class & Starting Level -->
+            <div class="wizard-pane" data-step="4">
+              <div class="step-header">
+                <span class="step-number">4</span>
+                <h2>Choose your class</h2>
+                <p class="step-desc">Your class defines your primary abilities. Set starting level first—it affects subclass options and multiclassing.</p>
+              </div>
+              <div class="step-body">
+                <div class="form-row form-row-2 level-first-row">
+                  <div class="form-group">
+                    <label>Starting Level</label>
+                    <select id="starting-level-step4">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                      <option value="13">13</option>
+                      <option value="14">14</option>
+                      <option value="15">15</option>
+                      <option value="16">16</option>
+                      <option value="17">17</option>
+                      <option value="18">18</option>
+                      <option value="19">19</option>
+                      <option value="20">20</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="choice-grid" id="class-choices"></div>
+                <div class="info-panel" id="class-info"></div>
+              </div>
+            </div>
+
+            <!-- Step 5: Subclass & Multiclass -->
+            <div class="wizard-pane" data-step="5">
+              <div class="step-header">
+                <span class="step-number">5</span>
+                <h2>Choose your subclass</h2>
+                <p class="step-desc">Subclasses specialize your class. If your level is too low for any subclass, you can skip.</p>
+              </div>
+              <div class="step-body">
+                <div class="choice-grid" id="subclass-choices"></div>
+                <div class="info-panel" id="subclass-info"></div>
+                <div class="form-group multiclass-section" id="multiclass-section">
+                  <label>Multiclass <span class="optional-label">(optional)</span></label>
+                  <p class="step-desc">Add additional classes at level 2+. Total level = sum of all class levels (max 20). Requires level 2 or higher.</p>
+                  <div id="multiclass-list"></div>
+                  <button type="button" class="btn btn-secondary btn-sm" id="add-multiclass-btn">+ Add another class</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 6: Background -->
+            <div class="wizard-pane" data-step="6">
+              <div class="step-header">
+                <span class="step-number">6</span>
+                <h2>Choose your background</h2>
+                <p class="step-desc">Your background represents your history before becoming an adventurer.</p>
+              </div>
+              <div class="step-body">
+                <div class="choice-grid" id="background-choices"></div>
+                <button type="button" class="btn btn-ghost btn-sm" id="add-custom-background-btn">+ Create custom background</button>
+                <div class="info-panel" id="background-info"></div>
+              </div>
+            </div>
+
+            <!-- Step 7: Alignment -->
+            <div class="wizard-pane" data-step="7">
+              <div class="step-header">
+                <span class="step-number">7</span>
+                <h2>Choose your alignment</h2>
+                <p class="step-desc">Alignment describes your character's moral and ethical outlook.</p>
+              </div>
+              <div class="step-body">
+                <div class="choice-grid alignment-grid" id="alignment-choices"></div>
+                <div class="info-panel" id="alignment-info"></div>
+              </div>
+            </div>
+
+            <!-- Step 8: Ability Scores -->
+            <div class="wizard-pane" data-step="8">
+              <div class="step-header">
+                <span class="step-number">8</span>
+                <h2>Set your ability scores</h2>
+                <p class="step-desc">Roll 6d20 and assign each result to a stat, or enter manually. Race bonuses apply automatically.</p>
+              </div>
+              <div class="step-body">
+                <div class="stats-method-row">
+                  <button type="button" class="btn btn-secondary" id="roll-6d20-btn">Roll 6d20</button>
+                  <span class="stats-method-hint">Roll six d20s, then assign each to the stat you want.</span>
+                </div>
+                <div id="roll-assign-ui" class="roll-assign-ui" hidden>
+                  <h4>Assign your rolls</h4>
+                  <p class="roll-assign-rolled" id="roll-assign-rolled"></p>
+                  <div id="roll-assign-grid" class="roll-assign-grid"></div>
+                  <button type="button" class="btn btn-primary" id="roll-assign-done">Apply & Close</button>
+                </div>
+                <div class="stats-grid" id="stats-grid"></div>
+              </div>
+            </div>
+
+            <!-- Step 9: Details & Finishing Touches -->
+            <div class="wizard-pane" data-step="9">
+              <div class="step-header">
+                <span class="step-number">9</span>
+                <h2>Details & finishing touches</h2>
+                <p class="step-desc">Spells first (if applicable), then equipment, defenses, proficiencies, and personality.</p>
+              </div>
+              <div class="step-body step9-restructured">
+                <p class="step-desc step9-flow-hint">Work through each section. Equipment affects your AC. Spellcasters must choose spells before continuing.</p>
+                <div class="step9-tabs">
+                  <button type="button" class="step9-tab" data-tab="spells">Spells</button>
+                  <button type="button" class="step9-tab active" data-tab="equipment">Equipment</button>
+                  <button type="button" class="step9-tab" data-tab="defenses">Defenses</button>
+                  <button type="button" class="step9-tab" data-tab="proficiencies">Proficiencies</button>
+                  <button type="button" class="step9-tab" data-tab="appearance">Personality</button>
+                </div>
+                <div class="step9-tab-pane" data-pane="appearance">
+                  <div class="form-group">
+                    <label>Physical Appearance</label>
+                    <textarea id="physical-appearance" rows="2" placeholder="Height, weight, hair, eyes, distinguishing features..."></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Personality Traits</label>
+                    <textarea id="personality-traits" rows="2" placeholder="Two traits that describe your character"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Ideals</label>
+                    <textarea id="ideals" rows="2" placeholder="What drives your character"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Bonds</label>
+                    <textarea id="bonds" rows="2" placeholder="Connections to people, places, or events"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Flaws</label>
+                    <textarea id="flaws" rows="2" placeholder="Weaknesses or vices"></textarea>
+                  </div>
+                </div>
+                <div class="step9-tab-pane" data-pane="spells">
+                  <div id="spell-selection-section" class="spell-selection-section" hidden>
+                    <h4>Choose your spells</h4>
+                    <p class="spell-selection-hint" id="spell-selection-hint"></p>
+                    <div id="spell-slots-summary" class="spell-slots-summary"></div>
+                    <div class="spell-pick-row">
+                      <label>Cantrips:</label>
+                      <select id="cantrip-select"><option value="">— Choose cantrip —</option></select>
+                      <button type="button" class="btn btn-secondary btn-sm" id="cantrip-add-btn">Add</button>
+                      <div class="array-items" id="cantrips-chosen"></div>
+                    </div>
+                    <div id="spell-pick-rows-container"></div>
+                    <div id="spell-preview-panel" class="spell-preview-panel" aria-live="polite"></div>
+                  </div>
+                  <p id="spell-no-caster" class="step-desc" hidden>Your class doesn't cast spells. Skip to the next tab.</p>
+                </div>
+                <div class="step9-tab-pane" data-pane="defenses">
+                  <div class="form-group">
+                    <label>Languages</label>
+                    <div class="dropdown-add-row">
+                      <select id="language-select"><option value="">— Choose —</option></select>
+                      <button type="button" class="btn btn-secondary btn-sm" id="language-add-btn">Add</button>
+                      <input type="text" id="language-input" placeholder="Or type custom and press Enter">
+                      <div class="array-items" id="languages-list-items"></div>
+                    </div>
+                  </div>
+                  <div class="form-row form-row-2">
+                    <div class="form-group">
+                      <label>Damage Resistances</label>
+                      <div class="dropdown-add-row">
+                        <select id="resistance-select"><option value="">— Choose —</option></select>
+                        <button type="button" class="btn btn-secondary btn-sm" id="resistance-add-btn">Add</button>
+                        <input type="text" id="resistance-input" placeholder="Or custom">
+                        <div class="array-items" id="resistances-list"></div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Damage Immunities</label>
+                      <div class="dropdown-add-row">
+                        <select id="immunity-select"><option value="">— Choose —</option></select>
+                        <button type="button" class="btn btn-secondary btn-sm" id="immunity-add-btn">Add</button>
+                        <input type="text" id="immunity-input" placeholder="Or custom">
+                        <div class="array-items" id="immunities-list"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row form-row-2">
+                    <div class="form-group">
+                      <label>Damage Vulnerabilities</label>
+                      <div class="dropdown-add-row">
+                        <select id="vulnerability-select"><option value="">— Choose —</option></select>
+                        <button type="button" class="btn btn-secondary btn-sm" id="vulnerability-add-btn">Add</button>
+                        <input type="text" id="vulnerability-input" placeholder="Or custom">
+                        <div class="array-items" id="vulnerabilities-list"></div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Weaknesses / Conditions</label>
+                      <div class="dropdown-add-row">
+                        <select id="weakness-select"><option value="">— Choose —</option></select>
+                        <button type="button" class="btn btn-secondary btn-sm" id="weakness-add-btn">Add</button>
+                        <input type="text" id="weakness-input" placeholder="Or custom">
+                        <div class="array-items" id="weaknesses-list"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="step9-tab-pane" data-pane="proficiencies">
+                  <div class="form-group">
+                    <label>Weapon Proficiencies</label>
+                    <div class="dropdown-add-row">
+                      <select id="weapon-prof-select"><option value="">— Choose —</option></select>
+                      <button type="button" class="btn btn-secondary btn-sm" id="weapon-prof-add">Add</button>
+                      <div class="array-items" id="weapon-profs-list"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Armor Proficiencies</label>
+                    <div class="dropdown-add-row">
+                      <select id="armor-prof-select"><option value="">— Choose —</option></select>
+                      <button type="button" class="btn btn-secondary btn-sm" id="armor-prof-add">Add</button>
+                      <div class="array-items" id="armor-profs-list"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Tool Proficiencies</label>
+                    <div class="dropdown-add-row">
+                      <select id="tool-prof-select"><option value="">— Choose —</option></select>
+                      <button type="button" class="btn btn-secondary btn-sm" id="tool-prof-add">Add</button>
+                      <div class="array-items" id="tool-profs-list"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Skills</label>
+                    <div class="dropdown-add-row">
+                      <select id="skill-select"><option value="">— Choose —</option></select>
+                      <button type="button" class="btn btn-secondary btn-sm" id="skill-add-btn">Add</button>
+                      <input type="text" id="skill-input" placeholder="Or custom and press Enter">
+                      <div class="array-items" id="skills-list"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="step9-tab-pane active" data-pane="equipment">
+                  <p class="step9-ac-hint" id="step9-ac-hint">AC is calculated from armor and Dexterity. Add armor/gear below.</p>
+                  <div class="form-group">
+                    <label>Equipment</label>
+                    <div class="dropdown-add-row">
+                      <select id="equipment-select"><option value="">— Choose —</option></select>
+                      <button type="button" class="btn btn-secondary btn-sm" id="equipment-add-btn">Add</button>
+                      <input type="text" id="equipment-input" placeholder="Or custom and press Enter">
+                      <div class="array-items" id="equipment-list"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="char-notes" rows="3" placeholder="Additional notes..."></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 10: Summary -->
+            <div class="wizard-pane" data-step="10">
+              <div class="step-header">
+                <span class="step-number">10</span>
+                <h2>Review your character</h2>
+                <p class="step-desc">Review your choices and save when ready.</p>
+              </div>
+              <div class="step-body">
+                <div id="character-summary" class="character-display"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="builder-preview" id="builder-preview">
+            <div id="character-preview"></div>
+          </div>
+        </div>
+
+        <div class="wizard-nav">
+          <button class="btn btn-secondary" id="prev-btn" disabled>← Previous</button>
+          <button class="btn btn-primary" id="next-btn">Next →</button>
+          <button class="btn btn-primary" id="save-btn" hidden>Save Character</button>
+          <button class="btn btn-ghost" id="cancel-btn">Cancel</button>
+        </div>
+      </div>
+      </div><!-- end main-player-content -->
+    </main>
+  </div>
+
+  <!-- Custom Race Modal -->
+  <div id="custom-race-modal" class="modal" hidden>
+    <div class="modal-backdrop" id="custom-race-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header"><h2>Create Custom Race</h2><button type="button" class="modal-close" id="custom-race-close">×</button></div>
+      <div class="modal-body">
+        <div class="form-group"><label>Name</label><input type="text" id="custom-race-name" placeholder="e.g. Half-Giant"></div>
+        <div class="form-group"><label>Description</label><textarea id="custom-race-desc" rows="2" placeholder="Brief description"></textarea></div>
+        <div class="form-group"><label>Speed</label><input type="number" id="custom-race-speed" value="30" min="20" max="50"></div>
+        <div class="form-group"><label>Ability Score (e.g. strength: 2, any: 1)</label><input type="text" id="custom-race-ability" placeholder="strength: 2, constitution: 1"></div>
+        <div class="form-group"><label>Traits (comma-separated)</label><input type="text" id="custom-race-traits" placeholder="Darkvision, Extra Language"></div>
+        <div class="form-group"><label>Languages (comma-separated)</label><input type="text" id="custom-race-langs" placeholder="Common, Giant"></div>
+        <div class="modal-actions"><button type="button" class="btn btn-primary" id="custom-race-save">Add Race</button></div>
+      </div>
+    </div>
+  </div>
+  <!-- Custom Background Modal -->
+  <div id="custom-background-modal" class="modal" hidden>
+    <div class="modal-backdrop" id="custom-background-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header"><h2>Create Custom Background</h2><button type="button" class="modal-close" id="custom-background-close">×</button></div>
+      <div class="modal-body">
+        <div class="form-group"><label>Name</label><input type="text" id="custom-bg-name" placeholder="e.g. Street Performer"></div>
+        <div class="form-group"><label>Description</label><textarea id="custom-bg-desc" rows="2" placeholder="Brief description"></textarea></div>
+        <div class="form-group"><label>Skill Proficiencies (comma-separated)</label><input type="text" id="custom-bg-skills" placeholder="Acrobatics, Performance"></div>
+        <div class="modal-actions"><button type="button" class="btn btn-primary" id="custom-bg-save">Add Background</button></div>
+      </div>
+    </div>
+  </div>
+  <!-- Level Up Modal (ASI & Bonus Proficiencies) -->
+  <div id="level-up-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="level-up-modal-title" hidden>
+    <div class="modal-backdrop" id="level-up-modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="level-up-modal-title">Level Up</h2>
+        <button type="button" class="modal-close" id="level-up-modal-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body" id="level-up-modal-body">
+        <p class="rules-desc" id="level-up-desc">Leveling up to level <span id="level-up-target">2</span>.</p>
+        <div id="level-up-asi-section" class="level-up-section" hidden>
+          <h4>Ability Score Improvement</h4>
+          <p class="rules-desc">Increase one ability by 2, or two abilities by 1 each (max 20 per ability).</p>
+          <div class="level-up-asi-options">
+            <label class="asi-option"><input type="radio" name="asi-mode" value="single"> +2 to one ability</label>
+            <label class="asi-option"><input type="radio" name="asi-mode" value="dual" checked> +1 to two abilities</label>
+          </div>
+          <div id="level-up-asi-single" class="asi-picker" hidden>
+            <label>Ability:</label>
+            <select id="asi-single-select">
+              <option value="strength">Strength</option>
+              <option value="dexterity">Dexterity</option>
+              <option value="constitution">Constitution</option>
+              <option value="intelligence">Intelligence</option>
+              <option value="wisdom">Wisdom</option>
+              <option value="charisma">Charisma</option>
+            </select>
+          </div>
+          <div id="level-up-asi-dual" class="asi-picker">
+            <label>First ability:</label>
+            <select id="asi-dual-1">
+              <option value="strength">Strength</option>
+              <option value="dexterity">Dexterity</option>
+              <option value="constitution">Constitution</option>
+              <option value="intelligence">Intelligence</option>
+              <option value="wisdom">Wisdom</option>
+              <option value="charisma">Charisma</option>
+            </select>
+            <label>Second ability:</label>
+            <select id="asi-dual-2">
+              <option value="strength">Strength</option>
+              <option value="dexterity">Dexterity</option>
+              <option value="constitution">Constitution</option>
+              <option value="intelligence">Intelligence</option>
+              <option value="wisdom">Wisdom</option>
+              <option value="charisma">Charisma</option>
+            </select>
+          </div>
+        </div>
+        <div id="level-up-profs-section" class="level-up-section" hidden>
+          <h4>Bonus Proficiencies</h4>
+          <p class="rules-desc" id="level-up-profs-desc">Choose additional proficiencies.</p>
+          <div id="level-up-profs-picker"></div>
+        </div>
+        <div id="level-up-no-choices" class="level-up-section" hidden>
+          <p class="rules-desc">No ASI or bonus proficiencies at this level. Confirm to level up.</p>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="level-up-modal-cancel">Cancel</button>
+        <button type="button" class="btn btn-primary" id="level-up-modal-confirm">Confirm Level Up</button>
+      </div>
+    </div>
+  </div>
+  <!-- NPC Modal (DM) -->
+  <div id="npc-modal" class="modal" hidden>
+    <div class="modal-backdrop" id="npc-modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header"><h2 id="npc-modal-title">Add NPC</h2><button type="button" class="modal-close" id="npc-modal-close">×</button></div>
+      <div class="modal-body">
+        <div class="form-group"><label>Name</label><input type="text" id="npc-name" placeholder="e.g. Barthen"></div>
+        <div class="form-group"><label>Role / Type</label><input type="text" id="npc-role" placeholder="e.g. Shopkeeper, Guard Captain"></div>
+        <div class="form-row form-row-2">
+          <div class="form-group"><label>AC</label><input type="number" id="npc-ac" min="0" placeholder="10"></div>
+          <div class="form-group"><label>HP</label><input type="text" id="npc-hp" placeholder="e.g. 22 (4d8+4)"></div>
+        </div>
+        <div class="form-group"><label>Notes</label><textarea id="npc-notes" rows="4" placeholder="Personality, quirks, plot hooks, what they know..."></textarea></div>
+        <div class="form-group"><label>Additional Stats (optional)</label><textarea id="npc-stats" rows="2" placeholder="e.g. STR 12, DEX 10, Skills: Persuasion +4"></textarea></div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-primary" id="npc-save-btn">Save NPC</button>
+          <button type="button" class="btn btn-secondary" id="npc-add-to-map-btn">Save & Add to Battle Map</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts: data first (races, classes, etc.), then monsters/spells/items, app last -->
+  <script src="js/data.js"></script>
+  <script src="js/monsters.js"></script>
+  <script src="js/spells.js"></script>
+  <script src="js/items.js"></script>
+  <script src="js/app.js"></script>
 </body>
-
 </html>
