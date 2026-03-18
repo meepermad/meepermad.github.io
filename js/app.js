@@ -274,6 +274,11 @@ function migrateCharacter(c) {
   if (c.bonds === undefined) c.bonds = '';
   if (c.flaws === undefined) c.flaws = '';
   if (c.physicalAppearance === undefined) c.physicalAppearance = '';
+  if (c.concentratingOn === undefined) c.concentratingOn = null;
+  if (!c.hitDie && c.class && typeof CLASSES !== 'undefined') {
+    const cls = CLASSES.find(cl => cl.name === c.class);
+    if (cls) c.hitDie = cls.hitDie;
+  }
   return c;
 }
 
@@ -413,14 +418,146 @@ function canAdvanceStep(step) {
   }
 }
 
-let lastRolledValues = [];
-function roll6d20() {
-  lastRolledValues = [1, 2, 3, 4, 5, 6].map(() => Math.floor(Math.random() * 20) + 1);
+// ========== ABILITY SCORE METHODS ==========
+const STANDARD_ARRAY = [15, 14, 13, 12, 10, 8];
+const POINT_BUY_COSTS = { 8: 0, 9: 1, 10: 2, 11: 3, 12: 4, 13: 5, 14: 7, 15: 9 };
+const POINT_BUY_TOTAL = 27;
+
+function applyStandardArray() {
+  lastRolledValues = [...STANDARD_ARRAY];
   const ui = document.getElementById('roll-assign-ui');
   const grid = document.getElementById('roll-assign-grid');
   const rolledEl = document.getElementById('roll-assign-rolled');
+  const visualEl = document.getElementById('roll-4d6-visual');
+  document.getElementById('point-buy-ui').hidden = true;
   if (!ui || !grid) return;
-  if (rolledEl) rolledEl.textContent = 'You rolled: ' + lastRolledValues.join(', ');
+  if (visualEl) visualEl.innerHTML = '';
+  if (rolledEl) rolledEl.textContent = 'Standard Array: ' + STANDARD_ARRAY.join(', ');
+  const statOrder = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
+  const statLabels = { strength: 'STR', dexterity: 'DEX', constitution: 'CON', intelligence: 'INT', wisdom: 'WIS', charisma: 'CHA' };
+  grid.innerHTML = statOrder.map(stat => `
+    <div class="roll-assign-row">
+      <span class="roll-stat-label">${statLabels[stat]}</span>
+      <select class="roll-assign-select" data-stat="${stat}">
+        <option value="">— Choose —</option>
+        ${lastRolledValues.map((v, i) => `<option value="${i}">${v}</option>`).join('')}
+      </select>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.roll-assign-select').forEach(sel => {
+    sel.addEventListener('change', () => updateRollAssignOptions());
+  });
+  ui.hidden = false;
+}
+
+function openPointBuy() {
+  document.getElementById('roll-assign-ui').hidden = true;
+  const ui = document.getElementById('point-buy-ui');
+  const grid = document.getElementById('point-buy-grid');
+  if (!ui || !grid) return;
+  const statOrder = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
+  const statLabels = { strength: 'STR', dexterity: 'DEX', constitution: 'CON', intelligence: 'INT', wisdom: 'WIS', charisma: 'CHA' };
+  grid.innerHTML = statOrder.map(stat => `
+    <div class="point-buy-row" data-stat="${stat}">
+      <span class="roll-stat-label">${statLabels[stat]}</span>
+      <button type="button" class="btn btn-sm btn-secondary pb-minus" data-stat="${stat}">−</button>
+      <span class="pb-value" id="pb-${stat}">8</span>
+      <button type="button" class="btn btn-sm btn-secondary pb-plus" data-stat="${stat}">+</button>
+      <span class="pb-cost" id="pb-cost-${stat}">(0 pts)</span>
+    </div>
+  `).join('');
+
+  const values = {};
+  statOrder.forEach(s => values[s] = 8);
+
+  const updatePointBuy = () => {
+    let spent = 0;
+    statOrder.forEach(s => {
+      const cost = POINT_BUY_COSTS[values[s]] || 0;
+      spent += cost;
+      document.getElementById(`pb-${s}`).textContent = values[s];
+      document.getElementById(`pb-cost-${s}`).textContent = `(${cost} pts)`;
+    });
+    document.getElementById('point-buy-remaining').textContent = POINT_BUY_TOTAL - spent;
+    grid.querySelectorAll('.pb-minus').forEach(btn => {
+      btn.disabled = values[btn.dataset.stat] <= 8;
+    });
+    grid.querySelectorAll('.pb-plus').forEach(btn => {
+      const s = btn.dataset.stat;
+      const newVal = values[s] + 1;
+      if (newVal > 15 || POINT_BUY_COSTS[newVal] === undefined) { btn.disabled = true; return; }
+      const addedCost = POINT_BUY_COSTS[newVal] - (POINT_BUY_COSTS[values[s]] || 0);
+      btn.disabled = spent + addedCost > POINT_BUY_TOTAL;
+    });
+  };
+
+  grid.querySelectorAll('.pb-minus').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (values[btn.dataset.stat] > 8) { values[btn.dataset.stat]--; updatePointBuy(); }
+    });
+  });
+  grid.querySelectorAll('.pb-plus').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const s = btn.dataset.stat;
+      const newVal = values[s] + 1;
+      if (newVal <= 15) {
+        const addedCost = (POINT_BUY_COSTS[newVal] || 0) - (POINT_BUY_COSTS[values[s]] || 0);
+        let spent = 0;
+        statOrder.forEach(k => spent += POINT_BUY_COSTS[values[k]] || 0);
+        if (spent + addedCost <= POINT_BUY_TOTAL) { values[s] = newVal; updatePointBuy(); }
+      }
+    });
+  });
+
+  document.getElementById('point-buy-apply').onclick = () => {
+    currentChar.stats = applyRaceBonusesToStats({ ...values });
+    Object.keys(currentChar.stats).forEach(k => {
+      currentChar.stats[k] = Math.max(1, Math.min(30, currentChar.stats[k]));
+    });
+    ui.hidden = true;
+    renderStatsStep(true);
+    updatePreview();
+  };
+
+  updatePointBuy();
+  ui.hidden = false;
+}
+
+let lastRolledValues = [];
+let lastRollDetails = [];
+function roll4d6DropLowest() {
+  document.getElementById('point-buy-ui').hidden = true;
+  lastRollDetails = [];
+  lastRolledValues = [];
+  for (let i = 0; i < 6; i++) {
+    const dice = [1,2,3,4].map(() => Math.floor(Math.random() * 6) + 1);
+    const sorted = [...dice].sort((a, b) => a - b);
+    const dropped = sorted[0];
+    const kept = sorted.slice(1);
+    const total = kept.reduce((s, v) => s + v, 0);
+    lastRollDetails.push({ dice, sorted, dropped, kept, total });
+    lastRolledValues.push(total);
+  }
+  const ui = document.getElementById('roll-assign-ui');
+  const grid = document.getElementById('roll-assign-grid');
+  const rolledEl = document.getElementById('roll-assign-rolled');
+  const visualEl = document.getElementById('roll-4d6-visual');
+  if (!ui || !grid) return;
+
+  if (visualEl) {
+    visualEl.innerHTML = lastRollDetails.map((r, i) => {
+      const diceHtml = r.sorted.map((d, idx) =>
+        `<span class="roll-die ${idx === 0 ? 'roll-die-dropped' : 'roll-die-kept'}">${d}</span>`
+      ).join('');
+      return `<div class="roll-4d6-set">
+        <span class="roll-set-label">Roll ${i + 1}:</span>
+        <div class="roll-dice-group">${diceHtml}</div>
+        <span class="roll-set-total">= <strong>${r.total}</strong></span>
+      </div>`;
+    }).join('');
+  }
+
+  if (rolledEl) rolledEl.textContent = 'Totals: ' + lastRolledValues.join(', ');
   const statOrder = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
   const statLabels = { strength: 'STR', dexterity: 'DEX', constitution: 'CON', intelligence: 'INT', wisdom: 'WIS', charisma: 'CHA' };
   grid.innerHTML = statOrder.map(stat => `
@@ -586,6 +723,7 @@ function renderSubraceStep() {
       const sub = subraces.find(s => s.name === currentChar.subrace);
       infoPanel.innerHTML = sub ? `
         <h4>${sub.name}</h4>
+        ${sub.description ? `<p>${sub.description}</p>` : ''}
         <p><strong>Traits:</strong> ${(sub.traits || []).join(', ')}</p>
       ` : '';
     });
@@ -1568,7 +1706,12 @@ function renderSessionOverview() {
     const subclassKey = c.subclass ? `${primaryClass}|${c.subclass}` : null;
     const subclassFeatures = (c.subclass && typeof SUBCLASS_FEATURES_BY_LEVEL !== 'undefined') ? SUBCLASS_FEATURES_BY_LEVEL[subclassKey] : null;
     const race = getMergedRaces().find(r => r.name === c.race);
-    const raceTraits = (race?.traits || []).map(t => `<span class="feature-item">${t}</span>`);
+    const traitDescs = typeof RACIAL_TRAIT_DESCRIPTIONS !== 'undefined' ? RACIAL_TRAIT_DESCRIPTIONS : {};
+    const raceTraits = (race?.traits || []).map(t => {
+      const desc = traitDescs[t];
+      if (desc) return `<span class="feature-item feature-has-desc" title="${esc(desc)}">${t} <span class="feature-info">ⓘ</span></span>`;
+      return `<span class="feature-item">${t}</span>`;
+    });
     let classFeatures = [];
     if (featuresByLevel) {
       for (let lvl = 1; lvl <= totalLevel; lvl++) {
@@ -1970,6 +2113,22 @@ function renderSessionAttacks() {
   };
 }
 
+function updateConcentrationDisplay() {
+  const el = document.getElementById('concentration-display');
+  if (!el || !sessionCharacter) return;
+  const spell = sessionCharacter.concentratingOn;
+  if (spell) {
+    el.innerHTML = `<span class="concentration-active">Concentrating on <strong>${esc(spell)}</strong></span> <button type="button" class="btn btn-sm btn-ghost" id="drop-concentration">Drop</button>`;
+    document.getElementById('drop-concentration')?.addEventListener('click', () => {
+      sessionCharacter.concentratingOn = null;
+      saveCharacters();
+      updateConcentrationDisplay();
+    });
+  } else {
+    el.innerHTML = '<span class="concentration-none">Not concentrating on any spell.</span>';
+  }
+}
+
 function renderSessionSpells() {
   const c = sessionCharacter;
   const totalLevel = getTotalLevel(c);
@@ -2076,6 +2235,13 @@ function renderSessionSpells() {
       const isCantrip = btn.classList.contains('cast-cantrip');
       const sel = btn.previousElementSibling;
       const slotLvl = sel && sel.classList.contains('cast-slot-select') ? parseInt(sel.value) : (parseInt(btn.dataset.level) ?? 0);
+      const spell = (typeof SPELLS !== 'undefined' ? SPELLS : []).find(s => s.name === spellName);
+      const isConcentration = spell && (spell.duration || '').toLowerCase().includes('concentration');
+      if (isConcentration) {
+        sessionCharacter.concentratingOn = spellName;
+        saveCharacters();
+        updateConcentrationDisplay();
+      }
       const showOnCast = document.getElementById('show-spell-on-cast')?.checked;
       if (showOnCast) showSpellPreview(spellName);
       if (!isCantrip) {
@@ -2167,6 +2333,8 @@ function renderSessionSpells() {
     saveCharacters();
     renderSessionSpells();
   };
+
+  updateConcentrationDisplay();
 
   const searchEl = document.getElementById('spell-search');
   if (searchEl) {
@@ -2324,13 +2492,25 @@ function showLevelUpModal(c, newLevel, onConfirm) {
   noChoicesSection.hidden = hasAsi || hasProfs;
 
   if (hasAsi) {
+    const stats = c.stats || {};
+    const statNames = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
+    const statLabel = (key) => {
+      const val = stats[key] || 10;
+      const mod = Math.floor((val - 10) / 2);
+      const sign = mod >= 0 ? '+' : '';
+      return `${key.charAt(0).toUpperCase() + key.slice(1)} (${val}, ${sign}${mod})`;
+    };
+    const optionsHtml = statNames.map(k => `<option value="${k}">${statLabel(k)}</option>`).join('');
+    ['asi-dual-1', 'asi-dual-2', 'asi-single-select'].forEach(id => {
+      const sel = document.getElementById(id);
+      if (sel) {
+        sel.innerHTML = optionsHtml;
+        sel.value = 'strength';
+      }
+    });
     document.querySelector('input[name="asi-mode"][value="dual"]').checked = true;
     document.getElementById('level-up-asi-single').hidden = true;
     document.getElementById('level-up-asi-dual').hidden = false;
-    ['asi-dual-1', 'asi-dual-2', 'asi-single-select'].forEach(id => {
-      const sel = document.getElementById(id);
-      if (sel) sel.value = 'strength';
-    });
   }
 
   if (hasProfs && bonusProfs) {
@@ -2457,7 +2637,8 @@ function performLevelUp(c, fromLevel, toLevel, opts) {
     saveCharacters();
     renderSessionLeveling();
     renderSessionSpells();
-    if (typeof renderSessionView === 'function') renderSessionView();
+    renderSessionOverview();
+    renderSessionCombat();
     if (nextLevel < toLevel) {
       performLevelUp(c, nextLevel, toLevel, { onDone });
     } else {
@@ -2732,8 +2913,14 @@ function init() {
     goToStep(Math.min(currentStep + 1, TOTAL_STEPS));
   });
 
-  document.getElementById('roll-6d20-btn')?.addEventListener('click', () => {
-    if (currentChar) roll6d20();
+  document.getElementById('roll-4d6-btn')?.addEventListener('click', () => {
+    if (currentChar) roll4d6DropLowest();
+  });
+  document.getElementById('standard-array-btn')?.addEventListener('click', () => {
+    if (currentChar) applyStandardArray();
+  });
+  document.getElementById('point-buy-btn')?.addEventListener('click', () => {
+    if (currentChar) openPointBuy();
   });
   document.getElementById('roll-assign-done')?.addEventListener('click', applyRollAssignments);
 
@@ -2844,6 +3031,66 @@ function init() {
     }
   });
 
+  // General-purpose dice roller
+  const rollCustomDice = (expr) => {
+    const resultEl = document.getElementById('dice-roller-result');
+    if (!resultEl) return;
+    const parts = (expr || '').trim().toLowerCase().split('+');
+    let totalRoll = 0;
+    const details = [];
+    for (const part of parts) {
+      const p = part.trim();
+      const dm = p.match(/^(\d+)d(\d+)$/);
+      if (dm) {
+        const num = parseInt(dm[1]); const sides = parseInt(dm[2]);
+        const rolls = [];
+        for (let i = 0; i < num; i++) { const r = Math.floor(Math.random() * sides) + 1; rolls.push(r); totalRoll += r; }
+        details.push(`${num}d${sides}: [${rolls.join(', ')}]`);
+      } else if (/^\d+$/.test(p)) {
+        const flat = parseInt(p); totalRoll += flat; details.push(`+${flat}`);
+      } else {
+        resultEl.innerHTML = `<span class="dice-error">Invalid: ${esc(expr)}</span>`;
+        resultEl.hidden = false;
+        return;
+      }
+    }
+    resultEl.innerHTML = `<strong>${totalRoll}</strong> <span class="dice-detail">(${details.join(' + ')})</span>`;
+    resultEl.hidden = false;
+  };
+  document.getElementById('dice-roller-btn')?.addEventListener('click', () => {
+    rollCustomDice(document.getElementById('dice-roller-input')?.value);
+  });
+  document.getElementById('dice-roller-input')?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); rollCustomDice(e.target.value); }
+  });
+  document.querySelectorAll('.dice-quick').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = document.getElementById('dice-roller-input');
+      if (input) input.value = btn.dataset.dice;
+      rollCustomDice(btn.dataset.dice);
+    });
+  });
+
+  // Starter kit button
+  document.getElementById('load-starter-kit-btn')?.addEventListener('click', () => {
+    if (!currentChar || !currentChar.class) {
+      alert('Please select a class first (Step 4).');
+      return;
+    }
+    const kit = typeof STARTING_EQUIPMENT !== 'undefined' ? STARTING_EQUIPMENT[currentChar.class] : null;
+    if (!kit || kit.length === 0) {
+      alert('No starter kit available for ' + currentChar.class + '.');
+      return;
+    }
+    if (!currentChar.equipment) currentChar.equipment = [];
+    kit.forEach(item => {
+      currentChar.equipment.push(item);
+    });
+    renderStep9Arrays();
+    updateStep9AcHint();
+    updatePreview();
+  });
+
   // Rules & Reference modal
   initRulesModal();
 
@@ -2895,6 +3142,9 @@ function init() {
   document.getElementById('session-back-btn')?.addEventListener('click', showListView);
   document.getElementById('session-edit-btn')?.addEventListener('click', () => {
     if (sessionCharacter) showBuilderView(sessionCharacter);
+  });
+  document.getElementById('session-print-btn')?.addEventListener('click', () => {
+    window.print();
   });
   document.getElementById('sheet-layout-overall')?.addEventListener('change', (e) => {
     if (!sessionCharacter) return;
@@ -2974,16 +3224,43 @@ function init() {
   document.getElementById('hp-heal-5')?.addEventListener('click', () => applyHpDelta(5));
   document.getElementById('short-rest-btn')?.addEventListener('click', () => {
     if (!sessionCharacter) return;
-    if (confirm('Take a short rest? You may spend Hit Dice to heal. Warlocks regain pact magic slots.')) {
-      const hdUsed = parseInt(document.getElementById('hd-used').value) || 0;
-      sessionCharacter.hitDiceUsed = hdUsed;
-      if (sessionCharacter.class === 'Warlock' && typeof sessionCharacter.spellSlotsUsed !== 'undefined') {
-        sessionCharacter.spellSlotsUsed = sessionCharacter.spellSlotsUsed.map(() => 0);
+    const c = sessionCharacter;
+    const totalLevel = getTotalLevel(c);
+    const hdUsed = c.hitDiceUsed || 0;
+    const hdRemaining = totalLevel - hdUsed;
+    if (hdRemaining <= 0) {
+      if (confirm('No Hit Dice remaining. Take a short rest anyway? Warlocks regain pact slots.')) {
+        if (c.class === 'Warlock') c.spellSlotsUsed = (c.spellSlotsUsed || [0,0,0,0,0,0,0,0,0]).map(() => 0);
+        c.concentratingOn = null;
+        saveCharacters(); renderSessionCombat(); renderSessionSpells(); renderSessionOverview();
       }
-      saveCharacters();
-      renderSessionCombat();
-      renderSessionSpells();
-      renderSessionOverview();
+      return;
+    }
+    const numToSpend = parseInt(prompt(`Short Rest: You have ${hdRemaining} Hit Dice remaining (d${c.hitDie || 8}).\nHow many Hit Dice to spend for healing? (0–${hdRemaining})`, '1'));
+    if (numToSpend == null || isNaN(numToSpend) || numToSpend < 0) return;
+    const spend = Math.min(numToSpend, hdRemaining);
+    const hitDie = c.hitDie || (typeof CLASSES !== 'undefined' ? (CLASSES.find(cl => cl.name === c.class)?.hitDie || 8) : 8);
+    const conMod = Math.floor(((c.stats?.constitution ?? 10) - 10) / 2);
+    let totalHealing = 0;
+    const rolls = [];
+    for (let i = 0; i < spend; i++) {
+      const roll = Math.floor(Math.random() * hitDie) + 1;
+      const heal = Math.max(1, roll + conMod);
+      rolls.push(roll);
+      totalHealing += heal;
+    }
+    c.hitDiceUsed = (c.hitDiceUsed || 0) + spend;
+    const currentHp = c.hp ?? c.maxHp ?? 0;
+    const maxHp = c.maxHp ?? currentHp;
+    c.hp = Math.min(maxHp, currentHp + totalHealing);
+    if (c.class === 'Warlock') c.spellSlotsUsed = (c.spellSlotsUsed || [0,0,0,0,0,0,0,0,0]).map(() => 0);
+    c.concentratingOn = null;
+    saveCharacters();
+    renderSessionCombat();
+    renderSessionSpells();
+    renderSessionOverview();
+    if (spend > 0) {
+      alert(`Short Rest: Spent ${spend} Hit Dice (d${hitDie}).\nRolls: ${rolls.join(', ')} (+${conMod} Con each)\nHealed ${totalHealing} HP. Current HP: ${c.hp}/${maxHp}`);
     }
   });
   document.getElementById('long-rest-btn')?.addEventListener('click', () => {
@@ -2996,6 +3273,7 @@ function init() {
       sessionCharacter.hitDiceUsed = Math.max(0, (sessionCharacter.hitDiceUsed || 0) - regain);
       document.getElementById('hd-used').value = sessionCharacter.hitDiceUsed;
       sessionCharacter.spellSlotsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+      sessionCharacter.concentratingOn = null;
       if ((sessionCharacter.exhaustion || 0) > 0) sessionCharacter.exhaustion--;
       saveCharacters();
       renderSessionCombat();
@@ -3039,7 +3317,8 @@ function init() {
           onDone: () => {
             saveCharacters();
             renderSessionLeveling();
-            if (typeof renderSessionView === 'function') renderSessionView();
+            renderSessionOverview();
+            renderSessionCombat();
             alert(`Level up! Now level ${sessionCharacter.level}.`);
           }
         });
@@ -3060,7 +3339,8 @@ function init() {
         saveCharacters();
         renderSessionLeveling();
         renderSessionSpells();
-        if (typeof renderSessionView === 'function') renderSessionView();
+        renderSessionOverview();
+        renderSessionCombat();
         alert(`Level up! Now level ${sessionCharacter.level}.`);
       }
     });

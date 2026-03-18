@@ -63,6 +63,7 @@
             <button class="rules-tab active" data-tab="house-rules">House Rules</button>
             <button class="rules-tab" data-tab="reference">Reference Notes</button>
             <button class="rules-tab" data-tab="books">Content Books</button>
+            <button class="rules-tab" data-tab="how-to-use">How to Use</button>
             <button class="rules-tab" data-tab="guides">Guides</button>
             <button class="rules-tab" data-tab="official-pdfs">Official PDFs</button>
           </div>
@@ -93,6 +94,50 @@
             <p class="rules-desc">Content from additional books you've added. Enable books when creating a new character.</p>
             <div id="enabled-books-list" class="books-list"></div>
             <div id="book-rules-display" class="book-rules"></div>
+          </div>
+          <div class="rules-pane" id="pane-how-to-use" hidden>
+            <div class="guides-list">
+              <div class="guide-item">
+                <strong>1. Create a Character</strong>
+                <p>Click <strong>New Character</strong> on the main screen. The wizard walks you through 10 steps: Name, Race, Subrace, Class, Subclass, Background, Alignment, Ability Scores, Details (spells, equipment, defenses, proficiencies, personality), and a final Summary. You can use the starter kit button on the equipment step to pre-fill gear for your class.</p>
+              </div>
+              <div class="guide-item">
+                <strong>2. Rolling Ability Scores</strong>
+                <p>On step 8 (Ability Scores), click <strong>Roll 4d6 (Drop Lowest)</strong>. The app rolls four six-sided dice for each stat, drops the lowest die (shown crossed out in red), and totals the remaining three. You then assign each total to the stat of your choice. You can also type scores manually.</p>
+              </div>
+              <div class="guide-item">
+                <strong>3. Playing Your Character</strong>
+                <p>Click <strong>Play</strong> on a character card to open the session view. The <strong>Character</strong> tab shows your sheet — ability checks, saving throws, skills, senses, and features. Click any <strong>Roll</strong> button to roll a d20 with the correct modifier.</p>
+              </div>
+              <div class="guide-item">
+                <strong>4. Combat</strong>
+                <p>The Character tab also has a combat section: track HP, temporary HP, hit dice, death saves, conditions, exhaustion, and inspiration. Use the quick buttons (−1, −5, +1, +5) for fast HP changes. Short Rest resets some resources; Long Rest restores HP, half your hit dice, and all spell slots.</p>
+              </div>
+              <div class="guide-item">
+                <strong>5. Spells & Actions</strong>
+                <p>The <strong>Actions & Spells</strong> tab lets you add weapons (with attack/damage rolls), track spell slots, and manage known spells. Click a spell name to see its description. Click <strong>Cast</strong> to use a slot and optionally auto-roll damage/healing. Toggle the checkboxes to control auto-roll behavior.</p>
+              </div>
+              <div class="guide-item">
+                <strong>6. Inventory</strong>
+                <p>The <strong>Inventory</strong> tab tracks your currency (PP, GP, EP, SP, CP) and backpack items. Add items from the dropdown or type custom ones.</p>
+              </div>
+              <div class="guide-item">
+                <strong>7. Leveling Up</strong>
+                <p>The <strong>Leveling</strong> tab supports XP or Milestone mode. Add XP or click <strong>Level Up</strong>. At ASI levels (4, 8, 12, 16, 19 — plus 6 and 14 for Fighter, 10 for Rogue), you pick ability score improvements (+2 to one or +1 to two). Some subclasses also grant bonus proficiencies at certain levels.</p>
+              </div>
+              <div class="guide-item">
+                <strong>8. DM Mode</strong>
+                <p>Click <strong>DM</strong> in the header to switch to Dungeon Master mode. Browse and search monsters, create NPCs, and manage a grid-based battle map with tokens and terrain.</p>
+              </div>
+              <div class="guide-item">
+                <strong>9. Battle Map</strong>
+                <p>Open the battle map from the header or session view. Set grid size, add tokens, drag them between cells, and paint terrain (difficult, walls, elevation). Save maps for reuse.</p>
+              </div>
+              <div class="guide-item">
+                <strong>10. Customization</strong>
+                <p>Use <strong>Rules & Reference</strong> to add house rules, campaign notes, and toggle rule books. See the <strong>Guides</strong> tab for adding custom races, classes, spells, and content books.</p>
+              </div>
+            </div>
           </div>
           <div class="rules-pane" id="pane-guides" hidden>
             <p class="rules-desc">Step-by-step guides for adding content to this app.</p>
@@ -297,6 +342,7 @@
           <div class="session-header-actions">
             <button class="btn btn-primary" id="session-battle-map-btn" title="Switch to Battle Map">🗺 Battle Map</button>
             <button class="btn btn-secondary" id="session-edit-btn">Edit Character</button>
+            <button class="btn btn-ghost btn-sm" id="session-print-btn" title="Print character sheet">Print</button>
           </div>
         </div>
         <div class="session-tabs">
@@ -484,6 +530,23 @@
                 <div class="array-items" id="conditions-list"></div>
               </div>
             </div>
+            <div class="dice-roller-section">
+              <label>Dice Roller</label>
+              <div class="dice-roller-row">
+                <input type="text" id="dice-roller-input" placeholder="e.g. 2d6+3, 1d20, 4d8" autocomplete="off">
+                <button type="button" class="btn btn-secondary btn-sm" id="dice-roller-btn">Roll</button>
+              </div>
+              <div class="dice-quick-buttons">
+                <button type="button" class="btn btn-ghost btn-sm dice-quick" data-dice="1d4">d4</button>
+                <button type="button" class="btn btn-ghost btn-sm dice-quick" data-dice="1d6">d6</button>
+                <button type="button" class="btn btn-ghost btn-sm dice-quick" data-dice="1d8">d8</button>
+                <button type="button" class="btn btn-ghost btn-sm dice-quick" data-dice="1d10">d10</button>
+                <button type="button" class="btn btn-ghost btn-sm dice-quick" data-dice="1d12">d12</button>
+                <button type="button" class="btn btn-ghost btn-sm dice-quick" data-dice="1d20">d20</button>
+                <button type="button" class="btn btn-ghost btn-sm dice-quick" data-dice="1d100">d100</button>
+              </div>
+              <div id="dice-roller-result" class="dice-roller-result" hidden></div>
+            </div>
           </div>
           </div>
           <div class="session-pane" id="pane-actions">
@@ -499,6 +562,12 @@
             <div class="actions-section">
               <h4>Class Actions</h4>
               <div id="class-actions-display" class="class-actions-grid"></div>
+            </div>
+            <div class="concentration-section">
+              <h4>Concentration</h4>
+              <div id="concentration-display" class="concentration-display">
+                <span class="concentration-none">Not concentrating on any spell.</span>
+              </div>
             </div>
             <hr class="section-divider">
             <div class="spell-slots-section">
@@ -783,12 +852,24 @@
               </div>
               <div class="step-body">
                 <div class="stats-method-row">
-                  <button type="button" class="btn btn-secondary" id="roll-6d20-btn">Roll 6d20</button>
-                  <span class="stats-method-hint">Roll six d20s, then assign each to the stat you want.</span>
+                  <button type="button" class="btn btn-secondary" id="roll-4d6-btn">Roll 4d6 (Drop Lowest)</button>
+                  <button type="button" class="btn btn-secondary" id="standard-array-btn">Standard Array</button>
+                  <button type="button" class="btn btn-secondary" id="point-buy-btn">Point Buy</button>
+                </div>
+                <div class="stats-method-hint-row">
+                  <span class="stats-method-hint">Roll, use the standard array (15, 14, 13, 12, 10, 8), point buy (27 points), or type scores manually.</span>
+                </div>
+                <div id="point-buy-ui" class="point-buy-ui" hidden>
+                  <h4>Point Buy (27 Points)</h4>
+                  <p class="point-buy-remaining">Points remaining: <strong id="point-buy-remaining">27</strong></p>
+                  <div id="point-buy-grid" class="point-buy-grid"></div>
+                  <button type="button" class="btn btn-primary" id="point-buy-apply">Apply Scores</button>
                 </div>
                 <div id="roll-assign-ui" class="roll-assign-ui" hidden>
-                  <h4>Assign your rolls</h4>
+                  <h4>Your Rolls</h4>
+                  <div id="roll-4d6-visual" class="roll-4d6-visual"></div>
                   <p class="roll-assign-rolled" id="roll-assign-rolled"></p>
+                  <h4>Assign to Stats</h4>
                   <div id="roll-assign-grid" class="roll-assign-grid"></div>
                   <button type="button" class="btn btn-primary" id="roll-assign-done">Apply & Close</button>
                 </div>
@@ -938,6 +1019,10 @@
                 </div>
                 <div class="step9-tab-pane active" data-pane="equipment">
                   <p class="step9-ac-hint" id="step9-ac-hint">AC is calculated from armor and Dexterity. Add armor/gear below.</p>
+                  <div class="starter-kit-row">
+                    <button type="button" class="btn btn-secondary btn-sm" id="load-starter-kit-btn">Load Starter Kit</button>
+                    <span class="starter-kit-hint">Pre-fill with your class's recommended starting equipment.</span>
+                  </div>
                   <div class="form-group">
                     <label>Equipment</label>
                     <div class="dropdown-add-row">
@@ -1068,7 +1153,7 @@
           <div id="level-up-profs-picker"></div>
         </div>
         <div id="level-up-no-choices" class="level-up-section" hidden>
-          <p class="rules-desc">No ASI or bonus proficiencies at this level. Confirm to level up.</p>
+          <p class="rules-desc">No Ability Score Improvement at this level. ASI is available at levels 4, 8, 12, 16, and 19 (Fighter also gets 6 and 14; Rogue also gets 10). Confirm to level up.</p>
         </div>
       </div>
       <div class="modal-actions">

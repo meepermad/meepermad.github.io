@@ -135,7 +135,7 @@ const RACES = [
   {
     id: 'human',
     name: 'Human',
-    description: 'Humans are the most adaptable and ambitious people. They vary widely in appearance and have short lifespans.',
+    description: 'Humans are the most adaptable and ambitious people among the common races. They are incredibly diverse in appearance, culture, and temperament, with lifespans of less than a century but boundless drive. Their versatility makes them suitable for any class.',
     speed: 30,
     abilityScore: { any: 1 },
     traits: ['Extra Language'],
@@ -146,14 +146,14 @@ const RACES = [
     vulnerabilities: [],
     weaknesses: [],
     subraces: [
-      { name: 'Standard', abilityScore: { any: 1 }, traits: ['Extra Language'], languages: [], languagesExtra: 1 },
-      { name: 'Variant', abilityScore: { any: 1 }, traits: ['Feat', 'Extra Skill', 'Extra Language'], languages: [], languagesExtra: 1 }
+      { name: 'Standard', description: 'The default human, receiving +1 to all ability scores and one extra language. Broadly capable and adaptable.', abilityScore: { any: 1 }, traits: ['Extra Language'], languages: [], languagesExtra: 1 },
+      { name: 'Variant', description: 'A more specialized human who trades the broad +1 bonuses for a feat, an extra skill proficiency, and +1 to two abilities of your choice. Popular for feat-based builds.', abilityScore: { any: 1 }, traits: ['Feat', 'Extra Skill', 'Extra Language'], languages: [], languagesExtra: 1 }
     ]
   },
   {
     id: 'elf',
     name: 'Elf',
-    description: 'Elves are a magical people of otherworldly grace, living in the world but not entirely part of it.',
+    description: 'Elves are a magical people of otherworldly grace, living in the world but not entirely part of it. With lifespans stretching over 700 years, they have a long perspective on events. They are slender, standing 5–6 feet tall, and possess keen senses, darkvision, and resistance to charm magic.',
     speed: 30,
     abilityScore: { dexterity: 2 },
     traits: ['Darkvision', 'Fey Ancestry', 'Trance'],
@@ -164,15 +164,16 @@ const RACES = [
     vulnerabilities: [],
     weaknesses: [],
     subraces: [
-      { name: 'High Elf', abilityScore: { dexterity: 2, intelligence: 1 }, traits: ['Cantrip', 'Extra Language'], languages: [], languagesExtra: 1 },
-      { name: 'Wood Elf', abilityScore: { dexterity: 2, wisdom: 1 }, traits: ['Fleet of Foot', 'Mask of the Wild'], languages: [], languagesExtra: 0 },
-      { name: 'Drow', abilityScore: { dexterity: 2, charisma: 1 }, traits: ['Superior Darkvision', 'Drow Magic', 'Sunlight Sensitivity'], languages: [], languagesExtra: 0, weaknesses: ['Sunlight Sensitivity'] }
+      { name: 'High Elf', description: 'Elves of keen mind and mastery of basic magic. They gain +1 Intelligence, know one wizard cantrip, and learn an extra language. Common among elven scholars and wizards.', abilityScore: { dexterity: 2, intelligence: 1 }, traits: ['Cantrip', 'Extra Language'], languages: [], languagesExtra: 1 },
+      { name: 'Wood Elf', description: 'Swift and stealthy elves of the deep forests. They gain +1 Wisdom, 35-foot speed (Fleet of Foot), and can hide in light natural cover (Mask of the Wild). Great for rangers and druids.', abilityScore: { dexterity: 2, wisdom: 1 }, traits: ['Fleet of Foot', 'Mask of the Wild'], languages: [], languagesExtra: 0 },
+      { name: 'Drow', description: 'Dark elves from the Underdark, known for their sinister reputation and powerful magic. They gain +1 Charisma, 120-foot Superior Darkvision, and innate spellcasting (dancing lights, faerie fire, darkness), but suffer disadvantage on attack rolls and Perception in direct sunlight.', abilityScore: { dexterity: 2, charisma: 1 }, traits: ['Superior Darkvision', 'Drow Magic', 'Sunlight Sensitivity'], languages: [], languagesExtra: 0, weaknesses: ['Sunlight Sensitivity'] },
+      { name: 'Eladrin', description: 'Elves of the Feywild whose appearance shifts with the seasons. They gain +1 Charisma and can use Fey Step to teleport 30 feet once per short rest, with a bonus effect based on their current season.', abilityScore: { dexterity: 2, charisma: 1 }, traits: ['Fey Step'], languages: [], languagesExtra: 0 }
     ]
   },
   {
     id: 'dwarf',
     name: 'Dwarf',
-    description: 'Bold and hardy, dwarves are known as skilled warriors, miners, and workers of stone and metal.',
+    description: 'Bold and hardy, dwarves are known as skilled warriors, miners, and workers of stone and metal. Standing 4–5 feet tall but broad and compact, they are tough, resilient, and live over 350 years. They have resistance to poison and an innate knowledge of stonework.',
     speed: 25,
     abilityScore: { constitution: 2 },
     traits: ['Darkvision', 'Dwarven Resilience', 'Stonecunning'],
@@ -183,14 +184,15 @@ const RACES = [
     vulnerabilities: [],
     weaknesses: [],
     subraces: [
-      { name: 'Mountain Dwarf', abilityScore: { constitution: 2, strength: 2 }, traits: ['Dwarven Armor Training'], resistances: [], immunities: [], vulnerabilities: [] },
-      { name: 'Hill Dwarf', abilityScore: { constitution: 2, wisdom: 1 }, traits: ['Dwarven Toughness'], resistances: [], immunities: [], vulnerabilities: [] }
+      { name: 'Mountain Dwarf', description: 'Strong and hardy dwarves accustomed to rugged mountain life. They gain +2 Strength (in addition to +2 Con) and proficiency with light and medium armor. One of the best martial race options.', abilityScore: { constitution: 2, strength: 2 }, traits: ['Dwarven Armor Training'], resistances: [], immunities: [], vulnerabilities: [] },
+      { name: 'Hill Dwarf', description: 'Wise and tough dwarves with a deep connection to the earth. They gain +1 Wisdom and Dwarven Toughness (+1 HP per level). Excellent for clerics and druids.', abilityScore: { constitution: 2, wisdom: 1 }, traits: ['Dwarven Toughness'], resistances: [], immunities: [], vulnerabilities: [] },
+      { name: 'Duergar', description: 'Gray dwarves from the Underdark, grim and resilient. They gain +1 Strength, Superior Darkvision (120 ft.), and can cast enlarge/reduce and invisibility once per long rest each. However, they have Sunlight Sensitivity.', abilityScore: { constitution: 2, strength: 1 }, traits: ['Superior Darkvision', 'Duergar Magic', 'Sunlight Sensitivity'], resistances: [], immunities: [], vulnerabilities: [], weaknesses: ['Sunlight Sensitivity'] }
     ]
   },
   {
     id: 'halfling',
     name: 'Halfling',
-    description: 'The diminutive halflings survive in a world full of larger creatures by avoiding notice.',
+    description: 'Small and practical, halflings stand about 3 feet tall and survive in a world of larger creatures through resourcefulness and luck. They reroll natural 1s on attack rolls, checks, and saves (Lucky), are brave against fear, and can move through the space of larger creatures.',
     speed: 25,
     abilityScore: { dexterity: 2 },
     traits: ['Lucky', 'Brave', 'Halfling Nimbleness'],
@@ -201,29 +203,41 @@ const RACES = [
     vulnerabilities: [],
     weaknesses: [],
     subraces: [
-      { name: 'Lightfoot', abilityScore: { dexterity: 2, charisma: 1 }, traits: ['Naturally Stealthy'] },
-      { name: 'Stout', abilityScore: { dexterity: 2, constitution: 1 }, traits: ['Stout Resilience'], resistances: ['Poison'] }
+      { name: 'Lightfoot', description: 'Sociable and stealthy halflings who can hide behind creatures one size larger than them. They gain +1 Charisma. Great for rogues, bards, and any sneaky character.', abilityScore: { dexterity: 2, charisma: 1 }, traits: ['Naturally Stealthy'] },
+      { name: 'Stout', description: 'Hardy halflings with dwarven blood in their veins. They gain +1 Constitution and have advantage on saves against poison, plus resistance to poison damage. Good for front-line halflings.', abilityScore: { dexterity: 2, constitution: 1 }, traits: ['Stout Resilience'], resistances: ['Poison'] },
+      { name: 'Ghostwise', description: 'Reclusive halflings from deep forests who communicate through limited telepathy (30 ft., one creature at a time). They gain +1 Wisdom. Uncommon but flavorful for druids and monks.', abilityScore: { dexterity: 2, wisdom: 1 }, traits: ['Silent Speech'] }
     ]
   },
   {
     id: 'dragonborn',
     name: 'Dragonborn',
-    description: 'Dragonborn look like humanoid dragons. They are proud and self-sufficient.',
+    description: 'Dragonborn are tall, proud humanoids who resemble dragons, standing over 6 feet tall with scales, a broad frame, and a draconic head. They have no tails or wings. Each dragonborn has a draconic ancestry that determines their breath weapon and damage resistance. Choose a color below to set your ancestry.',
     speed: 30,
     abilityScore: { strength: 2, charisma: 1 },
     traits: ['Draconic Ancestry', 'Breath Weapon', 'Damage Resistance'],
     languages: ['Common', 'Draconic'],
     languagesExtra: 0,
-    resistances: ['Fire'],
+    resistances: [],
     immunities: [],
     vulnerabilities: [],
     weaknesses: [],
-    subraces: []
+    subraces: [
+      { name: 'Black (Acid)', description: 'Black dragonborn descend from black dragons. Breath weapon: 5×30 ft. line of acid (Dex save). Resistant to acid damage.', abilityScore: { strength: 2, charisma: 1 }, traits: ['Breath Weapon (Acid, 5×30 ft. line, Dex save)', 'Acid Resistance'], resistances: ['Acid'] },
+      { name: 'Blue (Lightning)', description: 'Blue dragonborn descend from blue dragons. Breath weapon: 5×30 ft. line of lightning (Dex save). Resistant to lightning damage.', abilityScore: { strength: 2, charisma: 1 }, traits: ['Breath Weapon (Lightning, 5×30 ft. line, Dex save)', 'Lightning Resistance'], resistances: ['Lightning'] },
+      { name: 'Green (Poison)', description: 'Green dragonborn descend from green dragons. Breath weapon: 15 ft. cone of poison (Con save). Resistant to poison damage.', abilityScore: { strength: 2, charisma: 1 }, traits: ['Breath Weapon (Poison, 15 ft. cone, Con save)', 'Poison Resistance'], resistances: ['Poison'] },
+      { name: 'Red (Fire)', description: 'Red dragonborn descend from red dragons. Breath weapon: 15 ft. cone of fire (Dex save). Resistant to fire damage. The most iconic dragonborn choice.', abilityScore: { strength: 2, charisma: 1 }, traits: ['Breath Weapon (Fire, 15 ft. cone, Dex save)', 'Fire Resistance'], resistances: ['Fire'] },
+      { name: 'White (Cold)', description: 'White dragonborn descend from white dragons. Breath weapon: 15 ft. cone of cold (Con save). Resistant to cold damage.', abilityScore: { strength: 2, charisma: 1 }, traits: ['Breath Weapon (Cold, 15 ft. cone, Con save)', 'Cold Resistance'], resistances: ['Cold'] },
+      { name: 'Brass (Fire)', description: 'Brass dragonborn descend from brass dragons. Breath weapon: 5×30 ft. line of fire (Dex save). Resistant to fire damage.', abilityScore: { strength: 2, charisma: 1 }, traits: ['Breath Weapon (Fire, 5×30 ft. line, Dex save)', 'Fire Resistance'], resistances: ['Fire'] },
+      { name: 'Bronze (Lightning)', description: 'Bronze dragonborn descend from bronze dragons. Breath weapon: 5×30 ft. line of lightning (Dex save). Resistant to lightning damage.', abilityScore: { strength: 2, charisma: 1 }, traits: ['Breath Weapon (Lightning, 5×30 ft. line, Dex save)', 'Lightning Resistance'], resistances: ['Lightning'] },
+      { name: 'Copper (Acid)', description: 'Copper dragonborn descend from copper dragons. Breath weapon: 5×30 ft. line of acid (Dex save). Resistant to acid damage.', abilityScore: { strength: 2, charisma: 1 }, traits: ['Breath Weapon (Acid, 5×30 ft. line, Dex save)', 'Acid Resistance'], resistances: ['Acid'] },
+      { name: 'Gold (Fire)', description: 'Gold dragonborn descend from gold dragons. Breath weapon: 15 ft. cone of fire (Dex save). Resistant to fire damage.', abilityScore: { strength: 2, charisma: 1 }, traits: ['Breath Weapon (Fire, 15 ft. cone, Dex save)', 'Fire Resistance'], resistances: ['Fire'] },
+      { name: 'Silver (Cold)', description: 'Silver dragonborn descend from silver dragons. Breath weapon: 15 ft. cone of cold (Con save). Resistant to cold damage.', abilityScore: { strength: 2, charisma: 1 }, traits: ['Breath Weapon (Cold, 15 ft. cone, Con save)', 'Cold Resistance'], resistances: ['Cold'] }
+    ]
   },
   {
     id: 'gnome',
     name: 'Gnome',
-    description: 'Gnomes take delight in life, enjoying every moment of invention, exploration, and play.',
+    description: 'Gnomes are small (3–4 feet), energetic folk who delight in life, invention, and exploration. They live 350–500 years and are known for their curiosity and resilience against magic. Gnome Cunning gives them advantage on Intelligence, Wisdom, and Charisma saving throws against magic.',
     speed: 25,
     abilityScore: { intelligence: 2 },
     traits: ['Darkvision', 'Gnome Cunning'],
@@ -234,15 +248,15 @@ const RACES = [
     vulnerabilities: [],
     weaknesses: [],
     subraces: [
-      { name: 'Forest Gnome', abilityScore: { intelligence: 2, dexterity: 1 }, traits: ['Natural Illusionist', 'Speak with Small Beasts'] },
-      { name: 'Rock Gnome', abilityScore: { intelligence: 2, constitution: 1 }, traits: ['Artificer\'s Lore', 'Tinker'] },
-      { name: 'Deep Gnome (Svirfneblin)', abilityScore: { intelligence: 2, dexterity: 1 }, traits: ['Superior Darkvision', 'Stone Camouflage', 'Svirfneblin Magic'], languages: [], languagesExtra: 0 }
+      { name: 'Forest Gnome', description: 'Reclusive gnomes with a knack for illusion magic and a kinship with small animals. They gain +1 Dexterity, know the minor illusion cantrip, and can speak with small beasts. Great for druids and illusionists.', abilityScore: { intelligence: 2, dexterity: 1 }, traits: ['Natural Illusionist', 'Speak with Small Beasts'] },
+      { name: 'Rock Gnome', description: 'Inventive and hardy gnomes who love tinkering with devices. They gain +1 Constitution, double proficiency on History checks about magic items and technology, and can create tiny clockwork devices. Perfect for artificers.', abilityScore: { intelligence: 2, constitution: 1 }, traits: ['Artificer\'s Lore', 'Tinker'] },
+      { name: 'Deep Gnome (Svirfneblin)', description: 'Gnomes of the Underdark, cautious and adapted to subterranean life. They gain +1 Dexterity, 120-ft. Superior Darkvision, advantage on Stealth in rocky terrain (Stone Camouflage), and access to Svirfneblin Magic.', abilityScore: { intelligence: 2, dexterity: 1 }, traits: ['Superior Darkvision', 'Stone Camouflage', 'Svirfneblin Magic'], languages: [], languagesExtra: 0 }
     ]
   },
   {
     id: 'aarakocra',
     name: 'Aarakocra',
-    description: 'Bird-like humanoids from the Elemental Plane of Air, with hollow bones and a 50-foot flying speed.',
+    description: 'Aarakocra are bird-like humanoids originally from the Elemental Plane of Air. Standing about 5 feet tall with wingspans of 20 feet, they have hollow bones and talons. Their 50-foot flying speed makes them one of the most mobile races, though some DMs restrict flight at low levels.',
     speed: 30,
     abilityScore: { dexterity: 2, wisdom: 1 },
     traits: ['Flight (50 ft.)', 'Talons (1d4 slashing)'],
@@ -257,7 +271,7 @@ const RACES = [
   {
     id: 'half-elf',
     name: 'Half-Elf',
-    description: 'Half-elves combine what some say are the best qualities of their elf and human parents.',
+    description: 'Half-elves blend human adaptability with elven grace. They gain +2 Charisma and +1 to two other abilities of their choice, darkvision, Fey Ancestry (advantage vs. charm, immune to magic sleep), two extra skill proficiencies, and an extra language. One of the most versatile races, excellent for any class.',
     speed: 30,
     abilityScore: { charisma: 2, any: 1 },
     traits: ['Darkvision', 'Fey Ancestry', 'Skill Versatility'],
@@ -272,7 +286,7 @@ const RACES = [
   {
     id: 'half-orc',
     name: 'Half-Orc',
-    description: 'Half-orcs combine the physical power of orcs with the ambition of humans.',
+    description: 'Half-orcs are imposing figures who combine orcish physical power with human ambition. They gain +2 Strength, +1 Constitution, darkvision, Menacing (proficiency in Intimidation), Relentless Endurance (drop to 1 HP instead of 0 once per long rest), and Savage Attacks (extra damage die on critical melee hits). Ideal for barbarians, fighters, and paladins.',
     speed: 30,
     abilityScore: { strength: 2, constitution: 1 },
     traits: ['Darkvision', 'Menacing', 'Relentless Endurance', 'Savage Attacks'],
@@ -287,7 +301,7 @@ const RACES = [
   {
     id: 'tiefling',
     name: 'Tiefling',
-    description: 'Tieflings derive their infernal heritage from a pact made generations ago.',
+    description: 'Tieflings bear the marks of an infernal bloodline — horns, a tail, solid-colored eyes, and skin tones ranging from human shades to reds and purples. They gain +2 Charisma, +1 Intelligence, darkvision, fire resistance, and Infernal Legacy (thaumaturgy cantrip, plus hellish rebuke and darkness at higher levels). Effective warlocks, sorcerers, and paladins.',
     speed: 30,
     abilityScore: { charisma: 2, intelligence: 1 },
     traits: ['Darkvision', 'Hellish Resistance', 'Infernal Legacy'],
@@ -302,7 +316,7 @@ const RACES = [
   {
     id: 'genasi',
     name: 'Genasi',
-    description: 'Genasi carry the power of the elemental planes in their blood.',
+    description: 'Genasi are humanoids infused with elemental energy, descended from genies or touched by elemental planes. They look mostly human but have distinctive features — flickering flames for hair, blue skin, earthen cracks, or a constant breeze. Each subrace grants unique elemental powers and resistances.',
     speed: 30,
     abilityScore: { constitution: 2 },
     traits: [],
@@ -313,16 +327,16 @@ const RACES = [
     vulnerabilities: [],
     weaknesses: [],
     subraces: [
-      { name: 'Air Genasi', abilityScore: { constitution: 2, dexterity: 1 }, traits: ['Unending Breath', 'Mingle with the Wind'], resistances: [], immunities: [], vulnerabilities: [] },
-      { name: 'Earth Genasi', abilityScore: { constitution: 2, strength: 1 }, traits: ['Earth Walk', 'Merge with Stone'], resistances: [], immunities: [], vulnerabilities: [] },
-      { name: 'Fire Genasi', abilityScore: { constitution: 2, intelligence: 1 }, traits: ['Darkvision', 'Fire Resistance', 'Reach to the Blaze'], resistances: ['Fire'], immunities: [], vulnerabilities: [] },
-      { name: 'Water Genasi', abilityScore: { constitution: 2, wisdom: 1 }, traits: ['Amphibious', 'Swim', 'Call to the Wave'], resistances: ['Acid'], immunities: [], vulnerabilities: [] }
+      { name: 'Air Genasi', description: 'Descended from djinn. They gain +1 Dexterity, can hold their breath indefinitely, and can cast levitate once per long rest. Light and breezy in personality.', abilityScore: { constitution: 2, dexterity: 1 }, traits: ['Unending Breath', 'Mingle with the Wind'], resistances: [], immunities: [], vulnerabilities: [] },
+      { name: 'Earth Genasi', description: 'Descended from dao. They gain +1 Strength, can move across difficult terrain made of earth or stone without extra movement cost, and can cast pass without trace once per long rest.', abilityScore: { constitution: 2, strength: 1 }, traits: ['Earth Walk', 'Merge with Stone'], resistances: [], immunities: [], vulnerabilities: [] },
+      { name: 'Fire Genasi', description: 'Descended from efreet. They gain +1 Intelligence, darkvision, fire resistance, and can cast produce flame (cantrip) and burning hands once per long rest.', abilityScore: { constitution: 2, intelligence: 1 }, traits: ['Darkvision', 'Fire Resistance', 'Reach to the Blaze'], resistances: ['Fire'], immunities: [], vulnerabilities: [] },
+      { name: 'Water Genasi', description: 'Descended from marids. They gain +1 Wisdom, can breathe air and water, have a 30-ft. swim speed, acid resistance, and can cast create or destroy water and shape water.', abilityScore: { constitution: 2, wisdom: 1 }, traits: ['Amphibious', 'Swim', 'Call to the Wave'], resistances: ['Acid'], immunities: [], vulnerabilities: [] }
     ]
   },
   {
     id: 'goliath',
     name: 'Goliath',
-    description: 'Large humanoids from mountain regions, known for strength and resilience.',
+    description: 'Goliaths are massive humanoids (7–8 feet tall) from remote mountain peaks, where they compete against giants for survival. They value self-sufficiency and personal achievement. They gain +2 Strength, Natural Athlete (Athletics proficiency), Stone\'s Endurance (reduce damage by 1d12+Con once per rest), and Powerful Build (count as Large for carrying capacity).',
     speed: 30,
     abilityScore: { strength: 2 },
     traits: ['Natural Athlete', "Stone's Endurance", 'Powerful Build'],
@@ -337,7 +351,7 @@ const RACES = [
   {
     id: 'aasimar',
     name: 'Aasimar',
-    description: 'Humanoids touched by celestial power, often serving as divine emissaries.',
+    description: 'Aasimar are humanoids with a celestial heritage — an angelic guide watches over them. They have luminous features, often with golden or silver eyes and hair. They gain +2 Charisma, darkvision, resistance to necrotic and radiant damage, and Healing Hands (heal HP equal to your level, once per long rest). Each subrace grants a powerful transformation at 3rd level.',
     speed: 30,
     abilityScore: { charisma: 2 },
     traits: ['Darkvision', 'Celestial Resistance', 'Healing Hands'],
@@ -348,15 +362,15 @@ const RACES = [
     vulnerabilities: [],
     weaknesses: [],
     subraces: [
-      { name: 'Protector', abilityScore: { charisma: 2, wisdom: 1 }, traits: ['Radiant Soul'] },
-      { name: 'Scourge', abilityScore: { charisma: 2, constitution: 1 }, traits: ['Radiant Consumption'] },
-      { name: 'Fallen', abilityScore: { charisma: 2, strength: 1 }, traits: ['Necrotic Shroud'] }
+      { name: 'Protector', description: 'At 3rd level, you can sprout spectral wings (fly 30 ft.) and deal extra radiant damage equal to your level for 1 minute. +1 Wisdom. The classic angelic hero.', abilityScore: { charisma: 2, wisdom: 1 }, traits: ['Radiant Soul'] },
+      { name: 'Scourge', description: 'At 3rd level, you can unleash divine energy that sears nearby enemies (and yourself) for radiant damage each turn. +1 Constitution. The burning martyr archetype.', abilityScore: { charisma: 2, constitution: 1 }, traits: ['Radiant Consumption'] },
+      { name: 'Fallen', description: 'At 3rd level, you can manifest skeletal, flightless wings that frighten nearby enemies. +1 Strength. An aasimar whose light has been tainted by darkness or despair.', abilityScore: { charisma: 2, strength: 1 }, traits: ['Necrotic Shroud'] }
     ]
   },
   {
     id: 'tabaxi',
     name: 'Tabaxi',
-    description: 'Feline humanoids from distant lands, driven by curiosity.',
+    description: 'Tabaxi are cat-like humanoids from a distant southern land, driven by an insatiable curiosity to collect stories, artifacts, and lore. They gain +2 Dexterity, +1 Charisma, darkvision, Feline Agility (double speed for one turn, recharges when you stop moving), climbing speed 20 ft., and Cat\'s Claws (1d4 slashing unarmed strikes).',
     speed: 30,
     abilityScore: { dexterity: 2, charisma: 1 },
     traits: ['Darkvision', 'Feline Agility', 'Cat\'s Claws'],
@@ -371,7 +385,7 @@ const RACES = [
   {
     id: 'kenku',
     name: 'Kenku',
-    description: 'Crow-like humanoids who lost their wings and voices long ago.',
+    description: 'Kenku are flightless, crow-like humanoids cursed to have lost their wings, their creativity, and their true voices. They communicate by mimicking sounds and speech they have heard (Mimicry). They gain +2 Dexterity, proficiency in two skills of your choice (Expert Forgery, Kenku Training), and are excellent rogues and rangers.',
     speed: 30,
     abilityScore: { dexterity: 2 },
     traits: ['Expert Forgery', 'Kenku Training', 'Mimicry'],
@@ -383,14 +397,14 @@ const RACES = [
     weaknesses: [],
     subraces: []
   },
-  { id: 'orc', name: 'Orc', description: 'Orcs are fierce warriors with a fearsome reputation.', speed: 30, abilityScore: { strength: 2, constitution: 1 }, traits: ['Darkvision', 'Aggressive', 'Menacing'], languages: ['Common', 'Orc'], languagesExtra: 0, resistances: [], immunities: [], vulnerabilities: [], weaknesses: [], subraces: [] },
-  { id: 'lizardfolk', name: 'Lizardfolk', description: 'Reptilian humanoids who survive through cunning and adaptability.', speed: 30, abilityScore: { constitution: 2, wisdom: 1 }, traits: ['Bite', 'Cunning Artisan', 'Hold Breath', 'Natural Armor'], languages: ['Common', 'Draconic'], languagesExtra: 0, resistances: [], immunities: [], vulnerabilities: [], weaknesses: [], subraces: [] },
-  { id: 'triton', name: 'Triton', description: 'Aquatic humanoids from the ocean depths, guardians of the sea.', speed: 30, abilityScore: { strength: 1, constitution: 1, charisma: 1 }, traits: ['Amphibious', 'Control Air and Water', 'Emissary of the Sea', 'Guardians of the Depths'], languages: ['Common', 'Primordial'], languagesExtra: 0, resistances: [], immunities: [], vulnerabilities: [], weaknesses: [], subraces: [] },
-  { id: 'firbolg', name: 'Firbolg', description: 'Gentle giants of the forest who prefer solitude and nature.', speed: 30, abilityScore: { wisdom: 2, strength: 1 }, traits: ['Firbolg Magic', 'Hidden Step', 'Powerful Build'], languages: ['Common', 'Elvish', 'Giant'], languagesExtra: 0, resistances: [], immunities: [], vulnerabilities: [], weaknesses: [], subraces: [] },
-  { id: 'goblin', name: 'Goblin', description: 'Small, cunning humanoids known for mischief and survival.', speed: 30, abilityScore: { dexterity: 2, constitution: 1 }, traits: ['Darkvision', 'Fury of the Small', 'Nimble Escape'], languages: ['Common', 'Goblin'], languagesExtra: 0, resistances: [], immunities: [], vulnerabilities: [], weaknesses: [], subraces: [] },
-  { id: 'hobgoblin', name: 'Hobgoblin', description: 'Disciplined martial humanoids who value honor and warfare.', speed: 30, abilityScore: { constitution: 2, intelligence: 1 }, traits: ['Darkvision', 'Fey Ancestry', 'Saving Face'], languages: ['Common', 'Goblin'], languagesExtra: 0, resistances: [], immunities: [], vulnerabilities: [], weaknesses: [], subraces: [] },
-  { id: 'kobold', name: 'Kobold', description: 'Small reptilian humanoids who favor traps and ambushes.', speed: 30, abilityScore: { dexterity: 2 }, traits: ['Darkvision', 'Grovel, Cower, and Beg', 'Pack Tactics', 'Sunlight Sensitivity'], languages: ['Common', 'Draconic'], languagesExtra: 0, resistances: [], immunities: [], vulnerabilities: [], weaknesses: ['Sunlight Sensitivity'], subraces: [] },
-  { id: 'yuan-ti', name: 'Yuan-ti Pureblood', description: 'Humanoids with serpentine ancestry and resistance to magic.', speed: 30, abilityScore: { charisma: 2, intelligence: 1 }, traits: ['Darkvision', 'Innate Spellcasting', 'Magic Resistance', 'Poison Immunity'], languages: ['Common', 'Abyssal', 'Draconic'], languagesExtra: 0, resistances: [], immunities: ['Poison'], vulnerabilities: [], weaknesses: [], subraces: [] }
+  { id: 'orc', name: 'Orc', description: 'Orcs are powerful, aggressive humanoids with gray-green skin and prominent tusks. They gain +2 Strength, +1 Constitution, darkvision, Aggressive (bonus action to move toward a hostile creature), and Intimidation proficiency. Straightforward and effective as barbarians and fighters.', speed: 30, abilityScore: { strength: 2, constitution: 1 }, traits: ['Darkvision', 'Aggressive', 'Menacing'], languages: ['Common', 'Orc'], languagesExtra: 0, resistances: [], immunities: [], vulnerabilities: [], weaknesses: [], subraces: [] },
+  { id: 'lizardfolk', name: 'Lizardfolk', description: 'Lizardfolk are cold-blooded reptilian humanoids who think in practical, survival-oriented terms. They gain +2 Constitution, +1 Wisdom, a natural bite attack (1d6 piercing), Natural Armor (AC = 13 + Dex), can hold their breath 15 minutes, and can craft shields and weapons from fallen creatures.', speed: 30, abilityScore: { constitution: 2, wisdom: 1 }, traits: ['Bite', 'Cunning Artisan', 'Hold Breath', 'Natural Armor'], languages: ['Common', 'Draconic'], languagesExtra: 0, resistances: [], immunities: [], vulnerabilities: [], weaknesses: [], subraces: [] },
+  { id: 'triton', name: 'Triton', description: 'Tritons are aquatic humanoids from the deep ocean, serving as noble guardians against undersea threats. They gain +1 Strength, +1 Constitution, +1 Charisma, can breathe air and water, swim 30 ft., and can cast fog cloud, gust of wind, and wall of water at higher levels. Somewhat haughty but well-meaning.', speed: 30, abilityScore: { strength: 1, constitution: 1, charisma: 1 }, traits: ['Amphibious', 'Control Air and Water', 'Emissary of the Sea', 'Guardians of the Depths'], languages: ['Common', 'Primordial'], languagesExtra: 0, resistances: [], immunities: [], vulnerabilities: [], weaknesses: [], subraces: [] },
+  { id: 'firbolg', name: 'Firbolg', description: 'Firbolgs are gentle, reclusive giants (7–8 feet tall) who live in deep forests and protect the natural world. They gain +2 Wisdom, +1 Strength, can turn invisible for one turn (Hidden Step), cast disguise self and detect magic once per rest, and count as Large for carrying. Ideal druids and nature clerics.', speed: 30, abilityScore: { wisdom: 2, strength: 1 }, traits: ['Firbolg Magic', 'Hidden Step', 'Powerful Build'], languages: ['Common', 'Elvish', 'Giant'], languagesExtra: 0, resistances: [], immunities: [], vulnerabilities: [], weaknesses: [], subraces: [] },
+  { id: 'goblin', name: 'Goblin', description: 'Goblins are small (3–4 feet), cunning creatures who rely on speed and numbers. They gain +2 Dexterity, +1 Constitution, darkvision, Fury of the Small (bonus damage once per rest against a larger creature), and Nimble Escape (Disengage or Hide as a bonus action). Excellent rogues.', speed: 30, abilityScore: { dexterity: 2, constitution: 1 }, traits: ['Darkvision', 'Fury of the Small', 'Nimble Escape'], languages: ['Common', 'Goblin'], languagesExtra: 0, resistances: [], immunities: [], vulnerabilities: [], weaknesses: [], subraces: [] },
+  { id: 'hobgoblin', name: 'Hobgoblin', description: 'Hobgoblins are disciplined, militaristic goblinoids who value strategy and honor. They gain +2 Constitution, +1 Intelligence, darkvision, and Saving Face (add a bonus to a failed roll equal to the number of allies you can see). Strong fighters and warlords.', speed: 30, abilityScore: { constitution: 2, intelligence: 1 }, traits: ['Darkvision', 'Martial Training', 'Saving Face'], languages: ['Common', 'Goblin'], languagesExtra: 0, resistances: [], immunities: [], vulnerabilities: [], weaknesses: [], subraces: [] },
+  { id: 'kobold', name: 'Kobold', description: 'Kobolds are tiny (2–3 feet), dragon-worshipping reptilians who fight with traps and teamwork. They gain +2 Dexterity, darkvision, Pack Tactics (advantage on attacks when an ally is within 5 ft.), and Grovel, Cower, and Beg (distract enemies to give allies advantage). However, they have Sunlight Sensitivity.', speed: 30, abilityScore: { dexterity: 2 }, traits: ['Darkvision', 'Grovel, Cower, and Beg', 'Pack Tactics', 'Sunlight Sensitivity'], languages: ['Common', 'Draconic'], languagesExtra: 0, resistances: [], immunities: [], vulnerabilities: [], weaknesses: ['Sunlight Sensitivity'], subraces: [] },
+  { id: 'yuan-ti', name: 'Yuan-ti Pureblood', description: 'Yuan-ti Purebloods are the most human-looking of the serpent people, with only subtle snake-like features. They gain +2 Charisma, +1 Intelligence, darkvision, Magic Resistance (advantage on saves against spells and magical effects), Poison Immunity, and innate spellcasting (poison spray cantrip, animal friendship on snakes, suggestion at 3rd).', speed: 30, abilityScore: { charisma: 2, intelligence: 1 }, traits: ['Darkvision', 'Innate Spellcasting', 'Magic Resistance', 'Poison Immunity'], languages: ['Common', 'Abyssal', 'Draconic'], languagesExtra: 0, resistances: [], immunities: ['Poison'], vulnerabilities: [], weaknesses: [], subraces: [] }
 ];
 
 // ========== CLASSES ==========
@@ -675,6 +689,84 @@ const CLASS_PROFICIENCIES = {
   Warlock: { armor: ['Light'], weapons: ['Simple weapons'], tools: [] },
   Wizard: { armor: [], weapons: ['Daggers', 'Darts', 'Slings', 'Quarterstaffs', 'Crossbows, light'], tools: [] },
   Artificer: { armor: ['Light', 'Medium', 'Shields'], weapons: ['Simple weapons'], tools: ["Thieves' tools", "Smith's tools", "Tinker's tools"] }
+};
+
+// Racial trait descriptions (for Features & Traits display)
+const RACIAL_TRAIT_DESCRIPTIONS = {
+  'Darkvision': 'You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You can\'t discern color in darkness, only shades of gray.',
+  'Superior Darkvision': 'You can see in dim light within 120 feet as if bright light, and in darkness as dim light.',
+  'Fey Ancestry': 'You have advantage on saving throws against being charmed, and magic can\'t put you to sleep.',
+  'Trance': 'You don\'t need to sleep. Instead, you meditate deeply for 4 hours, gaining the same benefit a human gets from 8 hours of sleep.',
+  'Lucky': 'When you roll a 1 on an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll.',
+  'Brave': 'You have advantage on saving throws against being frightened.',
+  'Halfling Nimbleness': 'You can move through the space of any creature that is of a size larger than yours.',
+  'Dwarven Resilience': 'You have advantage on saving throws against poison, and you have resistance against poison damage.',
+  'Stonecunning': 'Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient and add double your proficiency bonus.',
+  'Gnome Cunning': 'You have advantage on all Intelligence, Wisdom, and Charisma saving throws against magic.',
+  'Relentless Endurance': 'When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. Once per long rest.',
+  'Savage Attacks': 'When you score a critical hit with a melee weapon attack, you can roll one of the weapon\'s damage dice one additional time.',
+  'Hellish Resistance': 'You have resistance to fire damage.',
+  'Infernal Legacy': 'You know the thaumaturgy cantrip. At 3rd level, you can cast hellish rebuke as a 2nd-level spell once per long rest. At 5th level, you can cast darkness once per long rest.',
+  'Breath Weapon': 'You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type. DC = 8 + Con modifier + proficiency bonus. Damage: 2d6 at 1st level, scaling at 6th, 11th, and 16th.',
+  'Draconic Ancestry': 'You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type.',
+  'Damage Resistance': 'You have resistance to the damage type associated with your draconic ancestry.',
+  'Menacing': 'You gain proficiency in the Intimidation skill.',
+  'Skill Versatility': 'You gain proficiency in two skills of your choice.',
+  'Flight (50 ft.)': 'You have a flying speed of 50 feet. To use this speed, you can\'t be wearing medium or heavy armor.',
+  'Talons (1d4 slashing)': 'Your talons are natural weapons, which you can use to make unarmed strikes dealing 1d4 slashing damage.',
+  'Naturally Stealthy': 'You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you.',
+  'Stout Resilience': 'You have advantage on saving throws against poison, and resistance against poison damage.',
+  'Feline Agility': 'When you move on your turn in combat, you can double your speed until the end of the turn. Once used, you can\'t use it again until you move 0 feet on one of your turns.',
+  'Cat\'s Claws': 'You have a climbing speed of 20 feet and can make unarmed strikes dealing 1d4 slashing damage.',
+  'Pack Tactics': 'You have advantage on an attack roll against a creature if at least one of your allies is within 5 feet of the creature and the ally isn\'t incapacitated.',
+  'Nimble Escape': 'You can take the Disengage or Hide action as a bonus action on each of your turns.',
+  'Fury of the Small': 'When you damage a creature that is of a larger size than you, you can deal extra damage equal to your level. Once per short or long rest.',
+  'Aggressive': 'As a bonus action, you can move up to your speed toward an enemy you can see or hear. You must end this move closer to the enemy.',
+  'Natural Armor': 'You have tough, scaly skin. When you aren\'t wearing armor, your AC is 13 + your Dexterity modifier.',
+  'Powerful Build': 'You count as one size larger when determining your carrying capacity and the weight you can push, drag, or lift.',
+  'Stone\'s Endurance': 'When you take damage, you can use your reaction to roll a d12 + your Constitution modifier and reduce the damage by that total. Once per short or long rest.',
+  'Hidden Step': 'As a bonus action, you can magically turn invisible until the start of your next turn or until you attack, deal damage, or force a creature to make a saving throw. Once per short or long rest.',
+  'Firbolg Magic': 'You can cast detect magic and disguise self with this trait, using Wisdom as your spellcasting ability. Once per short or long rest each.',
+  'Healing Hands': 'As an action, you can touch a creature and restore hit points equal to your level. Once per long rest.',
+  'Celestial Resistance': 'You have resistance to necrotic and radiant damage.',
+  'Sunlight Sensitivity': 'You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, the target, or what you are trying to perceive is in direct sunlight.',
+  'Magic Resistance': 'You have advantage on saving throws against spells and other magical effects.',
+  'Saving Face': 'When you miss an attack roll, fail an ability check, or fail a saving throw, you can add a bonus to the roll equal to the number of allies you can see within 30 feet (max +5). Once per short or long rest.',
+  'Radiant Soul': 'Starting at 3rd level, you can use your action to unleash divine energy. For 1 minute, you sprout luminous wings (fly 30 ft.) and deal extra radiant damage equal to your level once per turn.',
+  'Radiant Consumption': 'Starting at 3rd level, you can use your action to unleash divine energy. For 1 minute, you shed bright light and at the end of each turn, you and creatures within 10 feet take radiant damage equal to half your level (rounded up).',
+  'Necrotic Shroud': 'Starting at 3rd level, you can use your action to unleash divine energy. For 1 minute, your eyes turn black and ghostly wings appear. Creatures within 10 feet must succeed on a Charisma saving throw or be frightened of you.',
+  'Drow Magic': 'You know the dancing lights cantrip. At 3rd level: faerie fire (1/long rest). At 5th level: darkness (1/long rest). Charisma is the spellcasting ability.',
+  'Dwarven Toughness': 'Your hit point maximum increases by 1 for every level you have.',
+  'Dwarven Armor Training': 'You have proficiency with light and medium armor.',
+  'Fleet of Foot': 'Your base walking speed increases to 35 feet.',
+  'Mask of the Wild': 'You can attempt to hide even when you are only lightly obscured by foliage, heavy rain, falling snow, mist, and other natural phenomena.',
+  'Fey Step': 'As a bonus action, you can magically teleport up to 30 feet to an unoccupied space you can see. Once per short or long rest. The bonus effect varies by your current season.',
+  'Silent Speech': 'You can speak telepathically to any creature within 30 feet of you, as long as you share a language.',
+  'Mimicry': 'You can mimic sounds you have heard, including voices. A creature that hears the sounds can tell they are imitations with a successful Wisdom (Insight) check.',
+  'Expert Forgery': 'You can duplicate other creatures\' handwriting and craftwork.',
+  'Kenku Training': 'You are proficient in your choice of two of the following skills: Acrobatics, Deception, Stealth, and Sleight of Hand.',
+  'Amphibious': 'You can breathe air and water.',
+  'Natural Illusionist': 'You know the minor illusion cantrip. Intelligence is your spellcasting ability for it.',
+  'Speak with Small Beasts': 'Through sounds and gestures, you can communicate simple ideas with Small or smaller beasts.',
+  'Artificer\'s Lore': 'Whenever you make an Intelligence (History) check related to magic items, alchemical objects, or technological devices, you add double your proficiency bonus.',
+  'Tinker': 'You can spend 1 hour and 10 gp to construct a Tiny clockwork device (AC 5, 1 hp). Choose: Clockwork Toy, Fire Starter, or Music Box.'
+};
+
+// Starting equipment kits (PHB defaults, simplified)
+const STARTING_EQUIPMENT = {
+  Barbarian: ['Greataxe', 'Handaxe', 'Handaxe', 'Javelin', 'Javelin', 'Javelin', 'Javelin', "Explorer's pack"],
+  Bard: ['Rapier', 'Dagger', 'Lute', 'Leather', "Entertainer's pack"],
+  Cleric: ['Mace', 'Scale mail', 'Shield', 'Crossbow, light', "Priest's pack", 'Holy symbol'],
+  Druid: ['Wooden shield', 'Scimitar', 'Leather', "Explorer's pack", 'Druidic focus'],
+  Fighter: ['Chain mail', 'Shield', 'Longsword', 'Crossbow, light', "Dungeoneer's pack"],
+  Monk: ['Shortsword', 'Dart', 'Dart', 'Dart', 'Dart', 'Dart', 'Dart', 'Dart', 'Dart', 'Dart', 'Dart', "Explorer's pack"],
+  Paladin: ['Longsword', 'Shield', 'Chain mail', 'Javelin', 'Javelin', 'Javelin', 'Javelin', 'Javelin', "Priest's pack", 'Holy symbol'],
+  Ranger: ['Longsword', 'Shortsword', 'Shortsword', 'Leather', 'Longbow', 'Quiver', "Explorer's pack"],
+  Rogue: ['Rapier', 'Shortbow', 'Quiver', 'Leather', 'Dagger', 'Dagger', "Burglar's pack", "Thieves' tools"],
+  Sorcerer: ['Crossbow, light', 'Component pouch', "Dungeoneer's pack", 'Dagger', 'Dagger'],
+  Warlock: ['Crossbow, light', 'Component pouch', "Scholar's pack", 'Leather', 'Dagger', 'Dagger'],
+  Wizard: ['Quarterstaff', 'Component pouch', "Scholar's pack", 'Spellbook'],
+  Artificer: ['Crossbow, light', 'Scale mail', "Thieves' tools", "Dungeoneer's pack"]
 };
 
 // Class actions (common + class-specific)
