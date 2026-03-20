@@ -1,0 +1,501 @@
+/**
+ * base.css - Reset, body, header, buttons, dropdowns.
+ * Variables are imported by styles.css before this file.
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Skip to content - visible on focus for accessibility */
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  z-index: 9999;
+  padding: 0.75rem 1rem;
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: left 0.2s;
+}
+.skip-to-content:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Crimson Text', Georgia, serif;
+  background: linear-gradient(135deg, #1e1612 0%, #2a1f18 50%, #1e1612 100%);
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.02) 2px,
+      rgba(0,0,0,0.02) 4px
+    ),
+    linear-gradient(135deg, #1e1612 0%, #2a1f18 50%, #1e1612 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+.site {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========== HEADER ========== */
+.site-header {
+  background: linear-gradient(180deg, var(--burgundy) 0%, var(--burgundy-dark) 100%);
+  padding: 0.75rem 1rem;
+  box-shadow: 0 2px 16px var(--shadow), 0 1px 0 rgba(184, 134, 11, 0.3);
+  border-bottom: 2px solid var(--gold);
+}
+.site-header-compact .header-inner {
+  max-width: 100%;
+}
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.header-brand {
+  flex-shrink: 0;
+}
+.header-brand .tagline {
+  margin-top: 0.15rem;
+  font-size: 0.85rem;
+}
+.site-header-compact h1 {
+  font-size: 1.5rem;
+}
+.header-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+/* Source badges */
+.source-badge {
+  display: inline-block;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: rgba(184, 134, 11, 0.2);
+  color: var(--gold-light);
+  border: 1px solid rgba(184, 134, 11, 0.3);
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-left: 0.3rem;
+  white-space: nowrap;
+}
+.choice-card .source-badge {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  margin: 0;
+  /* Override for visibility on parchment: use dark text instead of gold-light */
+  color: var(--ink);
+  background: rgba(139, 105, 20, 0.2);
+  border-color: rgba(139, 105, 20, 0.5);
+}
+
+/* Light-background contexts: use dark text for readability (gold/gray on beige fix) */
+.choice-card,
+.stat-block,
+.sheet-display-modal-content,
+.character-card {
+  --on-light-gold: #8b6914;
+  --on-light-muted: #5a4538;
+}
+.choice-card .choice-title,
+.choice-card .choice-desc,
+.stat-block .stat-name,
+.stat-block .stat-value,
+.sheet-display-modal-content h4,
+.sheet-display-modal-content .sheet-display-hint,
+.character-card .info-label {
+  color: var(--ink);
+}
+.sheet-display-modal-content .sheet-display-hint {
+  color: var(--ink-muted);
+}
+.stat-block,
+.sheet-display-modal-content {
+  color: var(--ink);
+}
+.stat-display-item {
+  color: var(--ink);
+}
+.stat-display-item .stat-mod {
+  color: var(--ink-muted);
+}
+
+/* Modal content (parchment background): dark text throughout */
+.modal-content {
+  color: var(--ink);
+}
+.modal-content .modal-header h2,
+.modal-content .modal-close {
+  color: var(--ink);
+}
+.modal-content .modal-close:hover {
+  color: var(--ink-muted);
+}
+.modal-content .rules-desc {
+  color: var(--ink-muted);
+}
+.modal-content {
+  color: var(--ink);
+}
+.modal-body {
+  color: inherit;
+}
+.modal-content .rules-desc a {
+  color: var(--on-light-gold);
+}
+.modal-content .form-group label {
+  color: var(--ink);
+}
+.modal-content .btn-ghost {
+  color: var(--ink);
+  background: rgba(0,0,0,0.08);
+  border-color: rgba(0,0,0,0.2);
+}
+.modal-content .btn-ghost:hover {
+  background: rgba(0,0,0,0.15);
+  color: var(--ink);
+  border-color: var(--ink-muted);
+}
+.modal-content .guide-item strong {
+  color: var(--ink);
+}
+.modal-content .guide-item p {
+  color: var(--ink-muted);
+}
+.modal-content .quick-ref-more,
+.modal-content .quick-ref-empty {
+  color: var(--ink-muted);
+}
+.modal-content .ruleset-info a {
+  color: var(--on-light-gold);
+}
+.modal-content .rule-books-group h4 {
+  color: var(--ink);
+}
+.modal-content .leveling-mode-options,
+.modal-content .leveling-option {
+  color: var(--ink);
+}
+.modal-content .optional-label,
+.modal-content .subclass-hint {
+  color: var(--ink-muted);
+}
+
+/* Builder cancel and step-body ghost buttons (light-context) */
+.character-builder .wizard-nav .btn-ghost,
+.step-body .btn-ghost {
+  color: var(--ink);
+  background: rgba(0,0,0,0.1);
+  border-color: rgba(0,0,0,0.25);
+}
+.character-builder .wizard-nav .btn-ghost:hover,
+.step-body .btn-ghost:hover {
+  background: rgba(0,0,0,0.18);
+  color: var(--ink);
+  border-color: var(--ink-muted);
+}
+
+/* Quick Reference inputs (parchment modal) */
+.quick-ref-search-row input,
+.quick-ref-search-row select {
+  color: var(--ink);
+  background: white;
+  border: 2px solid var(--border);
+}
+.quick-ref-search-row input::placeholder {
+  color: var(--ink-muted);
+}
+
+/* Quick Rules modal - rule items on parchment */
+.quick-rule {
+  color: var(--ink);
+  background: rgba(0,0,0,0.06);
+  border-left: 3px solid var(--gold);
+}
+.quick-rule strong {
+  color: var(--ink);
+}
+
+/* Quick Reference links (parchment) */
+.quick-reference-content .rules-desc a {
+  color: var(--on-light-gold);
+}
+
+/* Source / SRD tags in Quick Reference list — gold-on-gold is illegible on parchment */
+.modal-content .quick-ref-item .source-badge,
+.quick-reference-content .source-badge {
+  color: var(--ink);
+  background: rgba(107, 45, 60, 0.12);
+  border-color: rgba(107, 45, 60, 0.35);
+  font-size: 0.68rem;
+}
+.modal-content .quick-ref-item.quick-ref-monster,
+.modal-content .quick-ref-item.quick-ref-spell,
+.modal-content .quick-ref-item.quick-ref-rule {
+  color: var(--ink);
+}
+.modal-content .quick-ref-item strong {
+  color: var(--ink);
+}
+
+/* ========== PARCHMENT CONTEXT OVERRIDES ========== */
+/* Consolidated block: ensure dark text on light backgrounds (modals, builder, Quick Ref, print) */
+.modal-content .rules-desc,
+.modal-content .quick-ref-more,
+.modal-content .quick-ref-empty,
+.quick-rules-body .quick-rule,
+.character-builder .step-desc,
+.character-builder .step-help p,
+.character-builder .optional-label,
+.character-builder .subclass-hint,
+.character-builder .no-subraces,
+.character-builder .info-panel p,
+.character-builder .spell-prepare-hint,
+.character-builder .point-buy-remaining,
+.character-builder .stats-method-hint {
+  color: var(--ink-muted) !important;
+}
+.character-builder .step-desc {
+  color: var(--ink-muted) !important;
+}
+/* .quick-rule overrides applied in .quick-rules-body section */
+
+/* Dropdown menus (parchment background) */
+.dropdown-menu {
+  color: var(--ink);
+}
+.dropdown-menu button {
+  color: var(--ink);
+}
+
+/* Parchment-dark chips/cards in session view */
+.skill-item {
+  color: var(--ink);
+}
+.skill-item .skill-source {
+  color: var(--ink-muted);
+}
+.sense-item {
+  color: var(--ink);
+}
+.sense-item .sense-value {
+  color: var(--ink);
+}
+.attack-card {
+  color: var(--ink);
+}
+.spell-card {
+  color: var(--ink);
+}
+.spell-card .spell-desc,
+.spell-card small {
+  color: var(--ink-muted);
+}
+.dice-roll-modal {
+  color: var(--ink);
+}
+.dice-roll-modal .dice-result-label {
+  color: var(--ink);
+}
+
+/* Skill source label in session view */
+.skill-source {
+  font-size: 0.75em;
+  color: var(--text-muted);
+  font-weight: normal;
+}
+.choice-card {
+  position: relative;
+}
+
+.edition-toggle {
+  display: flex;
+  border: 1px solid rgba(232, 212, 139, 0.4);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.edition-btn {
+  padding: 0.3rem 0.6rem;
+  background: rgba(0,0,0,0.2);
+  border: none;
+  color: var(--gold-light);
+  font-family: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.edition-btn:hover {
+  background: rgba(0,0,0,0.3);
+}
+.edition-btn.active {
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 600;
+}
+.role-toggle {
+  display: flex;
+  border: 1px solid rgba(232, 212, 139, 0.4);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.role-btn {
+  padding: 0.35rem 0.75rem;
+  background: rgba(0,0,0,0.2);
+  border: none;
+  color: var(--gold-light);
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.role-btn:hover {
+  background: rgba(0,0,0,0.3);
+}
+.role-btn.active {
+  background: var(--gold);
+  color: var(--ink);
+}
+.header-dropdown {
+  position: relative;
+}
+.tools-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.25rem;
+  background: var(--burgundy);
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  padding: 0.5rem;
+  min-width: 160px;
+  z-index: 100;
+}
+.tools-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--gold-light);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.tools-dropdown button:hover {
+  background: rgba(232, 212, 139, 0.2);
+}
+
+.site-header h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--gold-light);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+  letter-spacing: 0.1em;
+}
+
+.tagline {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  color: var(--parchment);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.ruleset-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(232, 212, 139, 0.4);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--gold-light);
+  cursor: pointer;
+  font-family: inherit;
+  appearance: none;
+}
+
+.ruleset-badge:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.btn-header {
+  margin-top: 0;
+  color: var(--gold-light);
+  border-color: rgba(232, 212, 139, 0.5);
+}
+
+.btn-header:hover {
+  background: rgba(232, 212, 139, 0.15);
+}
+
+.site-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 2rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+/* Scrollbars — toned to match parchment UI (Firefox + WebKit) */
+* {
+  scrollbar-color: rgba(139, 115, 85, 0.65) rgba(42, 31, 24, 0.35);
+  scrollbar-width: thin;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(42, 31, 24, 0.35);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(184, 134, 11, 0.45), rgba(107, 45, 60, 0.5));
+  border-radius: 6px;
+  border: 2px solid rgba(42, 31, 24, 0.35);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(184, 134, 11, 0.65), rgba(107, 45, 60, 0.65));
+}
+
+/* ========== CHARACTER LIST ========== */

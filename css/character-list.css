@@ -1,0 +1,385 @@
+/**
+ * character-list.css - Character list view, cards, empty state.
+ */
+/* ========== CHARACTER LIST ========== */
+.character-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.character-list .character-list-header {
+  flex-shrink: 0;
+}
+
+.character-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.character-list-heading {
+  flex: 1;
+  min-width: 0;
+}
+
+.character-list-role-hint {
+  font-size: 0.88rem;
+  color: var(--ink-muted);
+  margin-top: 0.4rem;
+  max-width: 38rem;
+  line-height: 1.45;
+}
+
+.character-list-header h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--gold-light);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.character-list-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.import-error {
+  display: block;
+  color: var(--error-text);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  width: 100%;
+}
+.import-error:empty {
+  display: none;
+}
+
+.import-homebrew-textarea {
+  width: 100%;
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  resize: vertical;
+}
+.import-homebrew-status {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+.import-homebrew-status.success { color: var(--forest-light); }
+.import-homebrew-status.error { color: var(--error-text); }
+
+.first-run-hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(201, 150, 12, 0.2);
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  color: var(--ink);
+}
+.first-run-hint p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+.step10-hint {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  margin-bottom: 0.75rem;
+}
+
+/* ========== BUTTONS ========== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Crimson Text', serif;
+  box-sizing: border-box;
+  touch-action: manipulation;
+}
+.btn:focus-visible,
+.session-tab:focus-visible,
+.step-dot:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, var(--gold) 0%, var(--gold-dark) 100%);
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.btn-secondary {
+  background: var(--forest);
+  color: #f5efe6;
+  border: 1px solid var(--forest-light);
+  font-weight: 500;
+}
+
+.btn-secondary:hover {
+  background: var(--forest-light);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.btn-ghost {
+  background: rgba(184, 134, 11, 0.2);
+  color: var(--gold-light);
+  border: 1px solid rgba(184, 134, 11, 0.5);
+  font-weight: 500;
+}
+
+.btn-ghost:hover {
+  background: rgba(184, 134, 11, 0.35);
+  color: var(--parchment);
+  border-color: var(--gold);
+}
+
+.btn-icon {
+  min-height: 40px;
+  padding: 0.5rem 0.875rem;
+  font-size: 0.85rem;
+  background: var(--parchment-dark);
+  color: var(--ink);
+  border: 1px solid var(--border);
+}
+
+.btn-icon:hover {
+  background: var(--parchment);
+}
+
+.btn-danger {
+  color: var(--burgundy-light);
+}
+
+.btn-danger:hover {
+  background: rgba(107, 45, 60, 0.2);
+}
+
+.btn-large {
+  min-height: 44px;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+/* ========== DROPDOWNS ========== */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background: var(--parchment);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  box-shadow: 0 4px 16px var(--shadow);
+  z-index: 100;
+  min-width: 160px;
+  display: none;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-menu button {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  width: 100%;
+  padding: 0 1rem;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--ink);
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.dropdown-menu button:hover {
+  background: var(--parchment-dark);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3.5rem 2rem;
+  background: var(--section-bg);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-lg, 12px);
+  color: var(--ink-muted);
+  position: relative;
+}
+
+.empty-state::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: radial-gradient(ellipse at center, rgba(184,134,11,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.empty-state.hidden {
+  display: none;
+}
+
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.character-grid.empty {
+  display: none;
+}
+
+/* Character Cards */
+.character-card {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, var(--parchment) 0%, var(--parchment-dark) 100%);
+  border-radius: 10px;
+  padding: 1.25rem;
+  border: 2px solid var(--border);
+  box-shadow: 0 4px 16px var(--shadow), 0 0 0 1px rgba(184, 134, 11, 0.1);
+  color: var(--ink);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.character-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--shadow), 0 0 0 2px rgba(184, 134, 11, 0.2);
+  border-color: var(--gold);
+}
+
+.character-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.character-card-header h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.character-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.character-card-body .info-label {
+  color: var(--ink-muted);
+}
+
+.character-info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--ink);
+  gap: 0.5rem;
+}
+
+.character-info-row span:last-child {
+  text-align: right;
+  min-width: 0;
+}
+
+.info-label {
+  font-weight: 600;
+  color: var(--ink-muted);
+  flex-shrink: 0;
+}
+
+.character-status-pill {
+  margin-top: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: fit-content;
+  align-self: center;
+}
+
+.character-status-pill.is-ready {
+  background: rgba(45, 90, 45, 0.25);
+  color: var(--forest-light);
+}
+
+.character-status-pill.is-draft {
+  background: rgba(168, 144, 96, 0.3);
+  color: var(--ink-muted);
+}
+
+.character-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.character-card-actions .btn-icon {
+  flex: 1;
+  min-width: 5rem;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ========== WIZARD BUILDER ========== */

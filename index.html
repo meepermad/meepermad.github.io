@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
   <div class="site">
     <header class="site-header site-header-compact">
       <div class="header-inner">
@@ -26,18 +27,24 @@
             <p class="tagline">Forge your legend, step by step</p>
           </div>
           <div class="header-actions">
+            <button type="button" class="btn btn-ghost btn-header" id="home-btn" title="Home: character list (DM tools stay on the left in DM mode)">Home</button>
+            <div class="edition-toggle" role="group" aria-label="D&D Edition">
+              <button type="button" class="edition-btn active" id="edition-5e" data-edition="5e">5e (2014)</button>
+              <button type="button" class="edition-btn" id="edition-55e" data-edition="5.5e">5.5e (2024)</button>
+            </div>
             <div class="role-toggle" role="group" aria-label="Player or DM">
               <button type="button" class="role-btn active" id="role-player" data-role="player">Player</button>
               <button type="button" class="role-btn" id="role-dm" data-role="dm">DM</button>
             </div>
             <button type="button" class="ruleset-badge" id="ruleset-badge" title="Rule books">PHB</button>
             <div class="header-dropdown">
-              <button class="btn btn-ghost btn-header" id="tools-menu-btn" aria-haspopup="true">Tools ▾</button>
+              <button type="button" class="btn btn-ghost btn-header" id="tools-menu-btn" aria-haspopup="true" aria-expanded="false" aria-controls="tools-dropdown"><span class="tools-btn-icon" aria-hidden="true"></span><span class="tools-btn-label">Tools</span></button>
               <div class="tools-dropdown" id="tools-dropdown" hidden>
                 <button type="button" data-tool="rules">Rules & Reference</button>
                 <button type="button" data-tool="quick-rules">Quick Rules</button>
                 <button type="button" data-tool="quick-reference">Quick Reference (Search)</button>
                 <button type="button" data-tool="battle-map">Battle Map</button>
+                <button type="button" data-tool="import-homebrew">Import Homebrew</button>
               </div>
             </div>
           </div>
@@ -48,8 +55,69 @@
     <button type="button" id="rules-btn" hidden aria-hidden="true">Rules</button>
 
     <!-- ========== MODALS ========== -->
+    <!-- Short Rest Modal -->
+    <div id="short-rest-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="short-rest-modal-title" hidden>
+      <div class="modal-backdrop" id="short-rest-modal-backdrop"></div>
+      <div class="modal-content modal-content-sm">
+        <div class="modal-header">
+          <h2 id="short-rest-modal-title">Short Rest</h2>
+          <button type="button" class="modal-close" id="short-rest-modal-close" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body">
+          <p id="short-rest-message" class="rules-desc"></p>
+          <div id="short-rest-hd-section" class="form-group">
+            <label>Hit Dice to spend:</label>
+            <input type="number" id="short-rest-hd-input" min="0" value="1" class="short-rest-input">
+            <span id="short-rest-hd-hint" class="short-rest-hint"></span>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="short-rest-modal-cancel">Cancel</button>
+          <button type="button" class="btn btn-primary" id="short-rest-modal-confirm">Take Short Rest</button>
+        </div>
+      </div>
+    </div>
+    <!-- Import Homebrew Modal -->
+    <div id="import-homebrew-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="import-homebrew-modal-title" hidden>
+      <div class="modal-backdrop" id="import-homebrew-modal-backdrop"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="import-homebrew-modal-title">Import Homebrew Content</h2>
+          <button type="button" class="modal-close" id="import-homebrew-modal-close" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body">
+          <p class="rules-desc">Paste JSON with <code>races</code>, <code>classes</code>, <code>backgrounds</code>, and/or <code>feats</code>. Merges with existing homebrew.</p>
+          <div class="form-group">
+            <label for="import-homebrew-textarea">JSON content</label>
+            <textarea id="import-homebrew-textarea" rows="12" class="import-homebrew-textarea" placeholder='{"races":[],"classes":[],"backgrounds":[],"feats":[]}'></textarea>
+          </div>
+          <p id="import-homebrew-status" class="import-homebrew-status" aria-live="polite"></p>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="import-homebrew-modal-cancel">Cancel</button>
+          <button type="button" class="btn btn-primary" id="import-homebrew-modal-confirm">Import</button>
+        </div>
+      </div>
+    </div>
+    <!-- Generic Confirm Modal -->
+    <div id="confirm-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title" hidden>
+      <div class="modal-backdrop" id="confirm-modal-backdrop"></div>
+      <div class="modal-content modal-content-sm">
+        <div class="modal-header">
+          <h2 id="confirm-modal-title">Confirm</h2>
+          <button type="button" class="modal-close" id="confirm-modal-close" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body">
+          <p id="confirm-modal-message" class="rules-desc"></p>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="confirm-modal-cancel">Cancel</button>
+          <button type="button" class="btn btn-primary" id="confirm-modal-confirm">Confirm</button>
+        </div>
+      </div>
+    </div>
     <!-- Rules & Reference Modal - House rules, campaign settings, rule books -->
-    <div id="rules-modal" class="modal" hidden>
+    <div id="rules-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="rules-modal-title" hidden>
       <div class="modal-backdrop" id="rules-modal-backdrop"></div>
       <div class="modal-content">
         <div class="modal-header">
@@ -97,13 +165,19 @@
           </div>
           <div class="rules-pane" id="pane-how-to-use" hidden>
             <div class="guides-list">
+              <div class="guide-item guide-item--featured">
+                <strong>Quick start for new players</strong>
+                <p>D&amp;D is collaborative storytelling: you play a character while a Dungeon Master presents scenes and challenges. This app builds a complete sheet for that character, step by step.</p>
+                <p><strong>Easy first hero:</strong> Race <strong>Human</strong> or <strong>Half-Elf</strong>, class <strong>Fighter</strong> or <strong>Cleric</strong>, ability scores <strong>Standard Array</strong>. Green <strong>Recommended</strong> badges mark newcomer-friendly options.</p>
+                <p><strong>Edition:</strong> Header toggle <strong>5e (2014)</strong> vs <strong>5.5e (2024)</strong>. If your DM did not specify, 2014 5e is still the common default.</p>
+              </div>
               <div class="guide-item">
-                <strong>1. Create a Character</strong>
-                <p>Click <strong>New Character</strong> on the main screen. The wizard walks you through 10 steps: Name, Race, Subrace, Class, Subclass, Background, Alignment, Ability Scores, Details (spells, equipment, defenses, proficiencies, personality), and a final Summary. You can use the starter kit button on the equipment step to pre-fill gear for your class.</p>
+                <strong>1. Create a character</strong>
+                <p>From the roster, <strong>New Character</strong> opens a ten-step wizard (name through summary). On equipment, <strong>Load Starter Kit</strong> can pre-fill gear. Expand <strong>New to D&amp;D?</strong> on any step for a short explanation.</p>
               </div>
               <div class="guide-item">
                 <strong>2. Rolling Ability Scores</strong>
-                <p>On step 8 (Ability Scores), click <strong>Roll 4d6 (Drop Lowest)</strong>. The app rolls four six-sided dice for each stat, drops the lowest die (shown crossed out in red), and totals the remaining three. You then assign each total to the stat of your choice. You can also type scores manually.</p>
+                <p>On step 6 (Ability Scores), click <strong>Roll 4d6 (Drop Lowest)</strong>. The app rolls four six-sided dice for each stat, drops the lowest die (shown crossed out in red), and totals the remaining three. You then assign each total to the stat of your choice. You can also type scores manually.</p>
               </div>
               <div class="guide-item">
                 <strong>3. Playing Your Character</strong>
@@ -148,19 +222,19 @@
               </div>
               <div class="guide-item">
                 <strong>Adding a race</strong>
-                <p>Edit <code>js/data.js</code> → <code>RACES</code> or a book's <code>races</code> array. Use the structure: id, name, description, speed, abilityScore, traits, languages, subraces.</p>
+                <p>Edit <code>js/data/data.js</code> → <code>RACES</code> or a book's <code>races</code> array. Use the structure: id, name, description, speed, abilityScore, traits, languages, subraces.</p>
               </div>
               <div class="guide-item">
                 <strong>Adding a monster</strong>
-                <p>Edit <code>js/monsters.js</code> → <code>SRD_MONSTERS</code>. Include: name, ac, hp, speed, cr, type, xp, ability scores, senses, traits, actions.</p>
+                <p>Edit <code>js/data/monsters-data.js</code> → <code>SRD_MONSTERS</code>. Include: name, ac, hp, speed, cr, type, xp, ability scores, senses, traits, actions.</p>
               </div>
               <div class="guide-item">
                 <strong>Adding a spell</strong>
-                <p>Edit <code>js/spells.js</code> → <code>SPELLS</code>. Include: name, level (0=cantrip), school, castTime, range, components, duration, description, classes.</p>
+                <p>Edit <code>js/data/spells.js</code> → <code>SPELLS</code>. Include: name, level (0=cantrip), school, castTime, range, components, duration, description, classes.</p>
               </div>
               <div class="guide-item">
                 <strong>Adding a book</strong>
-                <p>Edit <code>js/data.js</code> → <code>ADDITIONAL_BOOKS</code>. Add <code>{ id, name, enabled, races, classes, backgrounds, rules }</code>.</p>
+                <p>Edit <code>js/data/data.js</code> → <code>ADDITIONAL_BOOKS</code>. Add <code>{ id, name, enabled, races, classes, backgrounds, rules }</code>.</p>
               </div>
             </div>
           </div>
@@ -204,14 +278,15 @@
           <button type="button" class="modal-close" id="quick-reference-close" aria-label="Close">×</button>
         </div>
         <div class="modal-body">
-          <p class="rules-desc">Search monsters, spells, and items. For more content, see <a href="https://5e.tools/books.html" target="_blank" rel="noopener">5e.tools</a>.</p>
+          <p class="rules-desc">Search monsters, spells, items, and rules. For more content, see <a href="https://5e.tools/books.html" target="_blank" rel="noopener">5e.tools</a>.</p>
           <div class="quick-ref-search-row">
-            <input type="text" id="quick-ref-search" placeholder="Search monsters, spells, items..." autocomplete="off">
+            <input type="text" id="quick-ref-search" placeholder="Search monsters, spells, items, rules..." autocomplete="off">
             <select id="quick-ref-filter">
               <option value="">All</option>
               <option value="monsters">Monsters</option>
               <option value="spells">Spells</option>
               <option value="items">Items</option>
+              <option value="rules">Rules</option>
             </select>
           </div>
           <div id="quick-ref-results" class="quick-ref-results"></div>
@@ -243,7 +318,7 @@
     </div>
 
     <!-- ========== MAIN CONTENT ========== -->
-    <main class="site-main">
+    <main class="site-main" id="main-content">
       <!-- DM Panel - Monsters, NPCs, saved maps (visible when DM role selected) -->
       <div id="dm-panel" class="dm-panel" hidden>
         <div class="dm-panel-tabs">
@@ -253,6 +328,8 @@
         </div>
         <div class="dm-panel-content">
           <div class="dm-pane active" id="dm-pane-monsters">
+            <h3 class="dm-monsterpedia-title">Monsterpedia</h3>
+            <p class="dm-monsterpedia-lead rules-desc">Search and add creatures. Build encounters below when you need party math.</p>
             <div class="dm-search-row">
               <input type="text" id="monster-search" class="dm-search" placeholder="Search monsters by name, CR, or type...">
               <select id="monster-cr-filter">
@@ -273,6 +350,20 @@
               </select>
             </div>
             <div id="dm-monsters-list" class="dm-monsters-grid"></div>
+            <details class="dm-encounter-details">
+              <summary class="dm-encounter-summary">Encounter builder</summary>
+              <div id="encounter-builder" class="encounter-builder">
+                <h4 class="encounter-builder-title">Build Encounter</h4>
+                <div class="encounter-party-row">
+                  <label>Party: <input type="number" id="encounter-party-level" min="1" max="20" value="5" title="Average party level"> Lv</label>
+                  <label>× <input type="number" id="encounter-party-size" min="1" max="10" value="4" title="Number of PCs"> PCs</label>
+                  <button type="button" class="btn btn-ghost btn-sm" id="encounter-use-party-btn" title="Sync from saved characters">Use PCs</button>
+                </div>
+                <div id="encounter-list" class="encounter-list"></div>
+                <div id="encounter-difficulty" class="encounter-difficulty"></div>
+                <button type="button" class="btn btn-primary btn-sm" id="encounter-add-to-map-btn" disabled>Add Encounter to Battle Map</button>
+              </div>
+            </details>
           </div>
           <div class="dm-pane" id="dm-pane-npcs">
             <p class="rules-desc">Create NPCs for your campaign. Add notes, stats, and personality. Add to battle map when needed.</p>
@@ -310,8 +401,12 @@
       <!-- List View - Character cards, export/import, new character -->
       <div id="list-view" class="character-list">
         <div class="character-list-header">
-          <h2>Your Characters</h2>
+          <div class="character-list-heading">
+            <h2 id="character-list-title">Your Characters</h2>
+            <p id="character-list-role-hint" class="character-list-role-hint" hidden>DM mode: Monsterpedia is the main column — party characters are on the right. NPCs &amp; saved maps: tabs above Monsterpedia.</p>
+          </div>
           <div class="character-list-actions">
+            <button class="btn btn-ghost" id="undo-characters-btn" title="Undo last save" hidden>Undo</button>
             <div class="dropdown">
               <button class="btn btn-secondary" id="export-btn">Export</button>
               <div class="dropdown-menu" id="export-menu">
@@ -323,14 +418,22 @@
               Import JSON
               <input type="file" id="import-input" accept=".json" hidden>
             </label>
+            <span id="import-error" class="import-error" aria-live="polite"></span>
             <button class="btn btn-primary" id="new-character-btn">New Character</button>
           </div>
         </div>
         <div id="character-grid" class="character-grid"></div>
         <div id="empty-state" class="empty-state">
-          <div class="empty-icon">⚔</div>
-          <p>No characters yet. Create your first character to begin your adventure!</p>
-          <button class="btn btn-primary btn-large" id="empty-new-btn">Create Character</button>
+          <div class="empty-state-visual" aria-hidden="true">
+            <span class="empty-emblem">⚜</span>
+          </div>
+          <h3 class="empty-state-title">Your hall of heroes is empty</h3>
+          <p class="empty-state-lead">Create an adventurer in the guided builder, or import a party you already have as JSON.</p>
+          <ul class="empty-state-tips" role="list">
+            <li><span class="empty-tip-mark" aria-hidden="true">✦</span> New to D&amp;D? Watch for the <strong>Recommended</strong> badge on races and classes.</li>
+            <li><span class="empty-tip-mark" aria-hidden="true">✦</span> Use <strong>Export</strong> anytime to back up your roster.</li>
+          </ul>
+          <button type="button" class="btn btn-primary btn-large" id="empty-new-btn"><span class="empty-cta-ico" aria-hidden="true">✧</span> Create your first character</button>
         </div>
       </div>
 
@@ -338,18 +441,19 @@
       <div id="session-view" class="session-view" hidden>
         <div class="session-header">
           <button class="btn btn-ghost" id="session-back-btn">← Back to Characters</button>
-          <h2 id="session-char-name">Character Name</h2>
+          <h2 id="session-char-name">Character Name</h2><span class="edition-badge" id="session-edition-badge" aria-label="Edition"></span>
           <div class="session-header-actions">
-            <button class="btn btn-primary" id="session-battle-map-btn" title="Switch to Battle Map">🗺 Battle Map</button>
+            <button type="button" class="btn btn-primary" id="session-battle-map-btn" title="Switch to Battle Map"><span class="session-map-glyph" aria-hidden="true"></span> Battle Map</button>
             <button class="btn btn-secondary" id="session-edit-btn">Edit Character</button>
             <button class="btn btn-ghost btn-sm" id="session-print-btn" title="Print character sheet">Print</button>
+            <button class="btn btn-ghost btn-sm" id="session-export-pdf-btn" title="Open printable sheet in new tab; use Ctrl+P to save as PDF">Export to PDF</button>
           </div>
         </div>
-        <div class="session-tabs">
-          <button class="session-tab active" data-tab="character">Character</button>
-          <button class="session-tab" data-tab="actions">Actions & Spells</button>
-          <button class="session-tab" data-tab="inventory">Inventory</button>
-          <button class="session-tab" data-tab="leveling">Leveling</button>
+        <div class="session-tabs" role="tablist" aria-label="Character sheet sections">
+          <button class="session-tab active" role="tab" aria-selected="true" data-tab="character">Character</button>
+          <button class="session-tab" role="tab" aria-selected="false" data-tab="actions">Actions & Spells</button>
+          <button class="session-tab" role="tab" aria-selected="false" data-tab="inventory">Inventory</button>
+          <button class="session-tab" role="tab" aria-selected="false" data-tab="leveling">Leveling</button>
         </div>
         <div id="dice-roll-overlay" class="dice-roll-overlay" hidden>
           <div class="dice-roll-modal">
@@ -365,7 +469,7 @@
             <div class="character-sheet-header">
               <div class="sheet-header-main">
                 <h3>Character Sheet</h3>
-                <p class="sheet-subtitle">Drag sections to reorder. Use ⚙ Sections to customize layout. Fully customizable.</p>
+                <p class="sheet-subtitle"><strong>Layout</strong> = one column or two. <strong>⚙ Sections</strong> = Full / Half / Compact per block. <strong>✏ Designer</strong> = turn on, then drag ⋮⋮ handles to reorder.</p>
               </div>
               <div class="sheet-layout-controls">
                 <label>Layout: <select id="sheet-layout-overall">
@@ -373,12 +477,13 @@
                   <option value="columns">Two columns</option>
                 </select></label>
                 <button type="button" class="btn btn-ghost btn-sm" id="sheet-layout-customize" title="Customize section display">⚙ Sections</button>
+                <button type="button" class="btn btn-ghost btn-sm" id="designer-mode-toggle" title="Toggle designer mode to rearrange and resize sections">✏ Designer</button>
               </div>
             </div>
             <div id="sheet-section-display-modal" class="sheet-display-modal" hidden>
               <div class="sheet-display-modal-content">
                 <h4>Section Display</h4>
-                <p class="sheet-display-hint">Full width spans both columns. Compact uses less padding. Half stays in one column when using two-column layout.</p>
+                <p class="sheet-display-hint"><strong>Full</strong> spans both columns. <strong>Half</strong> stays in one column (when using two-column layout). <strong>Compact</strong> tightens padding—best for skills and lists; very small screens may still feel cramped.</p>
                 <div id="sheet-section-display-options"></div>
                 <button type="button" class="btn btn-primary btn-sm" id="sheet-display-close">Done</button>
               </div>
@@ -386,6 +491,7 @@
             <div class="character-identity-block">
               <div class="identity-row">
                 <span class="identity-name" id="qs-name">—</span>
+                <span class="edition-badge" id="print-edition" aria-hidden="true"></span>
                 <span class="identity-details" id="qs-identity">—</span>
               </div>
             </div>
@@ -393,55 +499,50 @@
               <div class="quick-stat"><span class="qs-label">AC</span><span class="qs-value" id="qs-ac">—</span></div>
               <div class="quick-stat"><span class="qs-label">HP</span><span class="qs-value" id="qs-hp">—</span></div>
               <div class="quick-stat"><span class="qs-label">Speed</span><span class="qs-value" id="qs-speed">—</span></div>
-              <div class="quick-stat"><span class="qs-label">Init</span><span class="qs-value" id="qs-init">—</span></div>
+              <div class="quick-stat quick-stat--init">
+                <span class="qs-label">Initiative</span>
+                <div class="qs-init-split" title="Modifier is Dex; total is d20 + mod after you roll">
+                  <span class="qs-init-part"><span class="qs-sub">Mod</span> <strong id="qs-init-mod">+0</strong></span>
+                  <span class="qs-init-part"><span class="qs-sub">Total</span> <strong id="qs-init-total">—</strong></span>
+                </div>
+              </div>
               <div class="quick-stat"><span class="qs-label">Prof</span><span class="qs-value" id="qs-prof">+2</span></div>
             </div>
             <div id="overview-sections" class="overview-sections">
               <div class="collapsible-section" data-section="saves">
-                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Saving Throws</button>
+                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Saves & Ability Checks</button>
                 <div class="section-content">
-                  <div id="session-saves-display" class="stats-display stats-with-roll"></div>
-                </div>
-              </div>
-              <div class="collapsible-section" data-section="ability-checks">
-                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Ability Checks <span class="section-hint">(d20 + modifier)</span></button>
-                <div class="section-content">
-                  <div id="session-stats-display" class="stats-display stats-with-roll"></div>
-                </div>
-              </div>
-              <div class="collapsible-section" data-section="about">
-                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> About (Appearance & Personality)</button>
-                <div class="section-content">
-                  <div id="session-about-display" class="about-content"></div>
-                </div>
-              </div>
-              <div class="collapsible-section" data-section="senses">
-                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Senses (Passive)</button>
-                <div class="section-content">
-                  <div class="senses-grid">
-                    <div class="sense-item"><span class="sense-label">Perception</span><span class="sense-value" id="passive-perception">10</span></div>
-                    <div class="sense-item"><span class="sense-label">Investigation</span><span class="sense-value" id="passive-investigation">10</span></div>
-                    <div class="sense-item"><span class="sense-label">Insight</span><span class="sense-value" id="passive-insight">10</span></div>
+                  <div class="saves-checks-grid">
+                    <div><span class="saves-checks-label">Saving Throws</span><div id="session-saves-display" class="stats-display stats-with-roll"></div></div>
+                    <div><span class="saves-checks-label">Ability Checks</span><div id="session-stats-display" class="stats-display stats-with-roll"></div></div>
                   </div>
                 </div>
               </div>
-              <div class="collapsible-section" data-section="skills">
-                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Skills & Proficiencies</button>
+              <div class="collapsible-section" data-section="about">
+                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> About & Notes</button>
                 <div class="section-content">
-                  <div id="session-skills-roll" class="skills-roll-grid"></div>
-                  <div id="session-skills-display" class="list-items skills-bonuses"></div>
+                  <div id="session-about-display" class="about-content"></div>
+                  <div class="notes-section">
+                    <label for="session-notes" class="notes-label">Notes</label>
+                    <textarea id="session-notes" rows="3" placeholder="Campaign notes, backstory details, reminders..."></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="collapsible-section" data-section="senses-skills">
+                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Skills & Senses</button>
+                <div class="section-content">
+                  <div class="senses-row">
+                    <span class="sense-item"><span class="sense-label">Pass. Percep</span><span class="sense-value" id="passive-perception">10</span></span>
+                    <span class="sense-item"><span class="sense-label">Investigation</span><span class="sense-value" id="passive-investigation">10</span></span>
+                    <span class="sense-item"><span class="sense-label">Insight</span><span class="sense-value" id="passive-insight">10</span></span>
+                  </div>
+                  <div id="session-skills-display" class="skills-compact-grid" aria-label="Skills; click to roll"></div>
                 </div>
               </div>
               <div class="collapsible-section" data-section="defenses">
                 <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Defenses & Resistances</button>
                 <div class="section-content">
                   <div id="session-defenses-display" class="list-items"></div>
-                </div>
-              </div>
-              <div class="collapsible-section" data-section="conditions">
-                <button type="button" class="section-toggle" aria-expanded="true"><span class="toggle-icon">▼</span> Conditions</button>
-                <div class="section-content">
-                  <div id="session-conditions-display" class="list-items"></div>
                 </div>
               </div>
               <div class="collapsible-section" data-section="features">
@@ -464,63 +565,71 @@
                 <button type="button" class="btn btn-sm btn-secondary" id="roll-initiative-btn">Roll</button>
               </div>
             </div>
-            <div class="combat-hp-section">
-              <div class="hp-row">
+            <div class="combat-stats-grid">
+              <div class="combat-hp-section">
                 <label>Current HP</label>
                 <div class="hp-controls">
                   <button class="btn btn-secondary btn-sm" id="hp-minus">−</button>
                   <input type="number" id="hp-current" min="0" placeholder="Current">
                   <button class="btn btn-secondary btn-sm" id="hp-plus">+</button>
                 </div>
+                <div class="hp-quick-row">
+                  <button type="button" class="btn btn-secondary btn-sm" id="hp-damage-1">−1</button>
+                  <button type="button" class="btn btn-secondary btn-sm" id="hp-damage-5">−5</button>
+                  <button type="button" class="btn btn-secondary btn-sm" id="hp-heal-1">+1</button>
+                  <button type="button" class="btn btn-secondary btn-sm" id="hp-heal-5">+5</button>
+                </div>
+                <div class="hp-row">
+                  <label>Max</label>
+                  <input type="number" id="hp-max" min="1" placeholder="Max">
+                </div>
+                <div class="hp-row">
+                  <label>Temp</label>
+                  <input type="number" id="hp-temp" min="0" placeholder="0">
+                </div>
               </div>
-              <div class="hp-quick-row">
-                <button type="button" class="btn btn-secondary btn-sm" id="hp-damage-1">−1</button>
-                <button type="button" class="btn btn-secondary btn-sm" id="hp-damage-5">−5</button>
-                <button type="button" class="btn btn-secondary btn-sm" id="hp-heal-1">+1</button>
-                <button type="button" class="btn btn-secondary btn-sm" id="hp-heal-5">+5</button>
+              <div class="combat-hd-section">
+                <label>Hit Dice</label>
+                <div class="hd-row">
+                  <span id="hd-total">—</span>
+                  <span class="hd-used">Used: <input type="number" id="hd-used" min="0" placeholder="0"></span>
+                </div>
               </div>
-              <div class="hp-row">
-                <label>Max HP</label>
-                <input type="number" id="hp-max" min="1" placeholder="Max">
+              <div class="rest-section">
+                <label>Rest</label>
+                <div class="rest-buttons">
+                  <button type="button" class="btn btn-secondary" id="short-rest-btn">Short</button>
+                  <button type="button" class="btn btn-primary" id="long-rest-btn">Long</button>
+                </div>
+                <p class="rest-hint">Short: Hit Dice. Long: HP, dice, slots.</p>
               </div>
-              <div class="hp-row">
-                <label>Temp HP</label>
-                <input type="number" id="hp-temp" min="0" placeholder="0">
+              <div class="exhaustion-section">
+                <label>Exhaustion</label>
+                <select id="exhaustion-level">
+                  <option value="0">0 — None</option>
+                  <option value="1">1 — Disadv. checks</option>
+                  <option value="2">2 — Speed ½</option>
+                  <option value="3">3 — Disadv. attacks</option>
+                  <option value="4">4 — HP max ½</option>
+                  <option value="5">5 — Speed 0</option>
+                  <option value="6">6 — Death</option>
+                </select>
               </div>
             </div>
-            <div class="combat-hd-section">
-              <label>Hit Dice</label>
-              <div class="hd-row">
-                <span id="hd-total">—</span>
-                <span class="hd-used">Used: <input type="number" id="hd-used" min="0" placeholder="0"></span>
-              </div>
-            </div>
-            <div class="rest-section">
-              <label>Rest</label>
-              <div class="rest-buttons">
-                <button type="button" class="btn btn-secondary" id="short-rest-btn">Short Rest</button>
-                <button type="button" class="btn btn-primary" id="long-rest-btn">Long Rest</button>
-              </div>
-              <p class="rest-hint">Short: spend Hit Dice. Long: restore HP, hit dice, spell slots.</p>
-            </div>
-            <div class="exhaustion-section">
-              <label>Exhaustion</label>
-              <select id="exhaustion-level">
-                <option value="0">0 — None</option>
-                <option value="1">1 — Disadvantage on ability checks</option>
-                <option value="2">2 — Speed halved</option>
-                <option value="3">3 — Disadvantage on attacks & saves</option>
-                <option value="4">4 — HP max halved</option>
-                <option value="5">5 — Speed 0</option>
-                <option value="6">6 — Death</option>
-              </select>
-            </div>
-            <div class="death-saves-section">
+            <div class="death-saves-section" title="When at 0 HP: d20 each turn. 10+ = success, 9- = failure. 3 successes = stabilize. 3 failures = death.">
               <label>Death Saves</label>
               <div class="death-saves-row">
-                <span>Success: <button type="button" class="btn btn-sm btn-death" id="ds-success">○ ○ ○</button></span>
-                <span>Fail: <button type="button" class="btn btn-sm btn-death" id="ds-fail">○ ○ ○</button></span>
-                <button type="button" class="btn btn-ghost btn-sm" id="ds-reset">Reset</button>
+                <div class="death-save-group">
+                  <span class="death-save-label">Successes:</span>
+                  <span id="ds-success-display" class="death-save-circles" aria-label="Death save successes">○ ○ ○</span>
+                  <button type="button" class="btn btn-sm btn-death" id="ds-success" title="Add success (10+ on d20)">+ Success</button>
+                </div>
+                <div class="death-save-group">
+                  <span class="death-save-label">Failures:</span>
+                  <span id="ds-fail-display" class="death-save-circles" aria-label="Death save failures">○ ○ ○</span>
+                  <button type="button" class="btn btn-sm btn-death" id="ds-fail" title="Add failure (9- on d20)">+ Failure</button>
+                </div>
+                <button type="button" class="btn btn-ghost btn-sm" id="ds-reset" title="Clear all death saves">Reset</button>
               </div>
             </div>
             <div class="form-group">
@@ -535,6 +644,8 @@
               <div class="dice-roller-row">
                 <input type="text" id="dice-roller-input" placeholder="e.g. 2d6+3, 1d20, 4d8" autocomplete="off">
                 <button type="button" class="btn btn-secondary btn-sm" id="dice-roller-btn">Roll</button>
+                <button type="button" class="btn btn-ghost btn-sm dice-adv-btn" id="dice-adv-btn" title="Advantage: roll 2d20, take higher">Adv</button>
+                <button type="button" class="btn btn-ghost btn-sm dice-dis-btn" id="dice-dis-btn" title="Disadvantage: roll 2d20, take lower">Dis</button>
               </div>
               <div class="dice-quick-buttons">
                 <button type="button" class="btn btn-ghost btn-sm dice-quick" data-dice="1d4">d4</button>
@@ -546,6 +657,10 @@
                 <button type="button" class="btn btn-ghost btn-sm dice-quick" data-dice="1d100">d100</button>
               </div>
               <div id="dice-roller-result" class="dice-roller-result" hidden></div>
+              <details class="dice-roll-history" id="dice-roll-history">
+                <summary>Roll History</summary>
+                <ul id="dice-roll-history-list" class="dice-roll-history-list"></ul>
+              </details>
             </div>
           </div>
           </div>
@@ -572,6 +687,7 @@
             <hr class="section-divider">
             <div class="spell-slots-section">
               <h4>Spell Slots</h4>
+              <div id="spell-attack-dc" class="spell-attack-dc" hidden></div>
               <div id="spell-slots-grid" class="spell-slots-grid"></div>
               <button class="btn btn-secondary btn-sm" id="reset-spell-slots">Reset Slots (Short Rest)</button>
             </div>
@@ -661,40 +777,106 @@
         </div>
       </div>
 
-      <!-- Battle Map View - Grid, tokens, terrain, monster stats -->
+      <!-- Battle Map View - Grid left, controls right -->
       <div id="battle-map-view" class="battle-map-view" hidden>
         <div class="battle-map-header">
-          <button class="btn btn-ghost" id="battle-map-back-btn">← Back</button>
-          <button class="btn btn-primary" id="battle-map-character-btn" title="Switch to Character Sheet" hidden>📋 Character</button>
-          <h2>Battle Map</h2>
-          <div class="battle-map-toolbar">
-            <label>Grid: <input type="number" id="grid-cols" value="10" min="5" max="30"> × <input type="number" id="grid-rows" value="10" min="5" max="30"></label>
-            <label class="battle-map-check"><input type="checkbox" id="grid-lines-toggle" checked> Grid lines</label>
-            <label>Zoom: <select id="battle-map-zoom"><option value="0.5">50%</option><option value="0.75">75%</option><option value="1" selected>100%</option><option value="1.25">125%</option><option value="1.5">150%</option></select></label>
-            <div class="terrain-paint-row">
-              <label>Paint:</label>
-              <select id="terrain-paint-tool" title="Click cells to paint terrain">
-                <option value="">— Select —</option>
-                <option value="normal">Normal</option>
-                <option value="difficult">Difficult terrain</option>
-                <option value="wall">Wall / Obstacle</option>
-                <option value="elevation">Elevation +1</option>
-                <option value="elevation2">Elevation +2</option>
-                <option value="elevation-1">Elevation -1</option>
-              </select>
+          <div class="battle-map-header-top">
+            <button class="btn btn-ghost" id="battle-map-back-btn">← Back</button>
+            <h2>Battle Map</h2>
+            <div class="battle-map-toolbar">
+              <label>Grid: <input type="number" id="grid-cols" value="10" min="5" max="30"> × <input type="number" id="grid-rows" value="10" min="5" max="30"></label>
+              <label class="battle-map-check"><input type="checkbox" id="grid-lines-toggle" checked> Grid lines</label>
+              <label title="Scales the grid (works in all browsers)">Zoom: <select id="battle-map-zoom"><option value="0.5">50%</option><option value="0.75">75%</option><option value="1" selected>100%</option><option value="1.25">125%</option><option value="1.5">150%</option></select></label>
+              <label title="D&amp;D default: one square = 5 ft">Square: <input type="number" id="grid-feet-per-cell" value="5" min="0.5" max="500" step="0.5"> ft</label>
             </div>
-            <button class="btn btn-secondary btn-sm" id="add-token-btn">Add Token</button>
-            <button class="btn btn-ghost btn-sm" id="clear-tokens-btn" title="Remove all tokens">Clear All</button>
+          </div>
+          <div class="battle-map-measure-bar" id="battle-map-measure-bar">
+            <div class="battle-map-readout" id="battle-map-measure-readout" aria-live="polite">
+              <span class="battle-map-readout-label">Measure / AoE</span>
+              <span class="battle-map-readout-text" id="battle-map-measure-text">—</span>
+              <span class="battle-map-grid-size-hint" id="battle-map-grid-size-hint" aria-hidden="true"></span>
+            </div>
+            <div class="battle-map-aoe-inline">
+              <label title="Radius in grid squares (Euclidean circle). Change radius then click grid with AoE tool.">AoE r (sq) <input type="number" id="aoe-radius-sq" min="0" max="50" step="0.5" value="2"></label>
+              <button type="button" class="btn btn-ghost btn-sm" id="battle-map-clear-aoe">Clear AoE</button>
+            </div>
           </div>
         </div>
         <div class="battle-map-layout">
           <div class="battle-map-container" id="battle-map-container">
-            <div id="battle-map-grid" class="battle-map-grid"></div>
+            <div class="battle-map-zoom-wrap" id="battle-map-zoom-wrap">
+              <div class="battle-map-stack" id="battle-map-stack">
+                <div class="battle-map-underlay" id="battle-map-underlay" aria-hidden="true"></div>
+                <div class="battle-map-overlay-layer" id="battle-map-overlay-layer" aria-hidden="true"></div>
+                <div id="battle-map-grid" class="battle-map-grid"></div>
+              </div>
+            </div>
           </div>
           <div class="battle-map-sidebar">
-            <h4>Tokens</h4>
-            <div id="battle-map-token-list" class="token-list"></div>
-            <div id="battle-map-monster-stats" class="monster-stats-panel">
+            <div class="battle-map-sidebar-section battle-map-appearance-section">
+              <h4>Map appearance</h4>
+              <p class="battle-map-hint">Map image and overlay share the same bounds as the grid squares (under tokens and fog). Use <strong>Remove</strong> to clear a layer.</p>
+              <div class="battle-map-layers" id="battle-map-layers">
+                <label class="battle-map-layer-label">Map image <input type="file" id="battle-map-bg-upload" accept="image/*"></label>
+                <label class="battle-map-layer-label">Overlay <input type="file" id="battle-map-overlay-upload" accept="image/*"></label>
+                <div class="battle-map-btn-row">
+                  <button type="button" class="btn btn-ghost btn-sm" id="battle-map-clear-bg">Remove map image</button>
+                  <button type="button" class="btn btn-ghost btn-sm" id="battle-map-clear-overlay">Remove overlay</button>
+                </div>
+              </div>
+            </div>
+            <div class="battle-map-sidebar-section battle-map-tools-section">
+              <h4>Map Tools</h4>
+              <p class="battle-map-hint">Pick a tool, then click or drag on the grid. <strong>Ruler</strong>: two clicks — results stay in the bar above the map. <strong>AoE</strong>: set radius (sq), click center square. <strong>None</strong>: drag tokens only.</p>
+              <div class="battle-map-tool-buttons" role="group" aria-label="Paint tools">
+                <button type="button" class="battle-map-tool-btn" data-tool="" title="No tool (drag tokens only)">None</button>
+                <button type="button" class="battle-map-tool-btn" data-tool="ruler" title="Click two squares to measure distance">Ruler</button>
+                <button type="button" class="battle-map-tool-btn" data-tool="aoe" title="Area of effect: set radius (squares), then click center">AoE</button>
+                <button type="button" class="battle-map-tool-btn active" data-tool="fog" title="Add fog (click to toggle)">Fog</button>
+                <button type="button" class="battle-map-tool-btn" data-tool="reveal" title="Remove fog from cells">Reveal</button>
+                <button type="button" class="battle-map-tool-btn" data-tool="normal" title="Erase terrain">Erase</button>
+                <button type="button" class="battle-map-tool-btn" data-tool="difficult">Difficult</button>
+                <button type="button" class="battle-map-tool-btn" data-tool="wall">Wall</button>
+                <button type="button" class="battle-map-tool-btn" data-tool="elevation" title="Elevation +1">+1</button>
+                <button type="button" class="battle-map-tool-btn" data-tool="elevation2" title="Elevation +2">+2</button>
+                <button type="button" class="battle-map-tool-btn" data-tool="elevation-1" title="Elevation -1">−1</button>
+              </div>
+              <div class="battle-map-btn-row battle-map-clear-row">
+                <button class="btn btn-ghost btn-sm" id="clear-fog-btn" title="Remove fog from all cells">Clear Fog</button>
+                <button class="btn btn-ghost btn-sm" id="clear-terrain-btn" title="Remove all terrain (walls, difficult, elevation)">Clear Terrain</button>
+              </div>
+              <div class="battle-map-btn-row">
+                <button class="btn btn-secondary btn-sm" id="add-token-btn">+ Add Token</button>
+                <button class="btn btn-ghost btn-sm" id="clear-tokens-btn" title="Remove all tokens">Clear Tokens</button>
+              </div>
+            </div>
+            <div class="battle-map-sidebar-section encounter-runner-section">
+              <h4>Combat</h4>
+              <p class="battle-map-hint encounter-combat-hint">Initiative list matches map tokens. Click a row to scroll to that token. Rounds tick condition durations when you advance a full cycle or use +Round.</p>
+              <label class="battle-map-check encounter-turn-toggle"><input type="checkbox" id="encounter-show-turn-controls" checked> Show prev / next turn &amp; manual round +</label>
+              <div class="encounter-controls">
+                <div class="encounter-round">
+                  <span class="encounter-label">Round</span>
+                  <span id="encounter-round-num" class="encounter-round-num">1</span>
+                  <span id="encounter-turn-controls-wrap" class="encounter-turn-controls-wrap">
+                    <button type="button" class="btn btn-ghost btn-sm" id="encounter-round-inc" title="Increment round (ticks timed conditions)">+</button>
+                  </span>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" id="encounter-roll-initiative" title="Roll initiative for all tokens">Roll Initiative</button>
+                <div id="encounter-turn-nav-wrap" class="encounter-turn-nav-wrap">
+                  <div class="encounter-turn-nav">
+                    <button type="button" class="btn btn-ghost btn-sm" id="encounter-prev-turn" title="Previous turn">←</button>
+                    <button type="button" class="btn btn-ghost btn-sm" id="encounter-next-turn" title="Next turn">→</button>
+                  </div>
+                </div>
+              </div>
+              <div id="encounter-initiative-list" class="encounter-initiative-list" role="list" aria-label="Initiative order"></div>
+            </div>
+            <div class="battle-map-sidebar-section">
+              <h4>Tokens on Map</h4>
+              <div id="battle-map-token-list" class="token-list"></div>
+            </div>
+            <div id="battle-map-monster-stats" class="monster-stats-panel battle-map-sidebar-section">
               <button type="button" class="monster-stats-toggle" id="monster-stats-toggle" aria-expanded="false">
                 <span class="toggle-icon">▶</span> Monster Stats <span class="monster-count" id="monster-count">(0)</span>
               </button>
@@ -709,8 +891,10 @@
         <div class="builder-top-bar">
           <div class="wizard-progress">
             <div class="progress-bar" id="progress-bar"></div>
-            <div class="step-indicators" id="step-indicators"></div>
+            <div class="step-indicators" id="step-indicators" role="tablist" aria-label="Character creation steps"></div>
+            <div class="step-current-label" id="step-current-label"></div>
           </div>
+          <span class="edition-badge" id="builder-edition-badge" title="Edition for this character"></span>
           <button class="btn-link" id="builder-rules-link">View rules & reference</button>
         </div>
 
@@ -722,8 +906,17 @@
                 <span class="step-number">1</span>
                 <h2>What is your character's name?</h2>
                 <p class="step-desc">Choose a name that fits your character's background and personality.</p>
+                <details class="step-help"><summary>New to D&D? What's this?</summary><p><strong>Summary:</strong> Your name identifies your character at the table. Your character's name is how other players and the Dungeon Master will refer to you during the game. It can be anything — a fantasy name like "Thandril" or something simpler. You can always change it later, so don't overthink it!</p></details>
               </div>
               <div class="step-body">
+                <div id="first-run-hint" class="first-run-hint" role="status" aria-live="polite" hidden>
+                  <div class="first-run-hint-main">
+                    <span class="first-run-emblem" aria-hidden="true"></span>
+                    <p><strong>Your path begins here.</strong> Name this hero, then pick a race. Each step has a <strong>New to D&amp;D?</strong> fold-out if you want context without leaving the flow.</p>
+                  </div>
+                  <button type="button" class="btn btn-ghost btn-sm first-run-dismiss" aria-label="Dismiss welcome tip">Understood</button>
+                </div>
+                <span class="validation-error" id="validation-error-1" role="alert" aria-live="polite"></span>
                 <div class="form-group">
                   <input type="text" id="char-name" placeholder="Enter character name" class="input-large">
                 </div>
@@ -736,8 +929,10 @@
                 <span class="step-number">2</span>
                 <h2>Choose your race</h2>
                 <p class="step-desc">Your race determines your ancestry and grants special traits.</p>
+                <details class="step-help"><summary>New to D&D? What's this?</summary><p><strong>Summary:</strong> Race = your ancestry (human, elf, dwarf, etc.) with unique traits and stat bonuses. Your race (or species) is what kind of being you are. Each race has unique abilities called "traits" and bonuses to certain stats. <strong>New players:</strong> Human, Half-Elf, and Hill Dwarf are great versatile choices. Look for the "Recommended" badge!</p></details>
               </div>
               <div class="step-body">
+                <span class="validation-error" id="validation-error-2" role="alert" aria-live="polite"></span>
                 <div class="choice-grid" id="race-choices"></div>
                 <button type="button" class="btn btn-ghost btn-sm" id="add-custom-race-btn">+ Create custom race</button>
                 <div class="info-panel" id="race-info"></div>
@@ -750,8 +945,10 @@
                 <span class="step-number">3</span>
                 <h2>Choose your subrace</h2>
                 <p class="step-desc">Subraces offer additional traits and ability score increases.</p>
+                <details class="step-help"><summary>New to D&D? What's this?</summary><p><strong>Summary:</strong> Subraces are variations within your race (e.g., High Elf vs Wood Elf). Most races have subraces — variations within the same species. For example, elves can be High Elves (smart, magic), Wood Elves (fast, stealthy), or Drow (dark, underground). Each subrace gives different stat bonuses and abilities. Pick the one that sounds most fun to you!</p></details>
               </div>
               <div class="step-body">
+                <span class="validation-error" id="validation-error-3" role="alert" aria-live="polite"></span>
                 <div class="choice-grid" id="subrace-choices"></div>
                 <div class="info-panel" id="subrace-info"></div>
               </div>
@@ -763,8 +960,10 @@
                 <span class="step-number">4</span>
                 <h2>Choose your class</h2>
                 <p class="step-desc">Your class defines your primary abilities. Set starting level first—it affects subclass options and multiclassing.</p>
+                <details class="step-help"><summary>New to D&D? What's this?</summary><p><strong>Summary:</strong> Class = your main role (Fighter, Wizard, Cleric, etc.) — it defines how you fight and what you can do. Your class is the most important choice — it determines your playstyle. <strong>Fighter</strong> = tough melee warrior, <strong>Wizard</strong> = powerful spellcaster, <strong>Rogue</strong> = stealthy skill expert, <strong>Cleric</strong> = healer and divine magic. Most new players start at level 1. Look for the "Recommended" badge for beginner-friendly classes!</p></details>
               </div>
               <div class="step-body">
+                <span class="validation-error" id="validation-error-4" role="alert" aria-live="polite"></span>
                 <div class="form-row form-row-2 level-first-row">
                   <div class="form-group">
                     <label>Starting Level</label>
@@ -803,8 +1002,10 @@
                 <span class="step-number">5</span>
                 <h2>Choose your subclass</h2>
                 <p class="step-desc">Subclasses specialize your class. If your level is too low for any subclass, you can skip.</p>
+                <details class="step-help"><summary>New to D&D? What's this?</summary><p><strong>Summary:</strong> Subclass = your specialization within your class (e.g., Champion vs Battle Master for Fighters). A subclass is your specialization within your class. For example, a Fighter can become a Champion (simple & strong), Battle Master (tactical maneuvers), or Eldritch Knight (fighter + magic). Most classes unlock subclasses at level 3 — if you're level 1, you'll pick this later when you level up.</p></details>
               </div>
               <div class="step-body">
+                <span class="validation-error" id="validation-error-5" role="alert" aria-live="polite"></span>
                 <div class="choice-grid" id="subclass-choices"></div>
                 <div class="info-panel" id="subclass-info"></div>
                 <div class="form-group multiclass-section" id="multiclass-section">
@@ -816,41 +1017,23 @@
               </div>
             </div>
 
-            <!-- Step 6: Background -->
+            <!-- Step 6: Ability Scores (moved up from old step 8) -->
             <div class="wizard-pane" data-step="6">
               <div class="step-header">
                 <span class="step-number">6</span>
-                <h2>Choose your background</h2>
-                <p class="step-desc">Your background represents your history before becoming an adventurer.</p>
-              </div>
-              <div class="step-body">
-                <div class="choice-grid" id="background-choices"></div>
-                <button type="button" class="btn btn-ghost btn-sm" id="add-custom-background-btn">+ Create custom background</button>
-                <div class="info-panel" id="background-info"></div>
-              </div>
-            </div>
-
-            <!-- Step 7: Alignment -->
-            <div class="wizard-pane" data-step="7">
-              <div class="step-header">
-                <span class="step-number">7</span>
-                <h2>Choose your alignment</h2>
-                <p class="step-desc">Alignment describes your character's moral and ethical outlook.</p>
-              </div>
-              <div class="step-body">
-                <div class="choice-grid alignment-grid" id="alignment-choices"></div>
-                <div class="info-panel" id="alignment-info"></div>
-              </div>
-            </div>
-
-            <!-- Step 8: Ability Scores -->
-            <div class="wizard-pane" data-step="8">
-              <div class="step-header">
-                <span class="step-number">8</span>
                 <h2>Set your ability scores</h2>
-                <p class="step-desc">Roll 6d20 and assign each result to a stat, or enter manually. Race bonuses apply automatically.</p>
+                <p class="step-desc">Roll, use Standard Array, Point Buy, or enter manually. Race bonuses apply automatically.</p>
+                <details class="step-help"><summary>New to D&D? What's this?</summary><p><strong>Summary:</strong> The 6 core numbers (STR, DEX, CON, INT, WIS, CHA) that define your character's strengths. Ability scores are the 6 core stats that define your character:<br>
+                <strong>Strength</strong> — physical power, melee attacks, carrying things<br>
+                <strong>Dexterity</strong> — agility, ranged attacks, stealth, AC<br>
+                <strong>Constitution</strong> — toughness, hit points, endurance<br>
+                <strong>Intelligence</strong> — knowledge, investigation, wizard spells<br>
+                <strong>Wisdom</strong> — perception, insight, cleric/druid spells<br>
+                <strong>Charisma</strong> — personality, persuasion, bard/sorcerer/warlock spells<br><br>
+                <strong>New players:</strong> use "Standard Array" for balanced scores, or "Point Buy" for more control. Put your highest score in your class's primary ability!</p></details>
               </div>
               <div class="step-body">
+                <span class="validation-error" id="validation-error-6" role="alert" aria-live="polite"></span>
                 <div class="stats-method-row">
                   <button type="button" class="btn btn-secondary" id="roll-4d6-btn">Roll 4d6 (Drop Lowest)</button>
                   <button type="button" class="btn btn-secondary" id="standard-array-btn">Standard Array</button>
@@ -869,11 +1052,42 @@
                   <h4>Your Rolls</h4>
                   <div id="roll-4d6-visual" class="roll-4d6-visual"></div>
                   <p class="roll-assign-rolled" id="roll-assign-rolled"></p>
-                  <h4>Assign to Stats</h4>
+                  <h4>Assign to Ability Scores</h4>
                   <div id="roll-assign-grid" class="roll-assign-grid"></div>
                   <button type="button" class="btn btn-primary" id="roll-assign-done">Apply & Close</button>
                 </div>
                 <div class="stats-grid" id="stats-grid"></div>
+              </div>
+            </div>
+
+            <!-- Step 7: Background (moved down from old step 6) -->
+            <div class="wizard-pane" data-step="7">
+              <div class="step-header">
+                <span class="step-number">7</span>
+                <h2>Choose your background</h2>
+                <p class="step-desc">Your background represents your history before becoming an adventurer.</p>
+                <details class="step-help"><summary>New to D&D? What's this?</summary><p><strong>Summary:</strong> Your pre-adventure history (Soldier, Sage, etc.) — grants skills and flavor. Your background is your character's life story before adventuring. It grants skill proficiencies (things your character is good at) and adds flavor to your roleplay. In 2024 rules, backgrounds also grant ability score increases and a free feat!</p></details>
+              </div>
+              <div class="step-body">
+                <span class="validation-error" id="validation-error-7" role="alert" aria-live="polite"></span>
+                <div class="choice-grid" id="background-choices"></div>
+                <button type="button" class="btn btn-ghost btn-sm" id="add-custom-background-btn">+ Create custom background</button>
+                <div class="info-panel" id="background-info"></div>
+              </div>
+            </div>
+
+            <!-- Step 8: Alignment (moved down from old step 7) -->
+            <div class="wizard-pane" data-step="8">
+              <div class="step-header">
+                <span class="step-number">8</span>
+                <h2>Choose your alignment</h2>
+                <p class="step-desc">Alignment describes your character's moral and ethical outlook.</p>
+                <details class="step-help"><summary>New to D&D? What's this?</summary><p><strong>Summary:</strong> A 2-axis compass (Good/Evil × Lawful/Chaotic) for roleplay — most heroes are Good. Alignment is a simple 2-axis compass for your character's personality: Good/Neutral/Evil (morality) and Lawful/Neutral/Chaotic (attitude toward rules). Most heroes are Good. "Chaotic Good" = does the right thing their own way. "Lawful Good" = follows rules and does good. Don't overthink it — it's just a guide for roleplay!</p></details>
+              </div>
+              <div class="step-body">
+                <span class="validation-error" id="validation-error-8" role="alert" aria-live="polite"></span>
+                <div class="choice-grid alignment-grid" id="alignment-choices"></div>
+                <div class="info-panel" id="alignment-info"></div>
               </div>
             </div>
 
@@ -882,16 +1096,18 @@
               <div class="step-header">
                 <span class="step-number">9</span>
                 <h2>Details & finishing touches</h2>
-                <p class="step-desc">Spells first (if applicable), then equipment, defenses, proficiencies, and personality.</p>
+                <p class="step-desc">Spells (if applicable), equipment, damage defenses, proficiencies &amp; languages, then personality.</p>
+                <details class="step-help"><summary>New to D&D? What's this?</summary><p><strong>Summary:</strong> Spells (if a caster), equipment, defenses, proficiencies, and personality. Use "Load Starter Kit" for quick gear! This is where you fill in the details: pick spells (if your class is a spellcaster), choose equipment (use the "Load Starter Kit" button for a quick start!), and optionally describe your character's appearance and personality. Don't worry about getting everything perfect — you can edit all of this later from the character sheet.</p></details>
               </div>
               <div class="step-body step9-restructured">
+                <span class="validation-error" id="validation-error-9" role="alert" aria-live="polite"></span>
                 <p class="step-desc step9-flow-hint">Work through each section. Equipment affects your AC. Spellcasters must choose spells before continuing.</p>
-                <div class="step9-tabs">
-                  <button type="button" class="step9-tab" data-tab="spells">Spells</button>
-                  <button type="button" class="step9-tab active" data-tab="equipment">Equipment</button>
-                  <button type="button" class="step9-tab" data-tab="defenses">Defenses</button>
-                  <button type="button" class="step9-tab" data-tab="proficiencies">Proficiencies</button>
-                  <button type="button" class="step9-tab" data-tab="appearance">Personality</button>
+                <div class="step9-tabs" role="tablist" aria-label="Details sections">
+                  <button type="button" class="step9-tab" role="tab" aria-selected="false" data-tab="spells">Spells</button>
+                  <button type="button" class="step9-tab active" role="tab" aria-selected="true" data-tab="equipment">Equipment</button>
+                  <button type="button" class="step9-tab" role="tab" aria-selected="false" data-tab="defenses">Defenses</button>
+                  <button type="button" class="step9-tab" role="tab" aria-selected="false" data-tab="proficiencies">Proficiencies</button>
+                  <button type="button" class="step9-tab" role="tab" aria-selected="false" data-tab="appearance">Personality</button>
                 </div>
                 <div class="step9-tab-pane" data-pane="appearance">
                   <div class="form-group">
@@ -932,15 +1148,6 @@
                   <p id="spell-no-caster" class="step-desc" hidden>Your class doesn't cast spells. Skip to the next tab.</p>
                 </div>
                 <div class="step9-tab-pane" data-pane="defenses">
-                  <div class="form-group">
-                    <label>Languages</label>
-                    <div class="dropdown-add-row">
-                      <select id="language-select"><option value="">— Choose —</option></select>
-                      <button type="button" class="btn btn-secondary btn-sm" id="language-add-btn">Add</button>
-                      <input type="text" id="language-input" placeholder="Or type custom and press Enter">
-                      <div class="array-items" id="languages-list-items"></div>
-                    </div>
-                  </div>
                   <div class="form-row form-row-2">
                     <div class="form-group">
                       <label>Damage Resistances</label>
@@ -984,6 +1191,15 @@
                 </div>
                 <div class="step9-tab-pane" data-pane="proficiencies">
                   <div class="form-group">
+                    <label>Languages</label>
+                    <div class="dropdown-add-row">
+                      <select id="language-select"><option value="">— Choose —</option></select>
+                      <button type="button" class="btn btn-secondary btn-sm" id="language-add-btn">Add</button>
+                      <input type="text" id="language-input" placeholder="Or type custom and press Enter">
+                      <div class="array-items" id="languages-list-items"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
                     <label>Weapon Proficiencies</label>
                     <div class="dropdown-add-row">
                       <select id="weapon-prof-select"><option value="">— Choose —</option></select>
@@ -1018,6 +1234,14 @@
                   </div>
                 </div>
                 <div class="step9-tab-pane active" data-pane="equipment">
+                  <div id="variant-human-feat-section" class="variant-human-feat-section" hidden>
+                    <h4>Variant Human Feat</h4>
+                    <p class="step-desc">Variant Human grants one feat at 1st level. Choose one:</p>
+                    <select id="variant-human-feat-select" class="feat-select" size="6">
+                      <option value="">— Choose a feat —</option>
+                    </select>
+                    <p id="variant-human-feat-desc" class="feat-desc muted"></p>
+                  </div>
                   <p class="step9-ac-hint" id="step9-ac-hint">AC is calculated from armor and Dexterity. Add armor/gear below.</p>
                   <div class="starter-kit-row">
                     <button type="button" class="btn btn-secondary btn-sm" id="load-starter-kit-btn">Load Starter Kit</button>
@@ -1048,6 +1272,8 @@
                 <p class="step-desc">Review your choices and save when ready.</p>
               </div>
               <div class="step-body">
+                <span class="validation-error" id="validation-error-10" role="alert" aria-live="polite"></span>
+                <p class="step10-hint">Ensure all required fields are filled before saving.</p>
                 <div id="character-summary" class="character-display"></div>
               </div>
             </div>
@@ -1070,10 +1296,10 @@
   </div>
 
   <!-- Custom Race Modal -->
-  <div id="custom-race-modal" class="modal" hidden>
+  <div id="custom-race-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="custom-race-modal-title" hidden>
     <div class="modal-backdrop" id="custom-race-backdrop"></div>
     <div class="modal-content">
-      <div class="modal-header"><h2>Create Custom Race</h2><button type="button" class="modal-close" id="custom-race-close">×</button></div>
+      <div class="modal-header"><h2 id="custom-race-modal-title">Create Custom Race</h2><button type="button" class="modal-close" id="custom-race-close" aria-label="Close">×</button></div>
       <div class="modal-body">
         <div class="form-group"><label>Name</label><input type="text" id="custom-race-name" placeholder="e.g. Half-Giant"></div>
         <div class="form-group"><label>Description</label><textarea id="custom-race-desc" rows="2" placeholder="Brief description"></textarea></div>
@@ -1086,10 +1312,10 @@
     </div>
   </div>
   <!-- Custom Background Modal -->
-  <div id="custom-background-modal" class="modal" hidden>
+  <div id="custom-background-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="custom-bg-modal-title" hidden>
     <div class="modal-backdrop" id="custom-background-backdrop"></div>
     <div class="modal-content">
-      <div class="modal-header"><h2>Create Custom Background</h2><button type="button" class="modal-close" id="custom-background-close">×</button></div>
+      <div class="modal-header"><h2 id="custom-bg-modal-title">Create Custom Background</h2><button type="button" class="modal-close" id="custom-background-close" aria-label="Close">×</button></div>
       <div class="modal-body">
         <div class="form-group"><label>Name</label><input type="text" id="custom-bg-name" placeholder="e.g. Street Performer"></div>
         <div class="form-group"><label>Description</label><textarea id="custom-bg-desc" rows="2" placeholder="Brief description"></textarea></div>
@@ -1107,14 +1333,20 @@
         <button type="button" class="modal-close" id="level-up-modal-close" aria-label="Close">×</button>
       </div>
       <div class="modal-body" id="level-up-modal-body">
+        <span class="validation-error" id="level-up-validation-error" role="alert" aria-live="polite"></span>
         <p class="rules-desc" id="level-up-desc">Leveling up to level <span id="level-up-target">2</span>.</p>
         <div id="level-up-asi-section" class="level-up-section" hidden>
-          <h4>Ability Score Improvement</h4>
-          <p class="rules-desc">Increase one ability by 2, or two abilities by 1 each (max 20 per ability).</p>
+          <h4>Ability Score Improvement or Feat</h4>
+          <p class="rules-desc">Choose an Ability Score Improvement or take a feat instead (optional rule).</p>
           <div class="level-up-asi-options">
-            <label class="asi-option"><input type="radio" name="asi-mode" value="single"> +2 to one ability</label>
-            <label class="asi-option"><input type="radio" name="asi-mode" value="dual" checked> +1 to two abilities</label>
+            <label class="asi-option"><input type="radio" name="asi-mode" value="asi" checked> Ability Score Improvement</label>
+            <label class="asi-option"><input type="radio" name="asi-mode" value="feat"> Feat (optional)</label>
           </div>
+          <div id="level-up-asi-picker" class="asi-picker-wrap">
+            <div class="level-up-asi-sub-options">
+              <label class="asi-option"><input type="radio" name="asi-sub-mode" value="single"> +2 to one ability</label>
+              <label class="asi-option"><input type="radio" name="asi-sub-mode" value="dual" checked> +1 to two abilities</label>
+            </div>
           <div id="level-up-asi-single" class="asi-picker" hidden>
             <label>Ability:</label>
             <select id="asi-single-select">
@@ -1146,6 +1378,14 @@
               <option value="charisma">Charisma</option>
             </select>
           </div>
+          <div id="level-up-feat-picker" class="feat-picker-wrap" hidden>
+            <input type="text" id="level-up-feat-search" placeholder="Search feats..." class="feat-search-input">
+            <select id="level-up-feat-select" class="feat-select" size="6">
+              <option value="">— Choose a feat —</option>
+            </select>
+            <p id="level-up-feat-desc" class="feat-desc muted"></p>
+          </div>
+          </div>
         </div>
         <div id="level-up-profs-section" class="level-up-section" hidden>
           <h4>Bonus Proficiencies</h4>
@@ -1163,10 +1403,10 @@
     </div>
   </div>
   <!-- NPC Modal (DM) -->
-  <div id="npc-modal" class="modal" hidden>
+  <div id="npc-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="npc-modal-title" hidden>
     <div class="modal-backdrop" id="npc-modal-backdrop"></div>
     <div class="modal-content">
-      <div class="modal-header"><h2 id="npc-modal-title">Add NPC</h2><button type="button" class="modal-close" id="npc-modal-close">×</button></div>
+      <div class="modal-header"><h2 id="npc-modal-title">Add NPC</h2><button type="button" class="modal-close" id="npc-modal-close" aria-label="Close">×</button></div>
       <div class="modal-body">
         <div class="form-group"><label>Name</label><input type="text" id="npc-name" placeholder="e.g. Barthen"></div>
         <div class="form-group"><label>Role / Type</label><input type="text" id="npc-role" placeholder="e.g. Shopkeeper, Guard Captain"></div>
@@ -1184,11 +1424,105 @@
     </div>
   </div>
 
-  <!-- Scripts: data first (races, classes, etc.), then monsters/spells/items, app last -->
-  <script src="js/data.js"></script>
-  <script src="js/monsters.js"></script>
-  <script src="js/spells.js"></script>
-  <script src="js/items.js"></script>
-  <script src="js/app.js"></script>
+  <!-- Token Inspector Modal - Edit token name, label, color, HP -->
+  <div id="token-inspector-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="token-inspector-title" hidden>
+    <div class="modal-backdrop" id="token-inspector-backdrop"></div>
+    <div class="modal-content modal-content-sm">
+      <div class="modal-header">
+        <h2 id="token-inspector-title">Edit Token</h2>
+        <button type="button" class="modal-close" id="token-inspector-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group"><label for="token-inspector-name">Name</label><input type="text" id="token-inspector-name" placeholder="Token name"></div>
+        <div class="form-group"><label for="token-inspector-label">Display label</label><input type="text" id="token-inspector-label" placeholder="e.g. G1 or leave blank"></div>
+        <div class="form-row form-row-2">
+          <div class="form-group"><label for="token-inspector-hp">Current HP</label><input type="number" id="token-inspector-hp" min="0" placeholder="—"></div>
+          <div class="form-group"><label for="token-inspector-max-hp">Max HP</label><input type="number" id="token-inspector-max-hp" min="0" placeholder="—"></div>
+        </div>
+        <div class="form-group"><label for="token-inspector-color">Color</label><input type="text" id="token-inspector-color" placeholder="#ff0000" pattern="#[0-9a-fA-F]{6}" title="Hex color (e.g. #ff0000)"></div>
+        <div class="form-group"><label for="token-inspector-initiative">Initiative</label><input type="number" id="token-inspector-initiative" placeholder="Roll or enter" title="d20 + Dex modifier"></div>
+        <div class="form-group"><label for="token-inspector-notes">Token notes (DM)</label><textarea id="token-inspector-notes" rows="2" placeholder="Tactics, loot, reminders…"></textarea></div>
+        <div class="form-group token-inspector-conditions-block">
+          <label>Conditions <span class="form-hint">optional rounds; empty rounds = until removed</span></label>
+          <div id="token-inspector-conditions-list" class="token-inspector-conditions-list"></div>
+          <button type="button" class="btn btn-ghost btn-sm" id="token-inspector-add-condition">+ Add condition</button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="token-inspector-cancel">Cancel</button>
+        <button type="button" class="btn btn-primary" id="token-inspector-save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Save Map Modal -->
+  <div id="save-map-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="save-map-modal-title" hidden>
+    <div class="modal-backdrop" id="save-map-modal-backdrop"></div>
+    <div class="modal-content modal-content-sm">
+      <div class="modal-header">
+        <h2 id="save-map-modal-title">Save Map</h2>
+        <button type="button" class="modal-close" id="save-map-modal-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group"><label for="save-map-name">Map name</label><input type="text" id="save-map-name" placeholder="e.g. Tavern Brawl"></div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="save-map-modal-cancel">Cancel</button>
+        <button type="button" class="btn btn-primary" id="save-map-modal-confirm">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Clear Tokens Modal -->
+  <div id="confirm-clear-tokens-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="confirm-clear-tokens-title" hidden>
+    <div class="modal-backdrop" id="confirm-clear-tokens-backdrop"></div>
+    <div class="modal-content modal-content-sm">
+      <div class="modal-header">
+        <h2 id="confirm-clear-tokens-title">Remove All Tokens?</h2>
+        <button type="button" class="modal-close" id="confirm-clear-tokens-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="rules-desc">This will remove all tokens from the map. This cannot be undone.</p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="confirm-clear-tokens-cancel">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirm-clear-tokens-confirm">Remove All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts: data first (races, classes, etc.), then lib/engines, app last -->
+  <script src="js/data/data-rulesets.js"></script>
+  <script src="js/data/data.js"></script>
+  <script src="js/data/data-2024.js"></script>
+  <script src="js/data/monsters-data.js"></script>
+  <script src="js/data/monsters.js"></script>
+  <script src="js/data/spells.js"></script>
+  <script src="js/data/items.js"></script>
+  <script src="js/lib/dom-utils.js"></script>
+  <script src="js/lib/modal-a11y.js"></script>
+  <script src="js/lib/schema.js"></script>
+  <script src="js/lib/storage.js"></script>
+  <script src="js/engines/rules-engine.js"></script>
+  <script src="js/engines/monsterpedia-engine.js"></script>
+  <script src="js/engines/battlemap-engine.js"></script>
+  <script src="js/app/app-renderers.js"></script>
+  <script src="js/app/app-utils.js"></script>
+  <script src="js/app/app-export.js"></script>
+  <script src="js/app/app-quick-ref.js"></script>
+  <script src="js/app/app-combat.js"></script>
+  <script src="js/app/app-state.js"></script>
+  <script src="js/app/app-persistence.js"></script>
+  <script src="js/app/app-char-helpers.js"></script>
+  <script src="js/app/app-ability-scores.js"></script>
+  <script src="js/app/app-wizard.js"></script>
+  <script src="js/app/app-step-renderers.js"></script>
+  <script src="js/app/app-array-helpers.js"></script>
+  <script src="js/app/app-preview.js"></script>
+  <script src="js/app/app-views.js"></script>
+  <script src="js/app/app-dm-tools.js"></script>
+  <script src="js/app/app-rules-modal.js"></script>
+  <script src="js/app/app.js"></script>
+  <script src="js/app/premium-overhaul.js"></script>
 </body>
 </html>

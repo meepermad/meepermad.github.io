@@ -1,0 +1,100 @@
+/**
+ * readability.css - Text/background contrast for dark UI, DM panel, session sheet.
+ */
+
+:root {
+  --readable-muted: #d4c8b8;
+  --readable-dim: #c4b5a5;
+  --readable-ink-on-dark: #f5efe6;
+}
+
+/* DM panel & dark sections */
+.dm-panel,
+.dm-panel .rules-desc,
+#dm-panel .rules-desc,
+.dm-search,
+.dm-pane,
+.dm-monster-card,
+.dm-list-item {
+  color: var(--readable-ink-on-dark);
+}
+
+.dm-panel .rules-desc,
+#dm-panel .rules-desc {
+  color: var(--readable-muted);
+}
+
+.dm-search::placeholder,
+.dm-panel input::placeholder {
+  color: rgba(245, 239, 230, 0.55);
+}
+
+.dm-monster-meta,
+.dm-monster-stats,
+.dm-monster-hint,
+.dm-npc-notes,
+.encounter-difficulty,
+.encounter-list-empty {
+  color: var(--readable-muted) !important;
+}
+
+/* Session pane on translucent bg */
+.session-pane {
+  color: var(--ink);
+}
+
+.session-pane .sense-label,
+.session-pane .saves-checks-label,
+.session-pane .notes-label,
+.collapsible-section .section-toggle {
+  color: var(--ink);
+}
+
+.session-pane .muted,
+.list-item.muted,
+.skill-source {
+  color: var(--ink-muted);
+}
+
+/* Skills / senses chips on parchment */
+.skill-item,
+.sense-item {
+  color: var(--ink);
+}
+
+.sense-label {
+  color: var(--ink-muted);
+}
+
+.sense-value {
+  color: var(--on-light-gold);
+}
+
+/* Theme-polish empty hints on dark: brighten */
+.dm-empty,
+.token-list-empty,
+.encounter-empty,
+.encounter-list-empty {
+  color: var(--readable-muted) !important;
+  border-left-color: rgba(232, 212, 139, 0.55) !important;
+}
+
+/* Monsterpedia premium cards */
+.premium-monster-meta,
+.premium-monster-stats {
+  color: var(--readable-muted);
+}
+
+.premium-monster-header strong {
+  color: var(--readable-ink-on-dark);
+}
+
+/* Battle map sidebar */
+.battle-map-sidebar,
+.battle-map-hint {
+  color: var(--readable-ink-on-dark);
+}
+
+.battle-map-hint {
+  color: var(--readable-muted);
+}

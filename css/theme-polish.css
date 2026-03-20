@@ -1,0 +1,426 @@
+/**
+ * theme-polish.css - Fantasy theming, hierarchy, micro-motion, empty states, badges.
+ * Loaded after other layout CSS; respects prefers-reduced-motion.
+ */
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-main {
+    animation: site-main-enter var(--duration-enter) var(--ease-out) both;
+  }
+}
+
+@keyframes site-main-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .modal-backdrop {
+    animation: polish-fade-in var(--duration-fast) var(--ease-soft) both;
+  }
+
+  .modal-content {
+    animation: polish-modal-in var(--duration-fast) var(--ease-out) both;
+  }
+}
+
+@keyframes polish-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes polish-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-main,
+  .modal-backdrop,
+  .modal-content,
+  .empty-state-visual,
+  .first-run-hint {
+    animation: none !important;
+  }
+
+  .character-card {
+    transition: border-color var(--duration-fast), box-shadow var(--duration-fast) !important;
+  }
+
+  .character-card:hover {
+    transform: none !important;
+  }
+
+  .map-token--flash {
+    animation: none !important;
+  }
+}
+
+/* —— Header tool control —— */
+#tools-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tools-btn-icon {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95em;
+  line-height: 1;
+  opacity: 0.92;
+}
+
+.tools-btn-icon::before {
+  content: '✦';
+  font-size: 0.75em;
+  color: var(--gold-light);
+}
+
+.tools-btn-label {
+  letter-spacing: 0.02em;
+}
+
+#session-battle-map-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.session-map-glyph {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 1.5px solid currentColor;
+  border-radius: 2px;
+  opacity: 0.85;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.session-map-glyph::before,
+.session-map-glyph::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.session-map-glyph::before {
+  left: 50%;
+  top: 15%;
+  bottom: 15%;
+  width: 1px;
+  transform: translateX(-50%);
+}
+
+.session-map-glyph::after {
+  top: 50%;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  transform: translateY(-50%);
+}
+
+/* —— Character list empty state —— */
+.empty-state {
+  color: var(--ink);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--border);
+  box-shadow:
+    inset 0 0 0 1px var(--scroll-ink),
+    0 4px 24px rgba(26, 15, 8, 0.12);
+  padding: 3rem 2rem;
+}
+
+.empty-state::before {
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--fantasy-glow) 0%, transparent 65%);
+}
+
+.empty-state-visual {
+  position: relative;
+  z-index: 1;
+  margin: 0 auto 1.25rem;
+  width: 5rem;
+  height: 5rem;
+  display: grid;
+  place-items: center;
+  border: 2px double var(--gold-dark);
+  border-radius: 50%;
+  background: linear-gradient(160deg, rgba(248, 236, 212, 0.5) 0%, rgba(229, 212, 168, 0.35) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .empty-state-visual {
+    animation: empty-emblem-float 5s var(--ease-soft) infinite;
+  }
+}
+
+@keyframes empty-emblem-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.empty-emblem {
+  font-family: 'Cinzel', serif;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--on-light-gold);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.empty-state-title {
+  position: relative;
+  z-index: 1;
+  font-family: 'Cinzel', serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--on-light-gold);
+  margin: 0 0 0.65rem;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.25);
+}
+
+.empty-state-lead {
+  position: relative;
+  z-index: 1;
+  font-size: 1.05rem;
+  color: var(--ink-muted);
+  max-width: 28rem;
+  margin: 0 auto 1.25rem;
+  line-height: 1.55;
+}
+
+.empty-state-tips {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  text-align: left;
+  max-width: 26rem;
+  margin: 0 auto 1.5rem;
+  padding: 0;
+  font-size: 0.92rem;
+  color: var(--ink-muted);
+  line-height: 1.5;
+}
+
+.empty-state-tips li {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  margin-bottom: 0.6rem;
+}
+
+.empty-state-tips li:last-child {
+  margin-bottom: 0;
+}
+
+.empty-tip-mark {
+  flex-shrink: 0;
+  color: var(--gold-dark);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+#empty-new-btn {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.empty-cta-ico {
+  font-size: 0.85em;
+  opacity: 0.9;
+}
+
+/* —— Wizard first-run —— */
+.first-run-hint {
+  flex-wrap: wrap;
+  border-radius: var(--radius-md);
+  border-width: 1px;
+  border-left-width: 4px;
+  border-left-color: var(--gold);
+  background: linear-gradient(90deg, rgba(201, 150, 12, 0.18) 0%, rgba(248, 236, 212, 0.35) 100%);
+  box-shadow: 0 2px 12px rgba(26, 15, 8, 0.08);
+}
+
+.first-run-hint-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  flex: 1;
+  min-width: 12rem;
+}
+
+.first-run-emblem {
+  flex-shrink: 0;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 2px solid var(--gold-dark);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(248, 236, 212, 0.45);
+  margin-top: 0.1rem;
+}
+
+.first-run-emblem::before {
+  content: '◇';
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  color: var(--on-light-gold);
+  line-height: 1;
+}
+
+.first-run-hint p {
+  line-height: 1.55;
+}
+
+/* —— Status & edition badges —— */
+.character-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.32rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  box-shadow: 0 1px 2px rgba(26, 15, 8, 0.08);
+}
+
+.character-status-pill::before {
+  font-size: 0.65rem;
+  line-height: 1;
+  opacity: 0.95;
+}
+
+.character-status-pill.is-ready {
+  background: linear-gradient(180deg, rgba(45, 90, 45, 0.35) 0%, rgba(45, 90, 45, 0.2) 100%);
+  color: #1a3d1a;
+  border-color: rgba(45, 90, 45, 0.45);
+}
+
+.character-status-pill.is-ready::before {
+  content: '✓';
+}
+
+.character-status-pill.is-draft {
+  background: linear-gradient(180deg, rgba(168, 144, 96, 0.28) 0%, rgba(168, 144, 96, 0.12) 100%);
+  color: var(--ink-muted);
+  border-color: rgba(139, 105, 20, 0.35);
+}
+
+.character-status-pill.is-draft::before {
+  content: '◇';
+}
+
+.character-card .edition-badge,
+.session-header .edition-badge,
+.builder-top-bar .edition-badge {
+  border-radius: 999px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.character-card .edition-badge {
+  border: 1px solid rgba(90, 36, 50, 0.35);
+}
+
+.session-header .edition-badge,
+.builder-top-bar .edition-badge {
+  border: 1px solid rgba(184, 134, 11, 0.55);
+}
+
+.ruleset-edition-badge {
+  border-radius: 999px;
+  padding: 0.18rem 0.45rem;
+  border: 1px solid rgba(90, 36, 50, 0.25);
+}
+
+.newcomer-badge {
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  background: linear-gradient(180deg, rgba(45, 90, 45, 0.4) 0%, rgba(45, 90, 45, 0.22) 100%);
+  color: #b8f0b8;
+  border: 1px solid rgba(74, 122, 74, 0.55);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+/* —— How to Use: featured guide block —— */
+.guide-item--featured {
+  border-left: 3px solid var(--gold);
+  padding-left: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.rules-pane#pane-how-to-use .guides-list .guide-item + .guide-item {
+  margin-top: 0.35rem;
+}
+
+.rules-pane#pane-how-to-use .guide-item strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+/* —— DM / battle map empty hints —— */
+.dm-empty,
+.token-list-empty,
+.encounter-empty,
+.encounter-list-empty,
+.quick-ref-empty,
+.spell-lookup-empty {
+  font-style: normal;
+  margin: 0;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid rgba(232, 212, 139, 0.45);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.modal-content .quick-ref-empty,
+.modal-content .spell-lookup-empty {
+  border-left-color: var(--gold-dark);
+  background: rgba(184, 134, 11, 0.1);
+  color: var(--ink-muted);
+}
+
+.encounter-empty {
+  font-style: normal;
+}
+
+.encounter-list-empty {
+  display: block;
+  padding: 0.5rem 0.65rem;
+}

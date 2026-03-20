@@ -1,0 +1,14 @@
+const assert = require('assert');
+const fs = require('fs');
+const path = require('path');
+const root = path.join(__dirname, '..');
+const app = fs.readFileSync(path.join(root, 'js', 'app', 'app.js'), 'utf8');
+const premium = fs.readFileSync(path.join(root, 'js', 'app', 'premium-overhaul.js'), 'utf8');
+const renderers = fs.readFileSync(path.join(root, 'js', 'app', 'app-renderers.js'), 'utf8');
+assert.strictEqual(/prompt\(/.test(app), false, 'prompt() should be removed from app.js');
+assert.strictEqual(/prompt\(/.test(premium), false, 'prompt() should not appear in premium-overhaul.js');
+assert.strictEqual(/prompt\(/.test(renderers), false, 'prompt() should not appear in app-renderers.js');
+const premiumInner = (premium.match(/innerHTML/g) || []).length;
+const appInner = (app.match(/innerHTML/g) || []).length;
+assert.ok(premiumInner <= 2, 'premium-overhaul should avoid heavy innerHTML use');
+assert.ok(appInner <= 90, 'app.js should stay under the current innerHTML cap');

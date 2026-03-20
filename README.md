@@ -37,3 +37,14 @@ You can also add house rules, campaign notes, and custom reference material in t
 Open `index.html` in a browser, or run a local server (e.g. `npx serve`). To host on GitHub Pages, push the project to a repo and enable Pages in Settings → Pages.
 
 See **CONTENT_GUIDE.md** for adding races, classes, spells, and homebrew content.
+
+
+## Quality Gates
+
+Run the test suite with:
+
+```bash
+npm test
+```
+
+This runs pure Node-based tests for rules calculations, schema sanitization, storage recovery, monster analytics, battle-map pathing, data integrity, and a static security check.

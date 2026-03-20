@@ -1,0 +1,271 @@
+/**
+ * print.css - Print styles for character sheet export.
+ */
+@media print { .export-pdf-hint { display: none !important; } }
+
+/* ========== PRINT (condensed 2-page character sheet) ========== */
+@page {
+  size: letter;
+  margin: 0.35in;
+}
+@media print {
+  * {
+    color: #111 !important;
+    background: white !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    border-color: #999 !important;
+  }
+  body {
+    background: white;
+    color: #111;
+    font-size: 8pt;
+    line-height: 1.3;
+  }
+
+  /* Hide all interactive / non-sheet elements */
+  .site-header, .session-tabs, .session-header-actions,
+  .btn, .btn-roll, .btn-skill-roll, .dice-roll-overlay,
+  .dice-roller-section, .combat-inline-section, .spell-lookup,
+  .sheet-layout-controls, #sheet-section-display-modal,
+  .session-header .btn-ghost, .modal, .concentration-section,
+  .remove-item, .dropdown-add-row, .add-item-btn,
+  .sheet-subtitle, .section-hint, .source-badge,
+  #pane-leveling, .designer-handle, .toggle-icon,
+  .character-sheet-header, .list-view, .builder-view {
+    display: none !important;
+  }
+
+  .session-view {
+    display: block !important;
+    padding: 0;
+  }
+  .session-pane, .session-pane.active {
+    display: block !important;
+    padding: 0;
+    border: none !important;
+    background: none !important;
+  }
+  .session-panes { padding: 0; }
+
+  /* Show character name header for print */
+  .session-header {
+    text-align: center;
+    border-bottom: 2px solid #333 !important;
+    padding-bottom: 0.15rem;
+    margin-bottom: 0.2rem;
+  }
+  #session-char-name {
+    font-size: 14pt;
+    font-weight: 700;
+  }
+
+  /* Identity block */
+  .character-identity-block {
+    text-align: center;
+    margin-bottom: 0.15rem;
+  }
+  .identity-name { font-weight: 700; font-size: 11pt; }
+  .character-identity-block .edition-badge {
+    display: inline-block !important;
+    margin-left: 0.4rem;
+    padding: 0.1rem 0.3rem;
+    font-size: 7pt;
+    font-weight: 700;
+    background: #e0e0e0 !important;
+    color: #333 !important;
+    border-radius: 2px;
+  }
+
+  /* Quick stats row - compact horizontal strip */
+  .quick-stats-grid {
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    margin-bottom: 0.3rem;
+    flex-wrap: nowrap;
+  }
+  .quick-stat {
+    border: 1px solid #666 !important;
+    padding: 0.1rem 0.3rem;
+    text-align: center;
+    font-size: 7pt;
+  }
+  .quick-stat .qs-value { font-size: 10pt; font-weight: 700; }
+  .quick-stat .qs-label { font-size: 6pt; text-transform: uppercase; }
+
+  /* Collapsible sections - all expanded, compact */
+  .overview-sections {
+    display: block !important;
+    columns: 2;
+    column-gap: 0.4rem;
+  }
+  .collapsible-section {
+    break-inside: avoid;
+    border: 1px solid #aaa !important;
+    margin-bottom: 0.25rem;
+    padding: 0 !important;
+    page-break-inside: avoid;
+  }
+  .collapsible-section .section-content {
+    display: block !important;
+    padding: 0.2rem 0.3rem !important;
+  }
+  .collapsible-section .section-toggle {
+    background: #e8e8e8 !important;
+    color: #222 !important;
+    font-size: 8pt;
+    padding: 0.15rem 0.3rem;
+    font-weight: 700;
+  }
+  .collapsible-section.collapsed .section-content {
+    display: block !important;
+  }
+  .collapsible-section.section-full,
+  .collapsible-section.section-compact,
+  .collapsible-section.section-half {
+    grid-column: auto;
+  }
+
+  /* Ability scores / saves - compact grid */
+  .stats-display {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.1rem;
+    font-size: 7pt;
+  }
+  .stat-display-item {
+    padding: 0.08rem 0.15rem;
+    border: 1px solid #ccc !important;
+    text-align: center;
+  }
+  .stat-name { font-size: 6pt; text-transform: uppercase; font-weight: 700; }
+  .stat-value { font-size: 9pt; font-weight: 700; }
+  .stat-mod { font-size: 7pt; }
+
+  /* Skills list - multi-column */
+  .skills-roll-grid, .skill-check-grid {
+    columns: 2;
+    column-gap: 0.25rem;
+    font-size: 7pt;
+  }
+  .skill-item {
+    padding: 0.05rem 0;
+    break-inside: avoid;
+  }
+  .skill-source {
+    font-size: 0.75em;
+    color: #555 !important;
+    font-weight: normal;
+  }
+
+  /* Feature items */
+  .feature-item {
+    font-size: 7pt;
+    padding: 0.04rem 0.15rem;
+    margin: 0.03rem 0;
+  }
+  .features-list {
+    columns: 2;
+    column-gap: 0.25rem;
+  }
+
+  /* List items (defenses, conditions, proficiencies) */
+  .list-items {
+    font-size: 7pt;
+  }
+  .list-item, .array-item {
+    font-size: 7pt;
+    padding: 0.04rem 0.15rem;
+  }
+
+  /* PAGE 2: Actions/Spells and Inventory */
+  #pane-actions, #pane-inventory {
+    display: block !important;
+    page-break-before: always;
+  }
+  #pane-actions h4, #pane-inventory h4 {
+    font-size: 9pt;
+    border-bottom: 1px solid #999 !important;
+    margin-bottom: 0.15rem;
+    padding-bottom: 0.08rem;
+  }
+
+  /* Spell slots compact */
+  .spell-slot-row { font-size: 7pt; padding: 0.06rem 0; }
+  .spell-level-group h5 { font-size: 7pt; margin: 0.06rem 0; }
+  .spell-item { font-size: 7pt; padding: 0.04rem 0; }
+  .cast-spell, .cast-slot-select, .spell-view-btn { display: none !important; }
+  .spell-level-group .spell-list { columns: 2; column-gap: 0.25rem; font-size: 7pt; }
+
+  /* Attacks compact */
+  .attack-entry { font-size: 7pt; padding: 0.06rem 0; }
+
+  /* Inventory compact - 3 columns */
+  .inventory-items { font-size: 7pt; columns: 3; column-gap: 0.25rem; }
+  .currency-row { font-size: 7pt; gap: 0.2rem; }
+  .currency-row input { width: 2.5rem; font-size: 7pt; }
+
+  /* About section */
+  .about-content { font-size: 7pt; }
+
+  /* Senses */
+  .senses-grid, .senses-row { font-size: 7pt; gap: 0.15rem; }
+
+  /* Avoid breaking critical blocks */
+  .character-identity-block, .quick-stats-grid { page-break-inside: avoid; }
+  .stat-display-item, .feature-item { page-break-inside: avoid; }
+
+  /* Default print layout: escape on-screen scroll regions so nothing clips */
+  html, body {
+    overflow: visible !important;
+    height: auto !important;
+  }
+  #session-view:not([hidden]),
+  #builder-view:not([hidden]),
+  #list-view:not([hidden]),
+  #main-player-content {
+    position: relative !important;
+    inset: auto !important;
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+  }
+  .session-pane,
+  .session-panes {
+    overflow: visible !important;
+    max-height: none !important;
+  }
+  .skills-compact-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.15rem !important;
+    font-size: 7pt !important;
+  }
+  .skill-compact-btn {
+    font-size: 7pt !important;
+    padding: 0.2rem 0.35rem !important;
+  }
+  /* Ability / save rows with micro-labels */
+  .stat-main-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.15rem !important;
+  }
+  .stat-nums {
+    display: flex !important;
+    gap: 0.35rem !important;
+  }
+  .stat-num-label {
+    font-size: 5pt !important;
+    color: #333 !important;
+  }
+  .stat-breakdown {
+    font-size: 6pt !important;
+    color: #444 !important;
+    width: 100% !important;
+    margin-top: 0.1rem !important;
+  }
+}

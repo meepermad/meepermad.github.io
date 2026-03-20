@@ -1,0 +1,44 @@
+/**
+ * D&D Character Builder - CSS Variables
+ * Fantasy theme: parchment, burgundy, gold
+ */
+
+:root {
+  --parchment: #f8ecd4;
+  --parchment-dark: #e5d4a8;
+  --ink: #1a0f08;
+  --ink-muted: #4a3528;
+  --on-light-muted: #3d2a20;
+  --text: #f5efe6;
+  --text-muted: #d8ccbc;
+  --gold: #c9960c;
+  --gold-light: #f0d85c;
+  --gold-dark: #a88220;
+  --burgundy: #5a2432;
+  --burgundy-dark: #4a1a28;
+  --burgundy-light: #7a3444;
+  --forest: #2d5a2d;
+  --forest-light: #4a7a4a;
+  --shadow: rgba(26, 15, 8, 0.35);
+  --border: #a89060;
+  --section-bg: rgba(248, 236, 212, 0.22);
+  --section-header: rgba(184, 134, 11, 0.35);
+  --on-light-gold: #6b4d0a;
+  --validation-error: #8b2d3c;
+  --error-text: #e06060;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-elevated: 0 8px 32px rgba(26, 15, 8, 0.28);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 0.2s;
+  --duration-enter: 0.4s;
+  --fantasy-glow: rgba(232, 212, 139, 0.22);
+  --scroll-ink: rgba(26, 15, 8, 0.12);
+}
